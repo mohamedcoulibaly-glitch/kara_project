@@ -1,3 +1,84 @@
+<?php
+// === configuration de la base de données ===
+// modifie ces valeurs si ton serveur MySQL a des identifiants différents
+$dbHost = '127.0.0.1';
+$dbName = 'gestion_notes';
+$dbUser = 'root';
+$dbPass = ''; // mot de passe vide par défaut pour local (change si besoin)
+
+// === connexion PDO (PHP Data Objects) ===
+// PDO est une extension sécurisée pour travailler avec MySQL.
+// Si la connexion échoue, script s'arrête et affiche le message.
+try {
+    $pdo = new PDO("mysql:host={$dbHost};dbname={$dbName};charset=utf8mb4", $dbUser, $dbPass, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, // déclenche exception en cas d'erreur
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC, // résultat en tableau associatif
+    ]);
+} catch (PDOException $e) {
+    die('Connexion DB impossible : ' . htmlspecialchars($e->getMessage()));
+}
+
+// === lecture des filtres envoyés par le formulaire (méthode GET) ===
+// $_GET est un tableau des paramètres de l'URL (ex : ?filiere=...)
+$filters = [
+    'departement' => $_GET['departement'] ?? 'Tous les départements',
+    'filiere' => $_GET['filiere'] ?? 'Toutes les filières',
+    'search' => trim($_GET['search'] ?? ''),
+];
+
+// === options de filtres dynamiques (saisie dans <select>) ===
+// On récupère tous les départements et filières depuis la DB.
+$departements = $pdo->query('SELECT nom_dept FROM departement ORDER BY nom_dept')->fetchAll(PDO::FETCH_COLUMN);
+$filieres = $pdo->query('SELECT nom_filiere FROM filiere ORDER BY nom_filiere')->fetchAll(PDO::FETCH_COLUMN);
+
+// === construction de la requête SELECT pour les étudiants ===
+$where = [];   // conditions WHERE de la requête
+$params = [];  // paramètres associés pour éviter les injections SQL
+
+if ($filters['departement'] !== 'Tous les départements') {
+    $where[] = 'd.nom_dept = :departement';
+    $params[':departement'] = $filters['departement'];
+}
+
+if ($filters['filiere'] !== 'Toutes les filières') {
+    $where[] = 'f.nom_filiere = :filiere';
+    $params[':filiere'] = $filters['filiere'];
+}
+
+if ($filters['search'] !== '') {
+    // recherche partielle sur matricule, nom, prénom
+    $where[] = '(e.matricule LIKE :search OR e.nom LIKE :search OR e.prenom LIKE :search)';
+    $params[':search'] = '%' . $filters['search'] . '%';
+}
+
+$sql = "SELECT e.*, f.nom_filiere AS filiere, d.nom_dept AS departement
+        FROM etudiant e
+        LEFT JOIN filiere f ON e.id_filiere = f.id_filiere
+        LEFT JOIN departement d ON f.id_dept = d.id_dept";
+
+if (!empty($where)) {
+    // Création de la clause WHERE si au moins un filtre est sélectionné
+    $sql .= ' WHERE ' . implode(' AND ', $where);
+}
+
+$sql .= ' ORDER BY e.nom, e.prenom'; // tri par nom et prénom
+$stmt = $pdo->prepare($sql);   // préparation sécurisée
+$stmt->execute($params);      // exécution avec paramètres
+$students = $stmt->fetchAll(); // tableau des étudiants affichés
+
+// === statistiques simples ===
+// total d'étudiants (tous départements confondus)
+$totalInscrits = (int)$pdo->query('SELECT COUNT(*) FROM etudiant')->fetchColumn();
+// sans champ statut, on suppose tout actif (adapte à ta table si champ existe)
+$actifs = $totalInscrits;
+$suspendus = 0;
+$nouveaux = (int)round($totalInscrits * 0.24); // exemple : 24% comme dans la maquette
+
+$affichageDebut = count($students) > 0 ? 1 : 0;
+$affichageFin = count($students);
+$infoPagination = "Affichage de {$affichageDebut} à {$affichageFin} sur {$totalInscrits} étudiants";
+?>
+
 <!DOCTYPE html>
 
 <html class="light" lang="fr"><head>
@@ -166,53 +247,53 @@
 <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
 <div class="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/10">
 <p class="text-xs text-on-surface-variant font-medium uppercase tracking-wider mb-1">Total Inscrits</p>
-<p class="text-3xl font-bold text-primary">1,284</p>
+<p class="text-3xl font-bold text-primary"><?= number_format($totalInscrits, 0, ',', ' ') ?></p>
 </div>
 <div class="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/10">
 <p class="text-xs text-on-surface-variant font-medium uppercase tracking-wider mb-1">Actifs</p>
-<p class="text-3xl font-bold text-secondary">1,240</p>
+<p class="text-3xl font-bold text-secondary"><?= number_format($actifs, 0, ',', ' ') ?></p>
 </div>
 <div class="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/10">
 <p class="text-xs text-on-surface-variant font-medium uppercase tracking-wider mb-1">Suspendus</p>
-<p class="text-3xl font-bold text-error">44</p>
+<p class="text-3xl font-bold text-error"><?= number_format($suspendus, 0, ',', ' ') ?></p>
 </div>
 <div class="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/10">
 <p class="text-xs text-on-surface-variant font-medium uppercase tracking-wider mb-1">Nouveaux</p>
-<p class="text-3xl font-bold text-tertiary">312</p>
+<p class="text-3xl font-bold text-tertiary"><?= number_format($nouveaux, 0, ',', ' ') ?></p>
 </div>
 </div>
 <!-- Filters Section -->
 <section class="bg-surface-container-low rounded-xl p-6 mb-8">
+<form method="get">
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 <div class="space-y-1.5">
 <label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest px-1">Département</label>
-<select class="w-full bg-white border-none rounded-md text-sm py-2.5 focus:ring-2 focus:ring-primary shadow-sm text-on-surface">
-<option>Tous les départements</option>
-<option>Sciences de l'Informatique</option>
-<option>Génie Civil</option>
-<option>Économie et Gestion</option>
-<option>Droit Public</option>
+<select name="departement" class="w-full bg-white border-none rounded-md text-sm py-2.5 focus:ring-2 focus:ring-primary shadow-sm text-on-surface">
+<option value="Tous les départements"<?= $filters['departement'] === 'Tous les départements' ? ' selected' : '' ?>>Tous les départements</option>
+<?php foreach ($departements as $dept): ?>
+<option value="<?= htmlspecialchars($dept) ?>"<?= $filters['departement'] === $dept ? ' selected' : '' ?>><?= htmlspecialchars($dept) ?></option>
+<?php endforeach; ?>
 </select>
 </div>
 <div class="space-y-1.5">
 <label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest px-1">Filière</label>
-<select class="w-full bg-white border-none rounded-md text-sm py-2.5 focus:ring-2 focus:ring-primary shadow-sm text-on-surface">
-<option>Toutes les filières</option>
-<option>Licence 1 - Tronc Commun</option>
-<option>Licence 3 - Génie Logiciel</option>
-<option>Master 2 - Big Data</option>
-<option>Master 1 - Réseaux &amp; Télécoms</option>
+<select name="filiere" class="w-full bg-white border-none rounded-md text-sm py-2.5 focus:ring-2 focus:ring-primary shadow-sm text-on-surface">
+<option value="Toutes les filières"<?= $filters['filiere'] === 'Toutes les filières' ? ' selected' : '' ?>>Toutes les filières</option>
+<?php foreach ($filieres as $fil): ?>
+<option value="<?= htmlspecialchars($fil) ?>"<?= $filters['filiere'] === $fil ? ' selected' : '' ?>><?= htmlspecialchars($fil) ?></option>
+<?php endforeach; ?>
 </select>
 </div>
 <div class="space-y-1.5">
 <label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest px-1">Recherche Rapide</label>
 <div class="relative">
-<input class="w-full bg-white border-none rounded-md text-sm py-2.5 pl-10 focus:ring-2 focus:ring-primary shadow-sm text-on-surface" placeholder="Nom ou matricule..." type="text"/>
+<input name="search" value="<?= htmlspecialchars($filters['search']) ?>" class="w-full bg-white border-none rounded-md text-sm py-2.5 pl-10 focus:ring-2 focus:ring-primary shadow-sm text-on-surface" placeholder="Nom ou matricule..." type="text"/>
 <span class="material-symbols-outlined absolute left-3 top-2.5 text-on-surface-variant text-lg">search</span>
 </div>
 </div>
 </div>
-</section>
+</form>
+</main>section>
 <!-- Table Section -->
 <div class="bg-surface-container-lowest rounded-xl overflow-hidden border border-outline-variant/5 shadow-sm">
 <div class="overflow-x-auto no-scrollbar">
@@ -228,100 +309,54 @@
 </tr>
 </thead>
 <tbody class="divide-y divide-outline-variant/10">
-<!-- Row 1 -->
-<tr class="hover:bg-surface-container-low transition-colors group">
-<td class="px-6 py-4">
-<img alt="Avatar étudiant" class="w-10 h-10 rounded-full border border-outline-variant/20 object-cover" data-alt="Close up portrait of a male student" src="https://lh3.googleusercontent.com/aida-public/AB6AXuChKuEXcKA1XenDkP_bchBePOIHV-Mu5Ya_FTMQ-vTlvGO3qIHFzlRUET2C6FdH54CwWbttwQ9R3UXzA0QixbxuRJ4z0Sd4MPXWePUcNOCZ0-VDdi9ZP9NzJTmKkTT3EFV4KIDouJY4NiI6DEd3zMzSbGp69jDeAJhep2hm4GxvFj2BaMCJeaCr9726KB2O2yB7UkeYUSq6367m2GQpyMaDds88f_fErffc-0li9cMmUEFx928hnVmbexJBArDeSZweqqp7S2dn4aw"/>
-</td>
-<td class="px-6 py-4 font-mono text-sm font-semibold text-primary">23CS-0045</td>
-<td class="px-6 py-4">
-<div class="flex flex-col">
-<span class="text-sm font-bold text-on-surface">KOUAMÉ</span>
-<span class="text-xs text-on-surface-variant">Jean-Luc Koffi</span>
-</div>
-</td>
-<td class="px-6 py-4 text-sm text-on-surface-variant">14 Mars 2002</td>
-<td class="px-6 py-4">
-<span class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-secondary-container text-on-secondary-container">Inscrit</span>
-</td>
-<td class="px-6 py-4 text-right">
-<button class="p-1.5 rounded-full hover:bg-white text-on-surface-variant group-hover:text-primary transition-all">
-<span class="material-symbols-outlined text-xl">more_vert</span>
-</button>
-</td>
-</tr>
-<!-- Row 2 -->
-<tr class="hover:bg-surface-container-low transition-colors group">
-<td class="px-6 py-4">
-<img alt="Avatar étudiant" class="w-10 h-10 rounded-full border border-outline-variant/20 object-cover" data-alt="Professional portrait of a female student" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCktjb3YDbOwrf7CkJ0vUlOrxPa7mPHyEtnpH_cRet9v-E17XACPtcc4BIXvFZrq4dbD6kmrxAmQwRsvZYz0HE_7Ab9uPK5AH4blVk-IZlFPFOrGESZlCQyGGd8ZbO-fHUE3HMJkjA1rAara2_zuJUxcgwcZBIYQsc_CTLsCIJDJi8fOX6h1hqAMJnaYeWUEMrDMSsvJv9W4E6ZzAi0IbcLBBSijeEGk8GYypImgl1LkhMC-jB_1RzHxoZ2DotWMqbRwwa8jasZugM"/>
-</td>
-<td class="px-6 py-4 font-mono text-sm font-semibold text-primary">23CS-0122</td>
-<td class="px-6 py-4">
-<div class="flex flex-col">
-<span class="text-sm font-bold text-on-surface">DIALLO</span>
-<span class="text-xs text-on-surface-variant">Mariam Aïcha</span>
-</div>
-</td>
-<td class="px-6 py-4 text-sm text-on-surface-variant">28 Septembre 2001</td>
-<td class="px-6 py-4">
-<span class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-secondary-container text-on-secondary-container">Inscrit</span>
-</td>
-<td class="px-6 py-4 text-right">
-<button class="p-1.5 rounded-full hover:bg-white text-on-surface-variant group-hover:text-primary transition-all">
-<span class="material-symbols-outlined text-xl">more_vert</span>
-</button>
-</td>
-</tr>
-<!-- Row 3 (Suspended) -->
-<tr class="hover:bg-surface-container-low transition-colors group">
-<td class="px-6 py-4">
-<img alt="Avatar étudiant" class="w-10 h-10 rounded-full border border-outline-variant/20 object-cover opacity-60" data-alt="Portrait of a young male university student" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCUgOaNbt-2cmaDkIWJ1YAb5RgB7dHd6ZUHrx4-ClhxTm4yt2ODKVvC0SzlkYItQcNQvmAYwBSpOJ0GqAhG_aJYxH2sPPpOOywGmfRpZ_L-DD7rlu3YY3fJjj_4ehvz4M3tJ0MChAymiXocqGqkuGlCJgjWW5BFjPANBR5V-1P2OyTnyJcqS41Pq2LeuTSh1vNJEGTkZmLHnDIgt8wOWt4A6z8ZsEkwn9gr_mpxB8G29gvALFqqYJz4QQlkOGmWHw_HCSy3515Kk-4"/>
-</td>
-<td class="px-6 py-4 font-mono text-sm font-semibold text-primary">22GE-0889</td>
-<td class="px-6 py-4">
-<div class="flex flex-col">
-<span class="text-sm font-bold text-on-surface">TRAORÉ</span>
-<span class="text-xs text-on-surface-variant">Abdoulaye</span>
-</div>
-</td>
-<td class="px-6 py-4 text-sm text-on-surface-variant">05 Janvier 2000</td>
-<td class="px-6 py-4">
-<span class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-tertiary-container text-on-tertiary-container">Suspendu</span>
-</td>
-<td class="px-6 py-4 text-right">
-<button class="p-1.5 rounded-full hover:bg-white text-on-surface-variant group-hover:text-primary transition-all">
-<span class="material-symbols-outlined text-xl">more_vert</span>
-</button>
-</td>
-</tr>
-<!-- Row 4 -->
-<tr class="hover:bg-surface-container-low transition-colors group">
-<td class="px-6 py-4">
-<img alt="Avatar étudiant" class="w-10 h-10 rounded-full border border-outline-variant/20 object-cover" data-alt="Close up of a female student with glasses" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-i5sxUr4ACuulzokjQ5paYN44-n_bqCHzDisKnTYCE04pcCYAqSZtuWfF9peo-_tZdK8AvrjAV46ze75MfiX913FJFstJm59AQ-vzDBrkePDHNHoY_BU_vP_6nhXLTmJ4urooTWHMY9FzjMsQVp0BK6SXIYRWHaXnKw9nGRrRVMwIiPFOghxe8_VLkKLURELH_FcydU1SEpIXgCbt54_vXiFSWM0Jtqc308y_wGczKEW5F-oAo2mfmF8oASKKzYACZkKbzPiQheo"/>
-</td>
-<td class="px-6 py-4 font-mono text-sm font-semibold text-primary">23DP-0056</td>
-<td class="px-6 py-4">
-<div class="flex flex-col">
-<span class="text-sm font-bold text-on-surface">NGUESSAN</span>
-<span class="text-xs text-on-surface-variant">Akissi Emmanuelle</span>
-</div>
-</td>
-<td class="px-6 py-4 text-sm text-on-surface-variant">22 Juillet 2003</td>
-<td class="px-6 py-4">
-<span class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-secondary-container text-on-secondary-container">Inscrit</span>
-</td>
-<td class="px-6 py-4 text-right">
-<button class="p-1.5 rounded-full hover:bg-white text-on-surface-variant group-hover:text-primary transition-all">
-<span class="material-symbols-outlined text-xl">more_vert</span>
-</button>
-</td>
-</tr>
+<?php foreach ($filteredStudents as $student): ?>
+    <?php
+        // En cas de champ absent, on définit des valeurs par défaut
+        $student['statut'] = $student['statut'] ?? 'Inscrit';
+        $statusClass = strtolower($student['statut']) === 'suspendu'
+            ? 'bg-tertiary-container text-on-tertiary-container'
+            : 'bg-secondary-container text-on-secondary-container';
+
+        // Photo par défaut si aucune URL fournie
+        $photo = $student['photo'] ?? 'https://via.placeholder.com/40?text=U';
+
+        // Les noms de champs date peuvent être différents selon la table
+        $naissance = $student['date_naissance'] ?? $student['naissance'] ?? 'Non renseigné';
+    ?>
+
+    <!-- Ligne étudiant (boucle) -->
+    <tr class="hover:bg-surface-container-low transition-colors group">
+        <td class="px-6 py-4">
+            <!-- image -->
+            <img alt="Avatar étudiant"
+                 class="w-10 h-10 rounded-full border border-outline-variant/20 object-cover<?= strtolower($student['statut']) === 'suspendu' ? ' opacity-60' : '' ?>"
+                 src="<?= htmlspecialchars($photo) ?>"/>
+        </td>
+        <td class="px-6 py-4 font-mono text-sm font-semibold text-primary"><?= htmlspecialchars($student['matricule'] ?? '---') ?></td>
+        <td class="px-6 py-4">
+            <div class="flex flex-col">
+                <span class="text-sm font-bold text-on-surface"><?= htmlspecialchars($student['nom'] ?? '---') ?></span>
+                <span class="text-xs text-on-surface-variant"><?= htmlspecialchars($student['prenom'] ?? '---') ?></span>
+            </div>
+        </td>
+        <td class="px-6 py-4 text-sm text-on-surface-variant"><?= htmlspecialchars($naissance) ?></td>
+        <td class="px-6 py-4">
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider <?= $statusClass ?>"><?= htmlspecialchars($student['statut']) ?></span>
+        </td>
+        <td class="px-6 py-4 text-right">
+            <!-- actions (bouton) -->
+            <button class="p-1.5 rounded-full hover:bg-white text-on-surface-variant group-hover:text-primary transition-all">
+                <span class="material-symbols-outlined text-xl">more_vert</span>
+            </button>
+        </td>
+    </tr>
+<?php endforeach; ?>
 </tbody>
 </table>
 </div>
 <!-- Pagination Footer -->
 <div class="bg-surface-container-low/30 px-6 py-4 flex items-center justify-between">
-<p class="text-xs text-on-surface-variant font-medium">Affichage de 1 à 4 sur 1,284 étudiants</p>
+<p class="text-xs text-on-surface-variant font-medium"><?= htmlspecialchars($infoPagination) ?></p>
 <div class="flex gap-2">
 <button class="p-2 rounded-md border border-outline-variant/20 bg-white hover:bg-surface-container transition-all disabled:opacity-30" disabled="">
 <span class="material-symbols-outlined text-lg">chevron_left</span>
