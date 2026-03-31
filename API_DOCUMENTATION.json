@@ -1,0 +1,452 @@
+{
+  "application": "Gestion Académique LMD",
+  "version": "2.0",
+  "baseUrl": "http://localhost/kara_project",
+  "description": "Système complet de gestion académique avec support LMD",
+  
+  "modules": [
+    {
+      "name": "Répertoire des Étudiants",
+      "url": "/backend/repertoire_etudiants_backend.php",
+      "methods": ["GET", "POST"],
+      "parameters": {
+        "GET": [
+          {
+            "name": "page",
+            "type": "integer",
+            "description": "Numéro de page",
+            "default": 1
+          },
+          {
+            "name": "filiere",
+            "type": "integer",
+            "description": "ID de la filière"
+          },
+          {
+            "name": "statut",
+            "type": "string",
+            "description": "Statut (Actif, Inactif, Diplômé, Suspendu)",
+            "default": "Actif"
+          },
+          {
+            "name": "recherche",
+            "type": "string",
+            "description": "Recherche par matricule/nom/email"
+          },
+          {
+            "name": "tri",
+            "type": "string",
+            "description": "Tri (nom, prenom, matricule, date_inscription)",
+            "default": "nom"
+          },
+          {
+            "name": "format",
+            "type": "string",
+            "description": "Format (json, csv, html)",
+            "default": "html"
+          }
+        ],
+        "POST": [
+          {
+            "name": "action",
+            "type": "string",
+            "description": "Action à effectuer"
+          }
+        ]
+      },
+      "responses": {
+        "200": "Liste des étudiants",
+        "404": "Pas d'étudiants trouvés"
+      }
+    },
+    
+    {
+      "name": "Maquettes LMD par Semestre",
+      "url": "/backend/maquette_lmd_backend.php",
+      "methods": ["GET"],
+      "parameters": {
+        "GET": [
+          {
+            "name": "id",
+            "type": "integer",
+            "description": "ID de la filière",
+            "default": 1
+          },
+          {
+            "name": "format",
+            "type": "string",
+            "description": "Format de réponse (json, html)",
+            "default": "html"
+          }
+        ]
+      },
+      "example": {
+        "url": "/backend/maquette_lmd_backend.php?id=1&format=json",
+        "response": {
+          "filieres": [
+            {
+              "id_filiere": 1,
+              "nom_filiere": "Génie Logiciel",
+              "nb_etudiants": 150
+            }
+          ],
+          "maquette_groupee": {
+            "1": {
+              "semestre": 1,
+              "ues": [ { "code_ue": "GL-S1-UE-001", "libelle_ue": "Programmation I", "credits_ects": 6 } ],
+              "total_credits": 30,
+              "total_heures": 300
+            }
+          }
+        }
+      }
+    },
+    
+    {
+      "name": "Configuration des Coefficients",
+      "url": "/backend/configuration_coefficients_backend.php",
+      "methods": ["GET", "POST"],
+      "postData": {
+        "action": "update_config",
+        "id_dept": "integer",
+        "id_filiere": "integer",
+        "id_ue": "integer",
+        "coefficient": "float",
+        "credits": "integer",
+        "volume": "integer"
+      }
+    },
+    
+    {
+      "name": "Parcours Académique Complet S1-S6",
+      "url": "/backend/parcours_academique_backend.php",
+      "methods": ["GET"],
+      "parameters": {
+        "GET": [
+          {
+            "name": "id",
+            "type": "integer",
+            "description": "ID de l'étudiant",
+            "required": true
+          },
+          {
+            "name": "format",
+            "type": "string",
+            "description": "Format (json, html)",
+            "default": "html"
+          }
+        ]
+      },
+      "example": {
+        "url": "/backend/parcours_academique_backend.php?id=1&format=json",
+        "response": {
+          "etudiant": {
+            "id_etudiant": 1,
+            "matricule": "2023-FR-001",
+            "nom": "Koulibaly",
+            "prenom": "Mamadou"
+          },
+          "credits_totaux": 180,
+          "moyenne_generale": 14.5,
+          "progression_percentage": 100
+        }
+      }
+    },
+    
+    {
+      "name": "Carte Étudiant",
+      "url": "/backend/carte_etudiant_backend.php",
+      "methods": ["GET"],
+      "parameters": {
+        "GET": [
+          {
+            "name": "id",
+            "type": "integer",
+            "description": "ID de l'étudiant",
+            "required": true
+          }
+        ]
+      }
+    },
+    
+    {
+      "name": "Attestation de Réussite",
+      "url": "/backend/attestation_backend.php",
+      "methods": ["GET"],
+      "parameters": {
+        "GET": [
+          {
+            "name": "id",
+            "type": "integer",
+            "description": "ID de l'étudiant",
+            "required": true
+          },
+          {
+            "name": "semestre",
+            "type": "integer",
+            "description": "Numéro du semestre (1-6)",
+            "default": 1
+          }
+        ]
+      }
+    },
+    
+    {
+      "name": "Gestion des Sessions de Rattrapage",
+      "url": "/backend/gestion_sessions_rattrapage_backend.php",
+      "methods": ["GET", "POST"],
+      "postData": {
+        "action": "create_session ou inscription",
+        "date_debut": "date",
+        "date_fin": "date",
+        "id_etudiant": "integer",
+        "id_session": "integer",
+        "ids_ec": ["array"]
+      }
+    },
+    
+    {
+      "name": "Délibérations Finales",
+      "url": "/backend/deliberation_backend.php",
+      "methods": ["GET", "POST"],
+      "parameters": {
+        "GET": [
+          {
+            "name": "filiere",
+            "type": "integer",
+            "description": "ID de la filière"
+          },
+          {
+            "name": "semestre",
+            "type": "integer",
+            "description": "Numéro du semestre",
+            "default": 1
+          }
+        ]
+      }
+    },
+    
+    {
+      "name": "Procès-Verbal de Délibération",
+      "url": "/backend/proces_verbal_backend.php",
+      "methods": ["GET", "POST"],
+      "parameters": {
+        "GET": [
+          {
+            "name": "id",
+            "type": "integer",
+            "description": "ID de la délibération"
+          },
+          {
+            "name": "filiere",
+            "type": "integer",
+            "description": "ID de la filière"
+          }
+        ]
+      }
+    },
+    
+    {
+      "name": "Gestion des Filières et UE",
+      "url": "/backend/gestion_filieres_ue_backend.php",
+      "methods": ["GET", "POST"],
+      "parameters": {
+        "GET": [
+          {
+            "name": "id",
+            "type": "integer",
+            "description": "ID de la filière",
+            "default": 1
+          }
+        ]
+      }
+    }
+  ],
+  
+  "classes": [
+    {
+      "name": "EtudiantManager",
+      "file": "backend/classes/DataManager.php",
+      "methods": [
+        {
+          "name": "getById(id_etudiant)",
+          "description": "Récupère un étudiant par ID",
+          "returns": "array"
+        },
+        {
+          "name": "getAll(limite, offset)",
+          "description": "Récupère tous les étudiants",
+          "returns": "array"
+        },
+        {
+          "name": "getByFiliere(id_filiere)",
+          "description": "Récupère les étudiants d'une filière",
+          "returns": "array"
+        },
+        {
+          "name": "search(terme)",
+          "description": "Recherche d'étudiants",
+          "returns": "array"
+        },
+        {
+          "name": "getParcours(id_etudiant)",
+          "description": "Récupère le parcours complet",
+          "returns": "array"
+        }
+      ]
+    },
+    
+    {
+      "name": "NoteManager",
+      "file": "backend/classes/DataManager.php",
+      "methods": [
+        {
+          "name": "getNotesByEtudiant(id_etudiant, session)",
+          "description": "Récupère les notes d'un étudiant",
+          "returns": "array"
+        },
+        {
+          "name": "getMoyenneGenerale(id_etudiant)",
+          "description": "Calcule la moyenne générale",
+          "returns": "float"
+        },
+        {
+          "name": "getMoyenneSemestre(id_etudiant, semestre)",
+          "description": "Calcule la moyenne du semestre",
+          "returns": "float"
+        },
+        {
+          "name": "insert(id_etudiant, id_ec, valeur_note, session)",
+          "description": "Insère une note",
+          "returns": "boolean"
+        }
+      ]
+    },
+    
+    {
+      "name": "FiliereManager",
+      "file": "backend/classes/DataManager.php",
+      "methods": [
+        {
+          "name": "getAll()",
+          "description": "Récupère toutes les filières",
+          "returns": "array"
+        },
+        {
+          "name": "getMaquette(id_filiere)",
+          "description": "Récupère la maquette complète",
+          "returns": "array"
+        },
+        {
+          "name": "getUESemestre(id_filiere, semestre)",
+          "description": "Récupère les UE d'un semestre",
+          "returns": "array"
+        }
+      ]
+    },
+    
+    {
+      "name": "DeliberationManager",
+      "file": "backend/classes/DataManager.php",
+      "methods": [
+        {
+          "name": "create(id_etudiant, semestre, data)",
+          "description": "Crée une délibération",
+          "returns": "integer|false"
+        },
+        {
+          "name": "getById(id_deliberation)",
+          "description": "Récupère une délibération",
+          "returns": "array"
+        },
+        {
+          "name": "getByEtudiant(id_etudiant)",
+          "description": "Récupère les délibérations d'un étudiant",
+          "returns": "array"
+        }
+      ]
+    },
+    
+    {
+      "name": "SessionRattrapageManager",
+      "file": "backend/classes/DataManager.php",
+      "methods": [
+        {
+          "name": "create(data)",
+          "description": "Crée une session de rattrapage",
+          "returns": "integer|false"
+        },
+        {
+          "name": "getAll()",
+          "description": "Récupère toutes les sessions",
+          "returns": "array"
+        },
+        {
+          "name": "inscribeEtudiant(id_etudiant, id_session, id_ec)",
+          "description": "Inscrit un étudiant",
+          "returns": "boolean"
+        },
+        {
+          "name": "getInscrits(id_session)",
+          "description": "Récupère les inscrits d'une session",
+          "returns": "array"
+        }
+      ]
+    }
+  ],
+  
+  "globalFunctions": [
+    {
+      "name": "getDB()",
+      "description": "Récupère la connexion BD (Singleton)",
+      "returns": "mysqli"
+    },
+    {
+      "name": "clean(data)",
+      "description": "Nettoie et échappe les données",
+      "returns": "string"
+    },
+    {
+      "name": "formatDate(date, format)",
+      "description": "Formate une date",
+      "returns": "string"
+    },
+    {
+      "name": "formatGrade(note)",
+      "description": "Formate une note",
+      "returns": "string"
+    },
+    {
+      "name": "getMention(moyenne)",
+      "description": "Retourne la mention selon la moyenne",
+      "returns": "string"
+    },
+    {
+      "name": "calculerMoyenne(notes)",
+      "description": "Calcule la moyenne d'un tableau",
+      "returns": "float"
+    },
+    {
+      "name": "isAdmitted(moyenne)",
+      "description": "Teste si la moyenne est suffisante",
+      "returns": "boolean"
+    },
+    {
+      "name": "getParam(key, default)",
+      "description": "Récupère un param GET sécurisé",
+      "returns": "string|null"
+    },
+    {
+      "name": "postParam(key, default)",
+      "description": "Récupère un param POST sécurisé",
+      "returns": "string|null"
+    }
+  ],
+  
+  "statusCodes": {
+    "200": "Succès",
+    "404": "Non trouvé",
+    "500": "Erreur serveur",
+    "400": "Paramètres invalides"
+  }
+}

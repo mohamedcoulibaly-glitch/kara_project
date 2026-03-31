@@ -1,3 +1,119 @@
+<?php
+// gestion_filieres_ue.php
+// Ce fichier gère l'affichage et l'association des filières avec les unités d'enseignement
+
+// Configuration de la base de données
+$host = 'localhost';
+$dbname = 'gestion_notes';
+$username = 'root';
+$password = '';
+
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch(PDOException $e) {
+    die("Erreur de connexion : " . $e->getMessage());
+}
+
+// Initialisation des variables
+$filiere_selectionnee = isset($_POST['id_filiere']) ? $_POST['id_filiere'] : (isset($_GET['id_filiere']) ? $_GET['id_filiere'] : null);
+$semestre_selectionne = isset($_POST['semestre']) ? $_POST['semestre'] : (isset($_GET['semestre']) ? $_GET['semestre'] : 1);
+
+// Traitement de l'enregistrement du programme
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'enregistrer_programme') {
+    $id_filiere = $_POST['id_filiere'];
+    $semestre = $_POST['semestre'];
+    $ue_selectionnees = isset($_POST['ue_selectionnees']) ? $_POST['ue_selectionnees'] : [];
+    
+    try {
+        // Supprimer les associations existantes pour cette filière et ce semestre
+        $sql = "DELETE FROM programme WHERE id_filiere = :id_filiere AND semestre = :semestre";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            ':id_filiere' => $id_filiere,
+            ':semestre' => $semestre
+        ]);
+        
+        // Insérer les nouvelles associations
+        $sql = "INSERT INTO programme (id_filiere, id_ue, semestre) VALUES (:id_filiere, :id_ue, :semestre)";
+        $stmt = $pdo->prepare($sql);
+        
+        foreach ($ue_selectionnees as $id_ue) {
+            $stmt->execute([
+                ':id_filiere' => $id_filiere,
+                ':id_ue' => $id_ue,
+                ':semestre' => $semestre
+            ]);
+        }
+        
+        $message_success = "Programme enregistré avec succès !";
+    } catch(PDOException $e) {
+        $message_error = "Erreur lors de l'enregistrement : " . $e->getMessage();
+    }
+}
+
+// Récupération des filières avec leurs départements
+$sql = "SELECT f.id_filiere, f.nom_filiere, d.nom_dept 
+        FROM filiere f 
+        LEFT JOIN departement d ON f.id_dept = d.id_dept 
+        ORDER BY f.nom_filiere";
+$stmt = $pdo->prepare($sql);
+$stmt->execute();
+$filieres = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Récupération des unités d'enseignement disponibles
+$sql = "SELECT id_ue, code_ue, libelle_ue, credits_ects FROM ue ORDER BY code_ue";
+$stmt = $pdo->prepare($sql);
+$stmt->execute();
+$ues = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Si une filière est sélectionnée, récupérer les UE déjà associées pour chaque semestre
+$ue_associees_par_semestre = [];
+if ($filiere_selectionnee) {
+    $sql = "SELECT id_ue, semestre FROM programme WHERE id_filiere = :id_filiere";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([':id_filiere' => $filiere_selectionnee]);
+    $programmes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    foreach ($programmes as $programme) {
+        $ue_associees_par_semestre[$programme['semestre']][] = $programme['id_ue'];
+    }
+}
+
+// Récupération des UE associées au semestre sélectionné pour la visualisation
+$programme_visualisation = [];
+if ($filiere_selectionnee) {
+    $sql = "SELECT ue.id_ue, ue.code_ue, ue.libelle_ue, ue.credits_ects, p.semestre 
+            FROM programme p 
+            JOIN ue ON p.id_ue = ue.id_ue 
+            WHERE p.id_filiere = :id_filiere 
+            ORDER BY p.semestre, ue.code_ue";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([':id_filiere' => $filiere_selectionnee]);
+    $programme_visualisation = $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// Regrouper par semestre pour la visualisation
+$ue_par_semestre = [];
+foreach ($programme_visualisation as $item) {
+    $ue_par_semestre[$item['semestre']][] = $item;
+}
+?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!DOCTYPE html>
 
 <html class="light" lang="fr"><head>
