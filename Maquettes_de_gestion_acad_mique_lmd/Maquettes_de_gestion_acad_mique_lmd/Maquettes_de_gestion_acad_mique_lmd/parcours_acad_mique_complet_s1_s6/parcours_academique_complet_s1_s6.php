@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html class="light" lang="fr"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Parcours Académique Complet - Gestion LMD</title>
+<title>Parcours AcadÃ©mique Complet - Gestion LMD</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
@@ -90,11 +90,11 @@
 </div>
 <div>
 <h1 class="text-xl font-bold tracking-tighter text-blue-700 leading-none">Gestion LMD</h1>
-<p class="text-[10px] text-slate-500 uppercase tracking-widest mt-1">Système Universitaire</p>
+<p class="text-[10px] text-slate-500 uppercase tracking-widest mt-1">SystÃ¨me Universitaire</p>
 </div>
 </div>
 <nav class="space-y-1">
-<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-slate-100 transition-colors duration-200 ease-in-out rounded-lg scale-95 active:scale-100 transition-transform" href="#">
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-slate-100 transition-colors duration-200 ease-in-out rounded-lg scale-95 active:scale-100 transition-transform" href="../index.php">
 <span class="material-symbols-outlined">dashboard</span>
 <span>Tableau de bord</span>
 </a>
@@ -105,7 +105,7 @@
 </a>
 <a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-slate-100 transition-colors duration-200 ease-in-out rounded-lg scale-95 active:scale-100 transition-transform" href="#">
 <span class="material-symbols-outlined">group</span>
-<span>Étudiants</span>
+<span>Ã‰tudiants</span>
 </a>
 <a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-slate-100 transition-colors duration-200 ease-in-out rounded-lg scale-95 active:scale-100 transition-transform" href="#">
 <span class="material-symbols-outlined">grade</span>
@@ -113,7 +113,7 @@
 </a>
 <a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-slate-100 transition-colors duration-200 ease-in-out rounded-lg scale-95 active:scale-100 transition-transform" href="#">
 <span class="material-symbols-outlined">settings</span>
-<span>Paramètres</span>
+<span>ParamÃ¨tres</span>
 </a>
 </nav>
 <div class="mt-auto p-4 bg-slate-100 rounded-xl">
@@ -121,7 +121,7 @@
 <img alt="Avatar de l'utilisateur" class="w-10 h-10 rounded-full border-2 border-white shadow-sm" data-alt="Portrait photo of a university administrator" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8l27MtHtupWStAGdgpzkHIEqAqIJD5im4upvqm82Idn66NuLUQ0pVHfVlHe467mAMIrP32S6JK8LeovJVqCiEfNllzYaZzYkJBhMu3i1fL1oomm-finU0kB4POvopEgJtThxyRvRere3graeqY9R3qFZhgGTPDJNmbTBev45dVF-FLopO00HJ65KGBzyiu7VVw1dyntmrewan3aO3FacwfrrtM5blLR6a5rt03L41YKolg_Zk0660gQGr-ayp0l3NrglDErV4eck"/>
 <div class="overflow-hidden">
 <p class="font-bold text-slate-900 truncate text-xs">Dr. Jean Dupont</p>
-<p class="text-slate-500 text-[10px] truncate">Admin Académique</p>
+<p class="text-slate-500 text-[10px] truncate">Admin AcadÃ©mique</p>
 </div>
 </div>
 </div>
@@ -134,12 +134,12 @@
 <button class="md:hidden text-slate-900">
 <span class="material-symbols-outlined">menu</span>
 </button>
-<h2 class="text-lg font-black text-slate-900">Parcours Académique</h2>
+<h2 class="text-lg font-black text-slate-900">Parcours AcadÃ©mique</h2>
 </div>
 <div class="flex items-center gap-4">
 <div class="hidden sm:flex items-center bg-slate-100 px-3 py-1.5 rounded-full w-64">
 <span class="material-symbols-outlined text-slate-400 text-lg mr-2">search</span>
-<input class="bg-transparent border-none focus:ring-0 text-xs w-full placeholder:text-slate-400" placeholder="Rechercher un étudiant..." type="text"/>
+<input class="bg-transparent border-none focus:ring-0 text-xs w-full placeholder:text-slate-400" placeholder="Rechercher un Ã©tudiant..." type="text"/>
 </div>
 <div class="flex items-center gap-2">
 <button class="p-2 text-slate-500 hover:text-blue-600 transition-opacity opacity-80 hover:opacity-100">
@@ -168,7 +168,7 @@
                                 </div>
 <div class="flex items-center gap-2">
 <span class="material-symbols-outlined text-primary text-lg">account_tree</span>
-<span class="font-medium">Filière:</span> Génie Logiciel (GL)
+<span class="font-medium">FiliÃ¨re:</span> GÃ©nie Logiciel (GL)
                                 </div>
 <div class="flex items-center gap-2">
 <span class="material-symbols-outlined text-primary text-lg">calendar_today</span>
@@ -182,7 +182,7 @@
 <div class="flex flex-wrap gap-2 justify-center md:justify-start">
 <button class="flex items-center gap-2 px-4 py-2 bg-primary text-white text-xs font-bold rounded-md hover:bg-primary-container transition-all">
 <span class="material-symbols-outlined text-sm">download</span>
-                                    TÉLÉCHARGER RELEVÉ GLOBAL
+                                    TÃ‰LÃ‰CHARGER RELEVÃ‰ GLOBAL
                                 </button>
 <button class="flex items-center gap-2 px-4 py-2 bg-surface-container-lowest border border-outline-variant/30 text-xs font-bold rounded-md hover:bg-surface-container transition-all">
 <span class="material-symbols-outlined text-sm">mail</span>
@@ -205,11 +205,11 @@
 </div>
 <div class="grid grid-cols-2 gap-4">
 <div class="p-3 bg-surface-container-low rounded-lg">
-<p class="text-[9px] font-bold text-slate-500 uppercase">Moyenne Générale</p>
+<p class="text-[9px] font-bold text-slate-500 uppercase">Moyenne GÃ©nÃ©rale</p>
 <p class="text-xl font-black text-on-surface">14.82<span class="text-xs text-slate-400 ml-1 font-normal">/20</span></p>
 </div>
 <div class="p-3 bg-surface-container-low rounded-lg">
-<p class="text-[9px] font-bold text-slate-500 uppercase">Semestres Validés</p>
+<p class="text-[9px] font-bold text-slate-500 uppercase">Semestres ValidÃ©s</p>
 <p class="text-xl font-black text-on-surface">5 <span class="text-xs text-slate-400 ml-1 font-normal">/ 6</span></p>
 </div>
 </div>
@@ -220,10 +220,10 @@
 <div class="flex items-center justify-between px-2">
 <h4 class="text-xl font-bold tracking-tight text-on-surface flex items-center gap-2">
 <span class="w-1.5 h-6 bg-primary rounded-full"></span>
-                            Détail du Parcours Académique
+                            DÃ©tail du Parcours AcadÃ©mique
                         </h4>
 <div class="flex items-center gap-4 text-xs font-medium text-slate-500">
-<span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-secondary-container"></span> Validé</span>
+<span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-secondary-container"></span> ValidÃ©</span>
 <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-tertiary-fixed-dim"></span> En cours</span>
 </div>
 </div>
@@ -235,7 +235,7 @@
 <h5 class="text-lg font-extrabold text-on-surface">Semestre 1</h5>
 <p class="text-[10px] text-slate-400 font-medium">Session Automne 2021</p>
 </div>
-<span class="px-2 py-0.5 bg-secondary-container text-on-secondary-container text-[9px] font-bold uppercase rounded-full">VALIDÉ</span>
+<span class="px-2 py-0.5 bg-secondary-container text-on-secondary-container text-[9px] font-bold uppercase rounded-full">VALIDÃ‰</span>
 </div>
 <div class="grid grid-cols-2 gap-4 mb-4 border-y border-outline-variant/10 py-3">
 <div class="text-center border-r border-outline-variant/10">
@@ -243,7 +243,7 @@
 <p class="text-lg font-black text-primary">13.45</p>
 </div>
 <div class="text-center">
-<p class="text-[9px] text-slate-500 uppercase font-bold">Crédits</p>
+<p class="text-[9px] text-slate-500 uppercase font-bold">CrÃ©dits</p>
 <p class="text-lg font-black text-primary">30/30</p>
 </div>
 </div>
@@ -257,7 +257,7 @@
 <span class="font-bold">12.50</span>
 </li>
 <li class="flex items-center justify-between text-xs">
-<span class="text-on-surface-variant">Mathématiques Discrètes</span>
+<span class="text-on-surface-variant">MathÃ©matiques DiscrÃ¨tes</span>
 <span class="font-bold">13.85</span>
 </li>
 </ul>
@@ -269,7 +269,7 @@
 <h5 class="text-lg font-extrabold text-on-surface">Semestre 2</h5>
 <p class="text-[10px] text-slate-400 font-medium">Session Printemps 2022</p>
 </div>
-<span class="px-2 py-0.5 bg-secondary-container text-on-secondary-container text-[9px] font-bold uppercase rounded-full">VALIDÉ</span>
+<span class="px-2 py-0.5 bg-secondary-container text-on-secondary-container text-[9px] font-bold uppercase rounded-full">VALIDÃ‰</span>
 </div>
 <div class="grid grid-cols-2 gap-4 mb-4 border-y border-outline-variant/10 py-3">
 <div class="text-center border-r border-outline-variant/10">
@@ -277,17 +277,17 @@
 <p class="text-lg font-black text-primary">15.20</p>
 </div>
 <div class="text-center">
-<p class="text-[9px] text-slate-500 uppercase font-bold">Crédits</p>
+<p class="text-[9px] text-slate-500 uppercase font-bold">CrÃ©dits</p>
 <p class="text-lg font-black text-primary">30/30</p>
 </div>
 </div>
 <ul class="space-y-2 flex-1">
 <li class="flex items-center justify-between text-xs">
-<span class="text-on-surface-variant">Programmation Orientée Objet</span>
+<span class="text-on-surface-variant">Programmation OrientÃ©e Objet</span>
 <span class="font-bold">16.50</span>
 </li>
 <li class="flex items-center justify-between text-xs">
-<span class="text-on-surface-variant">Systèmes d'Exploitation</span>
+<span class="text-on-surface-variant">SystÃ¨mes d'Exploitation</span>
 <span class="font-bold">14.20</span>
 </li>
 <li class="flex items-center justify-between text-xs">
@@ -303,7 +303,7 @@
 <h5 class="text-lg font-extrabold text-on-surface">Semestre 3</h5>
 <p class="text-[10px] text-slate-400 font-medium">Session Automne 2022</p>
 </div>
-<span class="px-2 py-0.5 bg-secondary-container text-on-secondary-container text-[9px] font-bold uppercase rounded-full">VALIDÉ</span>
+<span class="px-2 py-0.5 bg-secondary-container text-on-secondary-container text-[9px] font-bold uppercase rounded-full">VALIDÃ‰</span>
 </div>
 <div class="grid grid-cols-2 gap-4 mb-4 border-y border-outline-variant/10 py-3">
 <div class="text-center border-r border-outline-variant/10">
@@ -311,21 +311,21 @@
 <p class="text-lg font-black text-primary">14.10</p>
 </div>
 <div class="text-center">
-<p class="text-[9px] text-slate-500 uppercase font-bold">Crédits</p>
+<p class="text-[9px] text-slate-500 uppercase font-bold">CrÃ©dits</p>
 <p class="text-lg font-black text-primary">30/30</p>
 </div>
 </div>
 <ul class="space-y-2 flex-1">
 <li class="flex items-center justify-between text-xs">
-<span class="text-on-surface-variant">Bases de Données (SQL)</span>
+<span class="text-on-surface-variant">Bases de DonnÃ©es (SQL)</span>
 <span class="font-bold">15.75</span>
 </li>
 <li class="flex items-center justify-between text-xs">
-<span class="text-on-surface-variant">Réseaux Informatiques</span>
+<span class="text-on-surface-variant">RÃ©seaux Informatiques</span>
 <span class="font-bold">12.00</span>
 </li>
 <li class="flex items-center justify-between text-xs">
-<span class="text-on-surface-variant">Théorie des Graphes</span>
+<span class="text-on-surface-variant">ThÃ©orie des Graphes</span>
 <span class="font-bold">14.50</span>
 </li>
 </ul>
@@ -337,7 +337,7 @@
 <h5 class="text-lg font-extrabold text-on-surface">Semestre 4</h5>
 <p class="text-[10px] text-slate-400 font-medium">Session Printemps 2023</p>
 </div>
-<span class="px-2 py-0.5 bg-secondary-container text-on-secondary-container text-[9px] font-bold uppercase rounded-full">VALIDÉ</span>
+<span class="px-2 py-0.5 bg-secondary-container text-on-secondary-container text-[9px] font-bold uppercase rounded-full">VALIDÃ‰</span>
 </div>
 <div class="grid grid-cols-2 gap-4 mb-4 border-y border-outline-variant/10 py-3">
 <div class="text-center border-r border-outline-variant/10">
@@ -345,21 +345,21 @@
 <p class="text-lg font-black text-primary">16.35</p>
 </div>
 <div class="text-center">
-<p class="text-[9px] text-slate-500 uppercase font-bold">Crédits</p>
+<p class="text-[9px] text-slate-500 uppercase font-bold">CrÃ©dits</p>
 <p class="text-lg font-black text-primary">30/30</p>
 </div>
 </div>
 <ul class="space-y-2 flex-1">
 <li class="flex items-center justify-between text-xs">
-<span class="text-on-surface-variant">Dév. Web Avancé</span>
+<span class="text-on-surface-variant">DÃ©v. Web AvancÃ©</span>
 <span class="font-bold">18.00</span>
 </li>
 <li class="flex items-center justify-between text-xs">
-<span class="text-on-surface-variant">Génie Logiciel II</span>
+<span class="text-on-surface-variant">GÃ©nie Logiciel II</span>
 <span class="font-bold">15.50</span>
 </li>
 <li class="flex items-center justify-between text-xs">
-<span class="text-on-surface-variant">Probabilités &amp; Stats</span>
+<span class="text-on-surface-variant">ProbabilitÃ©s &amp; Stats</span>
 <span class="font-bold">15.50</span>
 </li>
 </ul>
@@ -371,7 +371,7 @@
 <h5 class="text-lg font-extrabold text-on-surface">Semestre 5</h5>
 <p class="text-[10px] text-slate-400 font-medium">Session Automne 2023</p>
 </div>
-<span class="px-2 py-0.5 bg-secondary-container text-on-secondary-container text-[9px] font-bold uppercase rounded-full">VALIDÉ</span>
+<span class="px-2 py-0.5 bg-secondary-container text-on-secondary-container text-[9px] font-bold uppercase rounded-full">VALIDÃ‰</span>
 </div>
 <div class="grid grid-cols-2 gap-4 mb-4 border-y border-outline-variant/10 py-3">
 <div class="text-center border-r border-outline-variant/10">
@@ -379,13 +379,13 @@
 <p class="text-lg font-black text-primary">15.00</p>
 </div>
 <div class="text-center">
-<p class="text-[9px] text-slate-500 uppercase font-bold">Crédits</p>
+<p class="text-[9px] text-slate-500 uppercase font-bold">CrÃ©dits</p>
 <p class="text-lg font-black text-primary">30/30</p>
 </div>
 </div>
 <ul class="space-y-2 flex-1">
 <li class="flex items-center justify-between text-xs">
-<span class="text-on-surface-variant">Sécurité Informatique</span>
+<span class="text-on-surface-variant">SÃ©curitÃ© Informatique</span>
 <span class="font-bold">14.00</span>
 </li>
 <li class="flex items-center justify-between text-xs">
@@ -413,15 +413,15 @@
 <p class="text-lg font-black text-primary">--</p>
 </div>
 <div class="text-center">
-<p class="text-[9px] text-slate-500 uppercase font-bold">Crédits Prov.</p>
+<p class="text-[9px] text-slate-500 uppercase font-bold">CrÃ©dits Prov.</p>
 <p class="text-lg font-black text-primary">00/30</p>
 </div>
 </div>
 <ul class="space-y-3 flex-1">
 <li class="flex flex-col gap-1">
 <div class="flex items-center justify-between text-xs">
-<span class="text-on-surface-variant font-medium">Projet de Fin d'Études (PFE)</span>
-<span class="text-[10px] text-primary bg-primary/5 px-1.5 rounded italic">Soutenance prévue</span>
+<span class="text-on-surface-variant font-medium">Projet de Fin d'Ã‰tudes (PFE)</span>
+<span class="text-[10px] text-primary bg-primary/5 px-1.5 rounded italic">Soutenance prÃ©vue</span>
 </div>
 <div class="w-full h-1 bg-surface-container rounded-full overflow-hidden">
 <div class="h-full bg-primary w-[65%]"></div>
@@ -447,7 +447,7 @@
 <div class="bg-surface-container-low rounded-xl p-6 border border-outline-variant/10">
 <h4 class="text-sm font-bold text-on-surface mb-6 flex items-center gap-2">
 <span class="material-symbols-outlined text-primary">show_chart</span>
-                            Évolution des Moyennes Semestrielles
+                            Ã‰volution des Moyennes Semestrielles
                         </h4>
 <div class="h-48 flex items-end justify-between gap-4 px-2">
 <div class="flex-1 flex flex-col items-center gap-2">
@@ -477,7 +477,7 @@
 </div>
 </div>
 <div class="bg-surface-container-low rounded-xl p-6 border border-outline-variant/10 flex flex-col">
-<h4 class="text-sm font-bold text-on-surface mb-4">Répartition des Crédits par Domaine</h4>
+<h4 class="text-sm font-bold text-on-surface mb-4">RÃ©partition des CrÃ©dits par Domaine</h4>
 <div class="space-y-4 flex-1 flex flex-col justify-center">
 <div class="space-y-1">
 <div class="flex justify-between text-[10px] font-bold uppercase tracking-wide">
@@ -490,7 +490,7 @@
 </div>
 <div class="space-y-1">
 <div class="flex justify-between text-[10px] font-bold uppercase tracking-wide">
-<span class="text-slate-600">Mathématiques &amp; Sciences</span>
+<span class="text-slate-600">MathÃ©matiques &amp; Sciences</span>
 <span class="text-primary">30 / 30 ECTS</span>
 </div>
 <div class="w-full h-1.5 bg-surface-container rounded-full overflow-hidden">
@@ -499,7 +499,7 @@
 </div>
 <div class="space-y-1">
 <div class="flex justify-between text-[10px] font-bold uppercase tracking-wide">
-<span class="text-slate-600">Génie Logiciel &amp; Projets</span>
+<span class="text-slate-600">GÃ©nie Logiciel &amp; Projets</span>
 <span class="text-primary">45 / 60 ECTS</span>
 </div>
 <div class="w-full h-1.5 bg-surface-container rounded-full overflow-hidden">
@@ -520,9 +520,9 @@
 </section>
 </main>
 <footer class="mt-auto border-t border-outline-variant/10 py-6 px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-<p class="text-[10px] text-slate-400 font-medium">© 2024 PARCOURS ACADÉMIQUE - DIRECTION DES SYSTÈMES D'INFORMATION</p>
+<p class="text-[10px] text-slate-400 font-medium">Â© 2024 PARCOURS ACADÃ‰MIQUE - DIRECTION DES SYSTÃˆMES D'INFORMATION</p>
 <div class="flex items-center gap-6">
-<a class="text-[10px] font-bold text-slate-500 hover:text-primary transition-colors" href="#">POLITIQUE DE CONFIDENTIALITÉ</a>
+<a class="text-[10px] font-bold text-slate-500 hover:text-primary transition-colors" href="#">POLITIQUE DE CONFIDENTIALITÃ‰</a>
 <a class="text-[10px] font-bold text-slate-500 hover:text-primary transition-colors" href="#">SUPPORT TECHNIQUE</a>
 </div>
 </footer>
