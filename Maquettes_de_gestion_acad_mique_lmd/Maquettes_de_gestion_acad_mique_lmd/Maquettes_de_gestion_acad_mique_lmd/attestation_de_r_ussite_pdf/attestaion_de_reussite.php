@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html class="light" lang="fr"><head>
 <meta charset="utf-8"/>
@@ -100,7 +100,7 @@
 <header class="no-print w-full max-w-4xl mb-8 flex justify-between items-center px-6 py-3 bg-white dark:bg-slate-950 border-b border-slate-100 dark:border-slate-800 rounded-xl shadow-sm">
 <div class="flex items-center gap-3">
 <span class="material-symbols-outlined text-primary" data-icon="description">description</span>
-<span class="text-lg font-bold tracking-tighter text-blue-900 dark:text-blue-100 uppercase">UNIVERSITÉ ACADÉMIQUE</span>
+<span class="text-lg font-bold tracking-tighter text-blue-900 dark:text-blue-100 uppercase">UNIVERSITÃ‰ ACADÃ‰MIQUE</span>
 </div>
 <div class="flex gap-2">
 <button class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 transition-colors rounded-md" onclick="window.print()">
@@ -109,7 +109,7 @@
 </button>
 <button class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 transition-colors rounded-md">
 <span class="material-symbols-outlined text-lg" data-icon="download">download</span>
-<span>Télécharger PDF</span>
+<span>TÃ©lÃ©charger PDF</span>
 </button>
 <button class="flex items-center gap-2 px-4 py-2 text-sm font-medium bg-primary text-white hover:bg-primary-container transition-colors rounded-md">
 <span class="material-symbols-outlined text-lg" data-icon="mail">mail</span>
@@ -123,7 +123,7 @@
 <!-- A4 Document Canvas -->
 <main class="relative bg-white shadow-[0_12px_32px_rgba(25,28,30,0.04)] w-[210mm] min-h-[297mm] p-[20mm] flex flex-col overflow-hidden a4-container">
 <!-- Watermark -->
-<div class="watermark text-primary">UNIVERSITÉ ACADÉMIQUE</div>
+<div class="watermark text-primary">UNIVERSITÃ‰ ACADÃ‰MIQUE</div>
 <div class="relative z-10 flex flex-col h-full">
 <!-- Header: Logos -->
 <div class="flex justify-between items-start mb-16">
@@ -132,32 +132,32 @@
 </div>
 <div class="w-24 text-right">
 <img class="w-full h-auto object-contain mb-1" data-alt="French Republic official marianne logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHwoBDp2jCB-UNxeobw6gaO91R8daqL_EinSVHkcuMkSbQwe5QOTQ9OHpJDmZd5ueHNgQvtxuXVVe6Mi9AA5mEzq-rGRLdfPvxJgJksXVD2kkXHODqoYbS9eamY5KaC7syuHVdV3CD1EPPWsCn9LE06MZAzHieW97Ux5RV26I6Nyzwic5bQT9E5P-oF089LKUdW6fXgKBpxiyDj9LNdbMd2lvCGsI8BjtDi8nEtcr76Ds_pWlPlykrlRLLXQuIvofWbT3oaO0R2os"/>
-<p class="text-[0.6rem] font-bold leading-tight uppercase tracking-widest text-on-surface-variant">Liberté<br/>Égalité<br/>Fraternité</p>
+<p class="text-[0.6rem] font-bold leading-tight uppercase tracking-widest text-on-surface-variant">LibertÃ©<br/>Ã‰galitÃ©<br/>FraternitÃ©</p>
 </div>
 </div>
 <!-- Document Identity -->
 <div class="text-center mb-12">
-<h1 class="text-3xl font-extrabold tracking-tight text-on-surface mb-2 uppercase">ATTESTATION DE RÉUSSITE</h1>
+<h1 class="text-3xl font-extrabold tracking-tight text-on-surface mb-2 uppercase">ATTESTATION DE RÃ‰USSITE</h1>
 <div class="h-1 w-24 bg-primary mx-auto mb-4"></div>
-<p class="text-on-surface-variant italic font-light">Document officiel à caractère administratif</p>
+<p class="text-on-surface-variant italic font-light">Document officiel Ã  caractÃ¨re administratif</p>
 </div>
 <!-- Certification Text -->
 <div class="mb-12 space-y-6 leading-relaxed text-lg">
 <p>
-                        Le Recteur de l'Université Académique certifie que M./Mme <span class="font-bold">Jean-Marc DUPONT</span>, 
-                        né(e) le <span class="font-bold">12 Mars 2002</span> à <span class="font-bold">Lyon (69)</span>, 
-                        immatriculé(e) sous le numéro <span class="font-bold">ETU-2024-9842</span>, 
-                        a validé l'ensemble des enseignements et les épreuves de contrôle des connaissances de la filière :
+                        Le Recteur de l'UniversitÃ© AcadÃ©mique certifie que M./Mme <span class="font-bold">Jean-Marc DUPONT</span>, 
+                        nÃ©(e) le <span class="font-bold">12 Mars 2002</span> Ã  <span class="font-bold">Lyon (69)</span>, 
+                        immatriculÃ©(e) sous le numÃ©ro <span class="font-bold">ETU-2024-9842</span>, 
+                        a validÃ© l'ensemble des enseignements et les Ã©preuves de contrÃ´le des connaissances de la filiÃ¨re :
                     </p>
 <p class="text-xl font-bold text-primary py-4 text-center border-y border-outline-variant border-opacity-20 bg-surface-container-low rounded-lg">
-                        LICENCE PROFESSIONNELLE - SYSTÈMES ET RÉSEAUX LMD
+                        LICENCE PROFESSIONNELLE - SYSTÃˆMES ET RÃ‰SEAUX LMD
                     </p>
 </div>
 <!-- Academic Results Table (LMD Format) -->
 <div class="mb-12 bg-surface-container-lowest border border-outline-variant border-opacity-20 rounded-xl p-8">
 <div class="grid grid-cols-3 gap-8">
 <div class="text-center">
-<p class="text-label-sm uppercase tracking-wider text-on-surface-variant mb-1">Moyenne Générale</p>
+<p class="text-label-sm uppercase tracking-wider text-on-surface-variant mb-1">Moyenne GÃ©nÃ©rale</p>
 <p class="text-2xl font-bold text-on-surface">14.50 / 20</p>
 </div>
 <div class="text-center">
@@ -167,27 +167,27 @@
                             </div>
 </div>
 <div class="text-center">
-<p class="text-label-sm uppercase tracking-wider text-on-surface-variant mb-1">Crédits ECTS</p>
+<p class="text-label-sm uppercase tracking-wider text-on-surface-variant mb-1">CrÃ©dits ECTS</p>
 <p class="text-2xl font-bold text-on-surface">180 / 180</p>
 </div>
 </div>
 <div class="mt-8 pt-6 border-t border-outline-variant border-opacity-10 text-center">
 <p class="text-sm text-on-surface-variant">
-                            Session de délivrance : <span class="font-semibold text-on-surface">Annuelle 2023-2024</span><br/>
-                            Date d'obtention définitive : <span class="font-semibold text-on-surface">24 Mai 2024</span>
+                            Session de dÃ©livrance : <span class="font-semibold text-on-surface">Annuelle 2023-2024</span><br/>
+                            Date d'obtention dÃ©finitive : <span class="font-semibold text-on-surface">24 Mai 2024</span>
 </p>
 </div>
 </div>
 <!-- Footer Signature -->
 <div class="mt-auto flex justify-between items-end pb-12">
 <div class="text-sm text-on-surface-variant">
-<p>Code de vérification : <span class="font-mono text-xs">V92-KL9-3X2</span></p>
-<p>Authenticité vérifiable sur portal.univ.fr/verify</p>
+<p>Code de vÃ©rification : <span class="font-mono text-xs">V92-KL9-3X2</span></p>
+<p>AuthenticitÃ© vÃ©rifiable sur portal.univ.fr/verify</p>
 </div>
 <div class="text-right w-64">
-<p class="mb-2">Fait à <span class="font-medium text-on-surface">Paris</span>, le <span class="font-medium text-on-surface">15 Juin 2024</span></p>
+<p class="mb-2">Fait Ã  <span class="font-medium text-on-surface">Paris</span>, le <span class="font-medium text-on-surface">15 Juin 2024</span></p>
 <div class="relative h-32 flex flex-col justify-center items-center">
-<p class="text-xs uppercase tracking-tighter text-on-surface-variant mb-4">Le Doyen de la Faculté</p>
+<p class="text-xs uppercase tracking-tighter text-on-surface-variant mb-4">Le Doyen de la FacultÃ©</p>
 <!-- Placeholder for official stamp and signature -->
 <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-40">
 <img class="w-32 h-32 rotate-12" data-alt="Official university circular stamp" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDazQ4OZOahsdmHB84bsQZdtpSAfeEK0rxUgcjSYSl-pgsrhGVotqHVh4mAL1wwdToFuZ5EGWcl4o3DDiafV5-XO9Uixrptn3tb8sDbb-cL1WlR5gsCrMk5WTp5J7Y9rIzqj6PaclH3yw9c-fG12SXQw0AN1TpDqavvOUwGHf4a6D2jYmNsCmAkm0T3NGfgtDelA513aON3MQE5EAlERlurZQjIos62_7cBTtjfE6jlvjJoVlKqdSiZPTcCLx5dVDXhBQIMCkr8h8c"/>
@@ -199,7 +199,7 @@
 </div>
 <!-- Bottom Meta -->
 <div class="border-t border-slate-100 pt-4 text-[0.65rem] text-slate-400 text-center uppercase tracking-widest">
-                    Université Académique • Service de la Scolarité Générale • 45 Rue de l'Enseignement, 75005 Paris
+                    UniversitÃ© AcadÃ©mique â€¢ Service de la ScolaritÃ© GÃ©nÃ©rale â€¢ 45 Rue de l'Enseignement, 75005 Paris
                 </div>
 </div>
 </main>
