@@ -1,84 +1,14 @@
-<?php
-// === configuration de la base de données ===
-// modifie ces valeurs si ton serveur MySQL a des identifiants différents
-$dbHost = '127.0.0.1';
-$dbName = 'gestion_notes';
-$dbUser = 'root';
-$dbPass = ''; // mot de passe vide par défaut pour local (change si besoin)
+﻿<?php
+// === Variables dynamiques du Backend ===
+$totalInscrits = isset($stats['total']) ? $stats['total'] : 0;
+$actifs = isset($stats['actifs']) ? $stats['actifs'] : 0;
+$suspendus = isset($stats['suspendus']) ? $stats['suspendus'] : 0;
+$nouveaux = isset($stats['diplomes']) ? $stats['diplomes'] : 0; 
 
-// === connexion PDO (PHP Data Objects) ===
-// PDO est une extension sécurisée pour travailler avec MySQL.
-// Si la connexion échoue, script s'arrête et affiche le message.
-try {
-    $pdo = new PDO("mysql:host={$dbHost};dbname={$dbName};charset=utf8mb4", $dbUser, $dbPass, [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, // déclenche exception en cas d'erreur
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC, // résultat en tableau associatif
-    ]);
-} catch (PDOException $e) {
-    die('Connexion DB impossible : ' . htmlspecialchars($e->getMessage()));
-}
-
-// === lecture des filtres envoyés par le formulaire (méthode GET) ===
-// $_GET est un tableau des paramètres de l'URL (ex : ?filiere=...)
-$filters = [
-    'departement' => $_GET['departement'] ?? 'Tous les départements',
-    'filiere' => $_GET['filiere'] ?? 'Toutes les filières',
-    'search' => trim($_GET['search'] ?? ''),
-];
-
-// === options de filtres dynamiques (saisie dans <select>) ===
-// On récupère tous les départements et filières depuis la DB.
-$departements = $pdo->query('SELECT nom_dept FROM departement ORDER BY nom_dept')->fetchAll(PDO::FETCH_COLUMN);
-$filieres = $pdo->query('SELECT nom_filiere FROM filiere ORDER BY nom_filiere')->fetchAll(PDO::FETCH_COLUMN);
-
-// === construction de la requête SELECT pour les étudiants ===
-$where = [];   // conditions WHERE de la requête
-$params = [];  // paramètres associés pour éviter les injections SQL
-
-if ($filters['departement'] !== 'Tous les départements') {
-    $where[] = 'd.nom_dept = :departement';
-    $params[':departement'] = $filters['departement'];
-}
-
-if ($filters['filiere'] !== 'Toutes les filières') {
-    $where[] = 'f.nom_filiere = :filiere';
-    $params[':filiere'] = $filters['filiere'];
-}
-
-if ($filters['search'] !== '') {
-    // recherche partielle sur matricule, nom, prénom
-    $where[] = '(e.matricule LIKE :search OR e.nom LIKE :search OR e.prenom LIKE :search)';
-    $params[':search'] = '%' . $filters['search'] . '%';
-}
-
-$sql = "SELECT e.*, f.nom_filiere AS filiere, d.nom_dept AS departement
-        FROM etudiant e
-        LEFT JOIN filiere f ON e.id_filiere = f.id_filiere
-        LEFT JOIN departement d ON f.id_dept = d.id_dept";
-
-if (!empty($where)) {
-    // Création de la clause WHERE si au moins un filtre est sélectionné
-    $sql .= ' WHERE ' . implode(' AND ', $where);
-}
-
-$sql .= ' ORDER BY e.nom, e.prenom'; // tri par nom et prénom
-$stmt = $pdo->prepare($sql);   // préparation sécurisée
-$stmt->execute($params);      // exécution avec paramètres
-$students = $stmt->fetchAll() ?? []; // tableau des étudiants affichés (tableau vide par défaut)
-
-// === statistiques simples ===
-// total d'étudiants (tous départements confondus)
-$totalInscrits = (int)$pdo->query('SELECT COUNT(*) FROM etudiant')->fetchColumn();
-// sans champ statut, on suppose tout actif (adapte à ta table si champ existe)
-$actifs = $totalInscrits;
-$suspendus = 0;
-$nouveaux = (int)round($totalInscrits * 0.24); // exemple : 24% comme dans la maquette
-
-$affichageDebut = count($students) > 0 ? 1 : 0;
-$affichageFin = count($students);
-$infoPagination = count($students) === 0 
-    ? "Aucun étudiant trouvé" 
-    : "Affichage de {$affichageDebut} à {$affichageFin} sur {$totalInscrits} étudiants";
+$affichageDebut = count($etudiants) > 0 ? (($page - 1) * $limite) + 1 : 0;
+$affichageFin = (($page - 1) * $limite) + count($etudiants);
+$infoPagination = count($etudiants) === 0 ? "Aucun étudiant trouvé" : "Affichage de {$affichageDebut} à {$affichageFin} sur {$total_etudiants} étudiants";
+$students = $etudiants;
 ?>
 
 <!DOCTYPE html>
@@ -86,7 +16,7 @@ $infoPagination = count($students) === 0
 <html class="light" lang="fr"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>LMD Académique - Liste des Étudiants</title>
+<title>LMD AcadÃ©mique - Liste des Ã‰tudiants</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
@@ -167,10 +97,10 @@ $infoPagination = count($students) === 0
 <!-- TopAppBar -->
 <header class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md fixed top-0 w-full z-50 shadow-sm dark:shadow-none font-sans antialiased text-slate-900 dark:text-slate-100 h-16 flex justify-between items-center px-6">
 <div class="flex items-center gap-8">
-<span class="text-xl font-bold tracking-tight text-blue-700 dark:text-blue-400">LMD Académique</span>
+<span class="text-xl font-bold tracking-tight text-blue-700 dark:text-blue-400">LMD AcadÃ©mique</span>
 <div class="hidden md:flex items-center bg-surface-container px-4 py-1.5 rounded-full border border-outline-variant/20">
 <span class="material-symbols-outlined text-on-surface-variant text-sm pr-2">search</span>
-<input class="bg-transparent border-none focus:ring-0 text-sm w-64 placeholder:text-on-surface-variant" placeholder="Rechercher un étudiant..." type="text"/>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-64 placeholder:text-on-surface-variant" placeholder="Rechercher un Ã©tudiant..." type="text"/>
 </div>
 </div>
 <div class="flex items-center gap-4">
@@ -189,35 +119,35 @@ $infoPagination = count($students) === 0
 <!-- SideNavBar -->
 <aside class="fixed left-0 top-16 h-[calc(100vh-64px)] w-64 bg-slate-50 dark:bg-slate-950 flex flex-col py-6 px-4 gap-2 text-sm font-medium Inter border-r-0">
 <div class="px-2 mb-8">
-<h2 class="font-black text-blue-800 dark:text-blue-300 text-lg uppercase tracking-wider">Portail Académique</h2>
+<h2 class="font-black text-blue-800 dark:text-blue-300 text-lg uppercase tracking-wider">Portail AcadÃ©mique</h2>
 <p class="text-xs text-slate-500 font-normal">Gestion LMD v2.0</p>
 </div>
 <nav class="flex-1 space-y-1">
-<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-white/50 dark:hover:bg-slate-800/50 transition-all rounded-lg group" href="#">
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-white/50 dark:hover:bg-slate-800/50 transition-all rounded-lg group" href="../index.php">
 <span class="material-symbols-outlined group-hover:translate-x-1 duration-200">dashboard</span>
 <span>Dashboard</span>
 </a>
 <a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-white/50 dark:hover:bg-slate-800/50 transition-all rounded-lg group" href="#">
 <span class="material-symbols-outlined group-hover:translate-x-1 duration-200">account_tree</span>
-<span>Filières</span>
+<span>FiliÃ¨res</span>
 </a>
 <a class="flex items-center gap-3 px-3 py-2.5 bg-white dark:bg-slate-800 text-blue-700 dark:text-blue-300 shadow-sm rounded-lg group" href="#">
 <span class="material-symbols-outlined group-hover:translate-x-1 duration-200">group</span>
-<span>Étudiants</span>
+<span>Ã‰tudiants</span>
 </a>
-<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-white/50 dark:hover:bg-slate-800/50 transition-all rounded-lg group" href="#">
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-white/50 dark:hover:bg-slate-800/50 transition-all rounded-lg group" href="saisie_notes_par_ec_backend.php">
 <span class="material-symbols-outlined group-hover:translate-x-1 duration-200">edit_note</span>
 <span>Notes</span>
 </a>
 <a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-white/50 dark:hover:bg-slate-800/50 transition-all rounded-lg group" href="#">
 <span class="material-symbols-outlined group-hover:translate-x-1 duration-200">settings</span>
-<span>Paramètres</span>
+<span>ParamÃ¨tres</span>
 </a>
 </nav>
 <div class="pt-4 mt-auto border-t border-slate-200 dark:border-slate-800">
 <button class="flex items-center gap-3 px-3 py-2.5 w-full text-slate-600 dark:text-slate-400 hover:text-error transition-all rounded-lg group">
 <span class="material-symbols-outlined group-hover:translate-x-1 duration-200">logout</span>
-<span>Déconnexion</span>
+<span>DÃ©connexion</span>
 </button>
 </div>
 </aside>
@@ -229,10 +159,10 @@ $infoPagination = count($students) === 0
 <nav class="flex text-xs font-medium text-slate-500 mb-2 gap-2 uppercase tracking-widest">
 <span>Gestion</span>
 <span class="material-symbols-outlined text-[10px]">chevron_right</span>
-<span class="text-primary font-bold">Étudiants</span>
+<span class="text-primary font-bold">Ã‰tudiants</span>
 </nav>
-<h1 class="text-4xl font-extrabold text-on-background tracking-tighter">Annuaire Étudiants</h1>
-<p class="text-on-surface-variant mt-2 max-w-xl">Consultez, gérez et exportez la liste complète des étudiants inscrits au titre de l'année académique 2023-2024.</p>
+<h1 class="text-4xl font-extrabold text-on-background tracking-tighter">Annuaire Ã‰tudiants</h1>
+<p class="text-on-surface-variant mt-2 max-w-xl">Consultez, gÃ©rez et exportez la liste complÃ¨te des Ã©tudiants inscrits au titre de l'annÃ©e acadÃ©mique 2023-2024.</p>
 </div>
 <div class="flex gap-3">
 <button class="flex items-center gap-2 px-5 py-2.5 rounded-md border border-outline-variant/40 bg-white text-on-surface font-semibold text-sm hover:bg-surface-container transition-all">
@@ -241,7 +171,7 @@ $infoPagination = count($students) === 0
                     </button>
 <button class="flex items-center gap-2 px-6 py-2.5 rounded-md bg-gradient-to-r from-primary to-primary-container text-white font-bold text-sm shadow-sm hover:opacity-90 active:scale-95 transition-all">
 <span class="material-symbols-outlined text-lg">add</span>
-                        Ajouter Étudiant
+                        Ajouter Ã‰tudiant
                     </button>
 </div>
 </div>
@@ -260,7 +190,7 @@ $infoPagination = count($students) === 0
 <p class="text-3xl font-bold text-error"><?= number_format($suspendus, 0, ',', ' ') ?></p>
 </div>
 <div class="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/10">
-<p class="text-xs text-on-surface-variant font-medium uppercase tracking-wider mb-1">Nouveaux</p>
+<p class="text-xs text-on-surface-variant font-medium uppercase tracking-wider mb-1">Diplômés</p>
 <p class="text-3xl font-bold text-tertiary"><?= number_format($nouveaux, 0, ',', ' ') ?></p>
 </div>
 </div>
@@ -269,20 +199,20 @@ $infoPagination = count($students) === 0
 <form method="get">
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 <div class="space-y-1.5">
-<label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest px-1">Département</label>
+<label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest px-1">DÃ©partement</label>
 <select name="departement" class="w-full bg-white border-none rounded-md text-sm py-2.5 focus:ring-2 focus:ring-primary shadow-sm text-on-surface">
-<option value="Tous les départements"<?= $filters['departement'] === 'Tous les départements' ? ' selected' : '' ?>>Tous les départements</option>
+<option value="Tous les dÃ©partements"<?= $filters['departement'] === 'Tous les dÃ©partements' ? ' selected' : '' ?>>Tous les dÃ©partements</option>
 <?php foreach ($departements as $dept): ?>
 <option value="<?= htmlspecialchars($dept) ?>"<?= $filters['departement'] === $dept ? ' selected' : '' ?>><?= htmlspecialchars($dept) ?></option>
 <?php endforeach; ?>
 </select>
 </div>
 <div class="space-y-1.5">
-<label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest px-1">Filière</label>
+<label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest px-1">FiliÃ¨re</label>
 <select name="filiere" class="w-full bg-white border-none rounded-md text-sm py-2.5 focus:ring-2 focus:ring-primary shadow-sm text-on-surface">
-<option value="Toutes les filières"<?= $filters['filiere'] === 'Toutes les filières' ? ' selected' : '' ?>>Toutes les filières</option>
+<option value="0" <?php echo ($id_filiere == 0) ? 'selected' : ''; ?>>Toutes les filières</option>
 <?php foreach ($filieres as $fil): ?>
-<option value="<?= htmlspecialchars($fil) ?>"<?= $filters['filiere'] === $fil ? ' selected' : '' ?>><?= htmlspecialchars($fil) ?></option>
+<option value="<?php echo $fil['id_filiere']; ?>" <?php echo ($id_filiere == $fil['id_filiere']) ? 'selected' : ''; ?>><?php echo htmlspecialchars($fil['nom_filiere']); ?></option>
 <?php endforeach; ?>
 </select>
 </div>
@@ -302,9 +232,9 @@ $infoPagination = count($students) === 0
 <table class="w-full text-left border-collapse">
 <thead>
 <tr class="bg-surface-container-low/50">
-<th class="px-6 py-4 text-[11px] font-bold text-on-surface-variant uppercase tracking-widest">Étudiant</th>
+<th class="px-6 py-4 text-[11px] font-bold text-on-surface-variant uppercase tracking-widest">Ã‰tudiant</th>
 <th class="px-6 py-4 text-[11px] font-bold text-on-surface-variant uppercase tracking-widest">Matricule</th>
-<th class="px-6 py-4 text-[11px] font-bold text-on-surface-variant uppercase tracking-widest">Nom &amp; Prénom</th>
+<th class="px-6 py-4 text-[11px] font-bold text-on-surface-variant uppercase tracking-widest">Nom &amp; PrÃ©nom</th>
 <th class="px-6 py-4 text-[11px] font-bold text-on-surface-variant uppercase tracking-widest">Date de Naissance</th>
 <th class="px-6 py-4 text-[11px] font-bold text-on-surface-variant uppercase tracking-widest">Statut</th>
 <th class="px-6 py-4 text-[11px] font-bold text-on-surface-variant uppercase tracking-widest text-right">Actions</th>
@@ -314,24 +244,24 @@ $infoPagination = count($students) === 0
 <?php if (is_array($students) && count($students) > 0): ?>
     <?php foreach ($students as $student): ?>
     <?php
-        // En cas de champ absent, on définit des valeurs par défaut
+        // En cas de champ absent, on dÃ©finit des valeurs par dÃ©faut
         $student['statut'] = $student['statut'] ?? 'Inscrit';
         $statusClass = strtolower($student['statut']) === 'suspendu'
             ? 'bg-tertiary-container text-on-tertiary-container'
             : 'bg-secondary-container text-on-secondary-container';
 
-        // Photo par défaut si aucune URL fournie
+        // Photo par dÃ©faut si aucune URL fournie
         $photo = $student['photo'] ?? 'https://via.placeholder.com/40?text=U';
 
-        // Les noms de champs date peuvent être différents selon la table
-        $naissance = $student['date_naissance'] ?? $student['naissance'] ?? 'Non renseigné';
+        // Les noms de champs date peuvent Ãªtre diffÃ©rents selon la table
+        $naissance = $student['date_naissance'] ?? $student['naissance'] ?? 'Non renseignÃ©';
     ?>
 
-    <!-- Ligne étudiant (boucle) -->
+    <!-- Ligne Ã©tudiant (boucle) -->
     <tr class="hover:bg-surface-container-low transition-colors group">
         <td class="px-6 py-4">
             <!-- image -->
-            <img alt="Avatar étudiant"
+            <img alt="Avatar Ã©tudiant"
                  class="w-10 h-10 rounded-full border border-outline-variant/20 object-cover<?= strtolower($student['statut']) === 'suspendu' ? ' opacity-60' : '' ?>"
                  src="<?= htmlspecialchars($photo) ?>"/>
         </td>
@@ -357,7 +287,7 @@ $infoPagination = count($students) === 0
 <?php else: ?>
     <tr>
         <td colspan="6" class="px-6 py-8 text-center text-on-surface-variant">
-            <p class="text-sm">Aucun étudiant trouvé correspondant à vos critères.</p>
+            <p class="text-sm">Aucun Ã©tudiant trouvÃ© correspondant Ã  vos critÃ¨res.</p>
         </td>
     </tr>
 <?php endif; ?>
