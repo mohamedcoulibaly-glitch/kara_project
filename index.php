@@ -24,9 +24,17 @@ $query = "SELECT
           LEFT JOIN filiere f ON e.id_filiere = f.id_filiere
           LEFT JOIN note n ON e.id_etudiant = n.id_etudiant";
 
-$stmt = $db->prepare($query);
-$stmt->execute();
-$stats = $stmt->get_result()->fetch_assoc();
+$stats = safeQuerySingle($query);
+if (!$stats) {
+    $stats = [
+        'total_etudiants' => 0,
+        'total_filieres' => 0,
+        'total_notes' => 0,
+        'moyenne_generale' => 0,
+        'etudiants_actifs' => 0,
+        'etudiants_diplomes' => 0
+    ];
+}
 
 // Récupérer les étudiants récemment inscrits
 $query = "SELECT e.*, f.nom_filiere 
@@ -35,9 +43,10 @@ $query = "SELECT e.*, f.nom_filiere
           ORDER BY e.date_inscription DESC
           LIMIT 10";
 
-$stmt = $db->prepare($query);
-$stmt->execute();
-$etudiants_recents = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+$etudiants_recents = safeQuery($query);
+if (!$etudiants_recents) {
+    $etudiants_recents = [];
+}
 
 ?>
 <!DOCTYPE html>
