@@ -1,8 +1,8 @@
-<?php
+﻿<?php
 // gestion_filieres_ue.php
-// Ce fichier gère l'affichage et l'association des filières avec les unités d'enseignement
+// Ce fichier gÃ¨re l'affichage et l'association des filiÃ¨res avec les unitÃ©s d'enseignement
 
-// Configuration de la base de données
+// Configuration de la base de donnÃ©es
 $host = 'localhost';
 $dbname = 'gestion_notes';
 $username = 'root';
@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $ue_selectionnees = isset($_POST['ue_selectionnees']) ? $_POST['ue_selectionnees'] : [];
     
     try {
-        // Supprimer les associations existantes pour cette filière et ce semestre
+        // Supprimer les associations existantes pour cette filiÃ¨re et ce semestre
         $sql = "DELETE FROM programme WHERE id_filiere = :id_filiere AND semestre = :semestre";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([
@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
             ':semestre' => $semestre
         ]);
         
-        // Insérer les nouvelles associations
+        // InsÃ©rer les nouvelles associations
         $sql = "INSERT INTO programme (id_filiere, id_ue, semestre) VALUES (:id_filiere, :id_ue, :semestre)";
         $stmt = $pdo->prepare($sql);
         
@@ -46,13 +46,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
             ]);
         }
         
-        $message_success = "Programme enregistré avec succès !";
+        $message_success = "Programme enregistrÃ© avec succÃ¨s !";
     } catch(PDOException $e) {
         $message_error = "Erreur lors de l'enregistrement : " . $e->getMessage();
     }
 }
 
-// Récupération des filières avec leurs départements
+// RÃ©cupÃ©ration des filiÃ¨res avec leurs dÃ©partements
 $sql = "SELECT f.id_filiere, f.nom_filiere, d.nom_dept 
         FROM filiere f 
         LEFT JOIN departement d ON f.id_dept = d.id_dept 
@@ -61,13 +61,13 @@ $stmt = $pdo->prepare($sql);
 $stmt->execute();
 $filieres = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Récupération des unités d'enseignement disponibles
+// RÃ©cupÃ©ration des unitÃ©s d'enseignement disponibles
 $sql = "SELECT id_ue, code_ue, libelle_ue, credits_ects FROM ue ORDER BY code_ue";
 $stmt = $pdo->prepare($sql);
 $stmt->execute();
 $ues = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Si une filière est sélectionnée, récupérer les UE déjà associées pour chaque semestre
+// Si une filiÃ¨re est sÃ©lectionnÃ©e, rÃ©cupÃ©rer les UE dÃ©jÃ  associÃ©es pour chaque semestre
 $ue_associees_par_semestre = [];
 if ($filiere_selectionnee) {
     $sql = "SELECT id_ue, semestre FROM programme WHERE id_filiere = :id_filiere";
@@ -80,7 +80,7 @@ if ($filiere_selectionnee) {
     }
 }
 
-// Récupération des UE associées au semestre sélectionné pour la visualisation
+// RÃ©cupÃ©ration des UE associÃ©es au semestre sÃ©lectionnÃ© pour la visualisation
 $programme_visualisation = [];
 if ($filiere_selectionnee) {
     $sql = "SELECT ue.id_ue, ue.code_ue, ue.libelle_ue, ue.credits_ects, p.semestre 
@@ -205,30 +205,30 @@ foreach ($programme_visualisation as $item) {
 <div class="mb-8 px-2">
 <h1 class="text-lg font-bold tracking-tight text-[#1A56DB] flex items-center gap-2">
 <span class="material-symbols-outlined" data-icon="account_balance">account_balance</span>
-                Portail Académique
+                Portail AcadÃ©mique
             </h1>
 <p class="text-xs text-slate-500 font-medium mt-1">Gestion LMD - Administration</p>
 </div>
 <nav class="flex-1 space-y-1">
 <a class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:text-[#1A56DB] hover:bg-[#f2f4f6] transition-colors duration-200 font-medium text-sm rounded-lg" href="#">
 <span class="material-symbols-outlined" data-icon="domain">domain</span>
-                Départements
+                DÃ©partements
             </a>
 <a class="flex items-center gap-3 px-3 py-2 bg-white text-[#1A56DB] font-semibold shadow-sm transition-transform active:scale-[0.98] text-sm rounded-lg" href="#">
 <span class="material-symbols-outlined" data-icon="account_tree">account_tree</span>
-                Filières
+                FiliÃ¨res
             </a>
 <a class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:text-[#1A56DB] hover:bg-[#f2f4f6] transition-colors duration-200 font-medium text-sm rounded-lg" href="#">
 <span class="material-symbols-outlined" data-icon="library_books">library_books</span>
-                Unités d'Enseignement
+                UnitÃ©s d'Enseignement
             </a>
 <a class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:text-[#1A56DB] hover:bg-[#f2f4f6] transition-colors duration-200 font-medium text-sm rounded-lg" href="#">
 <span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
-                Éléments Constitutifs
+                Ã‰lÃ©ments Constitutifs
             </a>
 <a class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:text-[#1A56DB] hover:bg-[#f2f4f6] transition-colors duration-200 font-medium text-sm rounded-lg" href="#">
 <span class="material-symbols-outlined" data-icon="group">group</span>
-                Étudiants
+                Ã‰tudiants
             </a>
 </nav>
 <button class="mt-4 w-full bg-[#1A56DB] text-white py-2.5 rounded-lg font-semibold text-sm shadow-md hover:bg-[#003fb1] transition-all flex items-center justify-center gap-2">
@@ -238,23 +238,23 @@ foreach ($programme_visualisation as $item) {
 <div class="mt-auto pt-4 border-t border-[#f2f4f6] space-y-1">
 <a class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:text-[#1A56DB] hover:bg-[#f2f4f6] text-sm rounded-lg" href="#">
 <span class="material-symbols-outlined" data-icon="settings">settings</span>
-                Paramètres
+                ParamÃ¨tres
             </a>
 <a class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:text-[#1A56DB] hover:bg-[#f2f4f6] text-sm rounded-lg" href="#">
 <span class="material-symbols-outlined" data-icon="logout">logout</span>
-                Déconnexion
+                DÃ©connexion
             </a>
 </div>
 </aside>
 <!-- TopAppBar Anchor -->
 <header class="fixed top-0 right-0 w-[calc(100%-16rem)] z-40 bg-white/80 backdrop-blur-md flex items-center justify-between px-8 h-16 border-b border-[#f2f4f6]/50 shadow-sm">
-<h2 class="text-xl font-black text-[#1A56DB] tracking-tight">Système de Gestion Académique</h2>
+<h2 class="text-xl font-black text-[#1A56DB] tracking-tight">SystÃ¨me de Gestion AcadÃ©mique</h2>
 <div class="flex items-center gap-6">
 <div class="relative group">
 <span class="absolute inset-y-0 left-3 flex items-center text-slate-400">
 <span class="material-symbols-outlined text-lg" data-icon="search">search</span>
 </span>
-<input class="pl-10 pr-4 py-1.5 bg-surface-container-low border-none rounded-full text-sm w-64 focus:ring-2 focus:ring-[#1A56DB]/20 transition-all" placeholder="Rechercher une filière..." type="text"/>
+<input class="pl-10 pr-4 py-1.5 bg-surface-container-low border-none rounded-full text-sm w-64 focus:ring-2 focus:ring-[#1A56DB]/20 transition-all" placeholder="Rechercher une filiÃ¨re..." type="text"/>
 </div>
 <div class="flex items-center gap-4 text-slate-500">
 <button class="hover:bg-slate-50 p-1.5 rounded-full transition-colors active:opacity-80">
@@ -276,8 +276,8 @@ foreach ($programme_visualisation as $item) {
 <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
 <div>
 <span class="text-xs font-bold text-primary tracking-widest uppercase mb-1 block">Programme de liaison</span>
-<h3 class="text-3xl font-extrabold text-on-surface tracking-tight">Association Filière &amp; Unités d'Enseignement</h3>
-<p class="text-slate-500 mt-1 max-w-2xl">Configurez le cursus académique en associant les UE aux filières correspondantes par semestre.</p>
+<h3 class="text-3xl font-extrabold text-on-surface tracking-tight">Association FiliÃ¨re &amp; UnitÃ©s d'Enseignement</h3>
+<p class="text-slate-500 mt-1 max-w-2xl">Configurez le cursus acadÃ©mique en associant les UE aux filiÃ¨res correspondantes par semestre.</p>
 </div>
 <div class="flex items-center gap-2">
 <button class="px-5 py-2.5 bg-white border border-outline-variant/30 text-slate-700 font-semibold text-sm rounded-md shadow-sm hover:bg-slate-50 transition-all">
@@ -291,39 +291,39 @@ foreach ($programme_visualisation as $item) {
 </div>
 <!-- Main Interactive Area: Asymmetric Layout -->
 <div class="grid grid-cols-12 gap-8">
-<!-- Left Column: Selection Focus (Filière & Semestre) -->
+<!-- Left Column: Selection Focus (FiliÃ¨re & Semestre) -->
 <div class="col-span-12 lg:col-span-4 space-y-6">
-<!-- Filière Selection Card -->
+<!-- FiliÃ¨re Selection Card -->
 <div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant/10">
-<label class="block text-sm font-bold text-slate-800 mb-4">Sélectionner une Filière</label>
+<label class="block text-sm font-bold text-slate-800 mb-4">SÃ©lectionner une FiliÃ¨re</label>
 <div class="space-y-2 max-h-[400px] overflow-y-auto pr-2 hide-scrollbar">
 <div class="p-3 bg-primary-fixed-dim/20 border-2 border-primary rounded-lg cursor-pointer transition-all">
 <div class="flex items-center justify-between">
-<span class="font-bold text-primary text-sm">Génie Logiciel (GL)</span>
+<span class="font-bold text-primary text-sm">GÃ©nie Logiciel (GL)</span>
 <span class="material-symbols-outlined text-primary text-lg" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
 </div>
-<p class="text-xs text-on-primary-fixed-variant mt-1">Département d'Informatique</p>
+<p class="text-xs text-on-primary-fixed-variant mt-1">DÃ©partement d'Informatique</p>
 </div>
 <div class="p-3 bg-surface hover:bg-surface-container-low rounded-lg cursor-pointer transition-all border border-transparent">
 <div class="flex items-center justify-between">
-<span class="font-semibold text-slate-700 text-sm">Réseaux &amp; Télécoms</span>
+<span class="font-semibold text-slate-700 text-sm">RÃ©seaux &amp; TÃ©lÃ©coms</span>
 <span class="text-slate-300 text-xs">RT</span>
 </div>
-<p class="text-xs text-slate-400 mt-1">Département d'Informatique</p>
+<p class="text-xs text-slate-400 mt-1">DÃ©partement d'Informatique</p>
 </div>
 <div class="p-3 bg-surface hover:bg-surface-container-low rounded-lg cursor-pointer transition-all border border-transparent">
 <div class="flex items-center justify-between">
 <span class="font-semibold text-slate-700 text-sm">Banque &amp; Finance</span>
 <span class="text-slate-300 text-xs">BF</span>
 </div>
-<p class="text-xs text-slate-400 mt-1">Département de Gestion</p>
+<p class="text-xs text-slate-400 mt-1">DÃ©partement de Gestion</p>
 </div>
 <div class="p-3 bg-surface hover:bg-surface-container-low rounded-lg cursor-pointer transition-all border border-transparent">
 <div class="flex items-center justify-between">
-<span class="font-semibold text-slate-700 text-sm">Comptabilité &amp; Audit</span>
+<span class="font-semibold text-slate-700 text-sm">ComptabilitÃ© &amp; Audit</span>
 <span class="text-slate-300 text-xs">CA</span>
 </div>
-<p class="text-xs text-slate-400 mt-1">Département de Gestion</p>
+<p class="text-xs text-slate-400 mt-1">DÃ©partement de Gestion</p>
 </div>
 </div>
 </div>
@@ -345,12 +345,12 @@ foreach ($programme_visualisation as $item) {
 <div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm border border-outline-variant/10">
 <div class="flex items-center justify-between mb-8">
 <div>
-<h4 class="text-lg font-bold text-slate-900">Unités d'Enseignement Disponibles</h4>
-<p class="text-sm text-slate-500">Cochez les UE à inclure pour le semestre S1 en Génie Logiciel.</p>
+<h4 class="text-lg font-bold text-slate-900">UnitÃ©s d'Enseignement Disponibles</h4>
+<p class="text-sm text-slate-500">Cochez les UE Ã  inclure pour le semestre S1 en GÃ©nie Logiciel.</p>
 </div>
 <div class="flex items-center gap-3">
 <span class="text-xs font-bold text-slate-400 px-3 py-1 bg-surface-container rounded-full">12 UE Total</span>
-<span class="text-xs font-bold text-primary px-3 py-1 bg-primary-container/20 rounded-full">4 UE Sélectionnées</span>
+<span class="text-xs font-bold text-primary px-3 py-1 bg-primary-container/20 rounded-full">4 UE SÃ©lectionnÃ©es</span>
 </div>
 </div>
 <!-- Search & Filter Bar for UE -->
@@ -359,10 +359,10 @@ foreach ($programme_visualisation as $item) {
 <span class="absolute inset-y-0 left-3 flex items-center text-slate-400">
 <span class="material-symbols-outlined text-sm" data-icon="filter_list">filter_list</span>
 </span>
-<input class="w-full pl-9 pr-4 py-2 bg-surface border-transparent rounded-md text-sm focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" placeholder="Filtrer par code ou intitulé..." type="text"/>
+<input class="w-full pl-9 pr-4 py-2 bg-surface border-transparent rounded-md text-sm focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" placeholder="Filtrer par code ou intitulÃ©..." type="text"/>
 </div>
 <select class="bg-surface border-transparent rounded-md text-sm px-4 py-2 text-slate-600 focus:ring-0">
-<option>Toutes les catégories</option>
+<option>Toutes les catÃ©gories</option>
 <option>Fondamentale</option>
 <option>Transversale</option>
 <option>Optionnelle</option>
@@ -379,11 +379,11 @@ foreach ($programme_visualisation as $item) {
 </div>
 <div class="flex-1">
 <div class="flex justify-between items-start">
-<span class="text-[10px] font-black uppercase text-primary-container tracking-tighter">INF101 • 6 Crédits</span>
+<span class="text-[10px] font-black uppercase text-primary-container tracking-tighter">INF101 â€¢ 6 CrÃ©dits</span>
 <span class="bg-secondary-container text-on-secondary-container text-[9px] px-2 py-0.5 rounded-full font-bold">VALIDE</span>
 </div>
-<h5 class="text-sm font-bold text-slate-800 mt-1">Algorithmique et Structures de Données</h5>
-<p class="text-xs text-slate-500 mt-1">Introduction aux structures linéaires et arbres.</p>
+<h5 class="text-sm font-bold text-slate-800 mt-1">Algorithmique et Structures de DonnÃ©es</h5>
+<p class="text-xs text-slate-500 mt-1">Introduction aux structures linÃ©aires et arbres.</p>
 </div>
 </div>
 <!-- UE Card Selected -->
@@ -395,11 +395,11 @@ foreach ($programme_visualisation as $item) {
 </div>
 <div class="flex-1">
 <div class="flex justify-between items-start">
-<span class="text-[10px] font-black uppercase text-primary-container tracking-tighter">INF102 • 4 Crédits</span>
+<span class="text-[10px] font-black uppercase text-primary-container tracking-tighter">INF102 â€¢ 4 CrÃ©dits</span>
 <span class="bg-secondary-container text-on-secondary-container text-[9px] px-2 py-0.5 rounded-full font-bold">VALIDE</span>
 </div>
 <h5 class="text-sm font-bold text-slate-800 mt-1">Architecture des Ordinateurs</h5>
-<p class="text-xs text-slate-500 mt-1">Logique booléenne et organisation CPU.</p>
+<p class="text-xs text-slate-500 mt-1">Logique boolÃ©enne et organisation CPU.</p>
 </div>
 </div>
 <!-- UE Card Default -->
@@ -409,10 +409,10 @@ foreach ($programme_visualisation as $item) {
 </div>
 <div class="flex-1">
 <div class="flex justify-between items-start">
-<span class="text-[10px] font-black uppercase text-slate-400 tracking-tighter">MAT101 • 5 Crédits</span>
+<span class="text-[10px] font-black uppercase text-slate-400 tracking-tighter">MAT101 â€¢ 5 CrÃ©dits</span>
 </div>
-<h5 class="text-sm font-bold text-slate-700 mt-1">Analyse Mathématique I</h5>
-<p class="text-xs text-slate-400 mt-1">Fonctions réelles et calcul intégral.</p>
+<h5 class="text-sm font-bold text-slate-700 mt-1">Analyse MathÃ©matique I</h5>
+<p class="text-xs text-slate-400 mt-1">Fonctions rÃ©elles et calcul intÃ©gral.</p>
 </div>
 </div>
 <!-- UE Card Default -->
@@ -422,7 +422,7 @@ foreach ($programme_visualisation as $item) {
 </div>
 <div class="flex-1">
 <div class="flex justify-between items-start">
-<span class="text-[10px] font-black uppercase text-slate-400 tracking-tighter">ANG101 • 2 Crédits</span>
+<span class="text-[10px] font-black uppercase text-slate-400 tracking-tighter">ANG101 â€¢ 2 CrÃ©dits</span>
 </div>
 <h5 class="text-sm font-bold text-slate-700 mt-1">Anglais Technique I</h5>
 <p class="text-xs text-slate-400 mt-1">Vocabulaire informatique et communication.</p>
@@ -437,11 +437,11 @@ foreach ($programme_visualisation as $item) {
 </div>
 <div class="flex-1">
 <div class="flex justify-between items-start">
-<span class="text-[10px] font-black uppercase text-primary-container tracking-tighter">INF103 • 6 Crédits</span>
+<span class="text-[10px] font-black uppercase text-primary-container tracking-tighter">INF103 â€¢ 6 CrÃ©dits</span>
 <span class="bg-secondary-container text-on-secondary-container text-[9px] px-2 py-0.5 rounded-full font-bold">VALIDE</span>
 </div>
-<h5 class="text-sm font-bold text-slate-800 mt-1">Systèmes d'Exploitation I</h5>
-<p class="text-xs text-slate-500 mt-1">Gestion des processus et mémoire vive.</p>
+<h5 class="text-sm font-bold text-slate-800 mt-1">SystÃ¨mes d'Exploitation I</h5>
+<p class="text-xs text-slate-500 mt-1">Gestion des processus et mÃ©moire vive.</p>
 </div>
 </div>
 <!-- UE Card Selected -->
@@ -453,11 +453,11 @@ foreach ($programme_visualisation as $item) {
 </div>
 <div class="flex-1">
 <div class="flex justify-between items-start">
-<span class="text-[10px] font-black uppercase text-primary-container tracking-tighter">INF104 • 3 Crédits</span>
+<span class="text-[10px] font-black uppercase text-primary-container tracking-tighter">INF104 â€¢ 3 CrÃ©dits</span>
 <span class="bg-secondary-container text-on-secondary-container text-[9px] px-2 py-0.5 rounded-full font-bold">VALIDE</span>
 </div>
-<h5 class="text-sm font-bold text-slate-800 mt-1">Outils Bureautiques Avancés</h5>
-<p class="text-xs text-slate-500 mt-1">Maîtrise de LaTeX et scripts automatisés.</p>
+<h5 class="text-sm font-bold text-slate-800 mt-1">Outils Bureautiques AvancÃ©s</h5>
+<p class="text-xs text-slate-500 mt-1">MaÃ®trise de LaTeX et scripts automatisÃ©s.</p>
 </div>
 </div>
 <!-- UE Card Default -->
@@ -467,10 +467,10 @@ foreach ($programme_visualisation as $item) {
 </div>
 <div class="flex-1">
 <div class="flex justify-between items-start">
-<span class="text-[10px] font-black uppercase text-slate-400 tracking-tighter">DRO101 • 3 Crédits</span>
+<span class="text-[10px] font-black uppercase text-slate-400 tracking-tighter">DRO101 â€¢ 3 CrÃ©dits</span>
 </div>
-<h5 class="text-sm font-bold text-slate-700 mt-1">Droit du Numérique</h5>
-<p class="text-xs text-slate-400 mt-1">RGPD et propriété intellectuelle.</p>
+<h5 class="text-sm font-bold text-slate-700 mt-1">Droit du NumÃ©rique</h5>
+<p class="text-xs text-slate-400 mt-1">RGPD et propriÃ©tÃ© intellectuelle.</p>
 </div>
 </div>
 <!-- UE Card Default -->
@@ -480,9 +480,9 @@ foreach ($programme_visualisation as $item) {
 </div>
 <div class="flex-1">
 <div class="flex justify-between items-start">
-<span class="text-[10px] font-black uppercase text-slate-400 tracking-tighter">PHY101 • 4 Crédits</span>
+<span class="text-[10px] font-black uppercase text-slate-400 tracking-tighter">PHY101 â€¢ 4 CrÃ©dits</span>
 </div>
-<h5 class="text-sm font-bold text-slate-700 mt-1">Électronique Fondamentale</h5>
+<h5 class="text-sm font-bold text-slate-700 mt-1">Ã‰lectronique Fondamentale</h5>
 <p class="text-xs text-slate-400 mt-1">Circuits passifs et semi-conducteurs.</p>
 </div>
 </div>
@@ -491,7 +491,7 @@ foreach ($programme_visualisation as $item) {
 <div class="mt-12 p-4 bg-surface-container-low rounded-lg flex items-center justify-between border-l-4 border-primary">
 <div class="flex items-center gap-6">
 <div>
-<p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Crédits Totaux</p>
+<p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">CrÃ©dits Totaux</p>
 <p class="text-xl font-black text-primary">19 / 30</p>
 </div>
 <div class="h-10 w-px bg-outline-variant/30"></div>
@@ -517,7 +517,7 @@ foreach ($programme_visualisation as $item) {
 <section class="bg-surface-container p-8 rounded-xl">
 <div class="flex items-center gap-3 mb-6">
 <span class="material-symbols-outlined text-secondary" data-icon="auto_awesome">auto_awesome</span>
-<h4 class="text-lg font-bold text-on-surface">Visualisation de la Maquette Académique</h4>
+<h4 class="text-lg font-bold text-on-surface">Visualisation de la Maquette AcadÃ©mique</h4>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 <div class="bg-white p-5 rounded-lg border border-outline-variant/20">
@@ -528,7 +528,7 @@ foreach ($programme_visualisation as $item) {
 <ul class="space-y-2">
 <li class="text-xs text-slate-600 flex justify-between"><span>INF101 Algorithmique</span> <span class="font-bold">6</span></li>
 <li class="text-xs text-slate-600 flex justify-between"><span>INF102 Architecture</span> <span class="font-bold">4</span></li>
-<li class="text-xs text-slate-600 flex justify-between"><span>INF103 Systèmes d'Exploitation</span> <span class="font-bold">6</span></li>
+<li class="text-xs text-slate-600 flex justify-between"><span>INF103 SystÃ¨mes d'Exploitation</span> <span class="font-bold">6</span></li>
 </ul>
 </div>
 <div class="bg-white/50 p-5 rounded-lg border border-dashed border-outline-variant">
@@ -536,7 +536,7 @@ foreach ($programme_visualisation as $item) {
 <span class="material-symbols-outlined text-xs text-slate-300" data-icon="circle">circle</span>
                             Semestre 2
                         </h5>
-<p class="text-center text-xs text-slate-400 py-4 italic">Aucune UE associée</p>
+<p class="text-center text-xs text-slate-400 py-4 italic">Aucune UE associÃ©e</p>
 </div>
 <div class="bg-white/50 p-5 rounded-lg border border-dashed border-outline-variant">
 <h5 class="text-sm font-bold text-slate-400 mb-3 flex items-center gap-2">
