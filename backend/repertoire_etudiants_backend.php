@@ -25,8 +25,11 @@ $tri = isset($_GET['tri']) ? clean($_GET['tri']) : 'nom';
 // Récupérer les filières pour le filtre
 $query = "SELECT * FROM filiere ORDER BY nom_filiere";
 $stmt = $db->prepare($query);
-$stmt->execute();
-$filieres = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+if ($stmt->execute()) {
+    $filieres = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+} else {
+    $filieres = [];
+}
 
 // Construire la requête principale
 $query = "SELECT e.*, f.nom_filiere, d.nom_dept 
@@ -65,10 +68,14 @@ $count_query = explode(" ORDER BY", $count_query)[0];
 
 $stmt = $db->prepare($count_query);
 $stmt->bind_param($types, ...$params);
-$stmt->execute();
-$count_result = $stmt->get_result()->fetch_assoc();
-$total_etudiants = $count_result['total'] ?? 0;
-$total_pages = ceil($total_etudiants / $limite);
+if ($stmt->execute()) {
+    $count_result = $stmt->get_result()->fetch_assoc();
+    $total_etudiants = $count_result['total'] ?? 0;
+    $total_pages = ceil($total_etudiants / $limite);
+} else {
+    $total_etudiants = 0;
+    $total_pages = 1;
+}
 
 // Ajouter la pagination
 $query .= " LIMIT ? OFFSET ?";
@@ -79,8 +86,11 @@ $types .= "ii";
 // Exécuter la requête
 $stmt = $db->prepare($query);
 $stmt->bind_param($types, ...$params);
-$stmt->execute();
-$etudiants = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+if ($stmt->execute()) {
+    $etudiants = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+} else {
+    $etudiants = [];
+}
 
 // Récupérer les statistiques globales
 $stats_query = "SELECT 
@@ -92,8 +102,17 @@ $stats_query = "SELECT
                 FROM etudiant";
 
 $stmt = $db->prepare($stats_query);
-$stmt->execute();
-$stats = $stmt->get_result()->fetch_assoc();
+if ($stmt === false) {
+    logError("Erreur préparation requête stats: " . $db->error);
+    $stats = ['total' => 0, 'actifs' => 0, 'diplomes' => 0, 'suspendus' => 0, 'nb_filieres' => 0];
+} else {
+    if ($stmt->execute()) {
+        $stats = $stmt->get_result()->fetch_assoc();
+    } else {
+        logError("Erreur exécution requête stats: " . $stmt->error);
+        $stats = ['total' => 0, 'actifs' => 0, 'diplomes' => 0, 'suspendus' => 0, 'nb_filieres' => 0];
+    }
+}
 
 // Traiter l'export CSV
 if (isset($_GET['export']) && $_GET['export'] === 'csv') {
