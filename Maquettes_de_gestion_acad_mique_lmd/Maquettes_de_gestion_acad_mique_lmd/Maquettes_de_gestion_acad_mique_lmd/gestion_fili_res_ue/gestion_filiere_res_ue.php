@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html class="light" lang="fr"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>LMD Académique - Gestion des UE &amp; EC</title>
+<title>LMD AcadÃ©mique - Gestion des UE &amp; EC</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
@@ -83,7 +83,7 @@
 <!-- TopAppBar -->
 <header class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-sm flex justify-between items-center px-6 h-16">
 <div class="flex items-center gap-4">
-<span class="text-xl font-bold tracking-tight text-blue-700 dark:text-blue-400">LMD Académique</span>
+<span class="text-xl font-bold tracking-tight text-blue-700 dark:text-blue-400">LMD AcadÃ©mique</span>
 <div class="hidden md:flex ml-8 items-center bg-surface-container-low px-3 py-1.5 rounded-md gap-2">
 <span class="material-symbols-outlined text-outline text-sm" data-icon="search">search</span>
 <input class="bg-transparent border-none text-sm focus:ring-0 w-64 placeholder:text-outline" placeholder="Rechercher une UE..." type="text"/>
@@ -100,17 +100,17 @@
 <div class="h-8 w-px bg-outline-variant/30 mx-2"></div>
 <div class="flex items-center gap-3 cursor-pointer group">
 <div class="text-right hidden sm:block">
-<p class="text-xs font-bold text-on-surface leading-none">Admin Académique</p>
-<p class="text-[10px] text-outline">Faculté des Sciences</p>
+<p class="text-xs font-bold text-on-surface leading-none">Admin AcadÃ©mique</p>
+<p class="text-[10px] text-outline">FacultÃ© des Sciences</p>
 </div>
-<img alt="Photo de profil de l'administrateur" class="w-8 h-8 rounded-full bg-surface-container" data-alt="Photo de profil de l'administrateur académique" src="https://lh3.googleusercontent.com/aida-public/AB6AXuChtxua30wsSV7PL-06fbcuM8xpPTUlrYUbwT-1iOljzs6UZCxVwELlu1oaxFySqrhR4148mNplvQxE35AdjEIk0OBoyXCt7Y3Fdi0Zb0eS41Z7W8OdtZnvesKIOnmZ51ZKluhIFn3q_wfaXXhwdAe-81HV-s_TnTdtDgUvnNjyIIanqPbh--zbtageqBUwwYiqY9ZP8PXN2BUZNQNvdwG9SEqpRv0pSDbCT_WFywqWudoh9MrtDMaJhP9Q2Hh-Y9T7xCltYCSvhp8"/>
+<img alt="Photo de profil de l'administrateur" class="w-8 h-8 rounded-full bg-surface-container" data-alt="Photo de profil de l'administrateur acadÃ©mique" src="https://lh3.googleusercontent.com/aida-public/AB6AXuChtxua30wsSV7PL-06fbcuM8xpPTUlrYUbwT-1iOljzs6UZCxVwELlu1oaxFySqrhR4148mNplvQxE35AdjEIk0OBoyXCt7Y3Fdi0Zb0eS41Z7W8OdtZnvesKIOnmZ51ZKluhIFn3q_wfaXXhwdAe-81HV-s_TnTdtDgUvnNjyIIanqPbh--zbtageqBUwwYiqY9ZP8PXN2BUZNQNvdwG9SEqpRv0pSDbCT_WFywqWudoh9MrtDMaJhP9Q2Hh-Y9T7xCltYCSvhp8"/>
 </div>
 </div>
 </header>
 <!-- SideNavBar -->
 <aside class="fixed left-0 top-0 h-full w-64 bg-slate-50 dark:bg-slate-950 flex flex-col py-6 px-4 gap-2 pt-20 border-r-0">
 <div class="mb-6 px-2">
-<h2 class="font-black text-blue-800 dark:text-blue-300 text-lg">Portail Académique</h2>
+<h2 class="font-black text-blue-800 dark:text-blue-300 text-lg">Portail AcadÃ©mique</h2>
 <p class="text-[10px] uppercase tracking-widest text-outline font-bold">Gestion LMD v2.0</p>
 </div>
 <nav class="flex-1 flex flex-col gap-1">
@@ -120,11 +120,11 @@
 </a>
 <a class="flex items-center gap-3 px-3 py-2 bg-white dark:bg-slate-800 text-blue-700 dark:text-blue-300 shadow-sm rounded-lg group" href="#">
 <span class="material-symbols-outlined text-[20px] group-hover:translate-x-1 duration-200" data-icon="account_tree">account_tree</span>
-<span class="text-sm font-semibold Inter">Filières</span>
+<span class="text-sm font-semibold Inter">FiliÃ¨res</span>
 </a>
 <a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-white/50 dark:hover:bg-slate-800/50 transition-all rounded-lg group" href="#">
 <span class="material-symbols-outlined text-[20px] group-hover:translate-x-1 duration-200" data-icon="group">group</span>
-<span class="text-sm font-medium Inter">Étudiants</span>
+<span class="text-sm font-medium Inter">Ã‰tudiants</span>
 </a>
 <a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-white/50 dark:hover:bg-slate-800/50 transition-all rounded-lg group" href="#">
 <span class="material-symbols-outlined text-[20px] group-hover:translate-x-1 duration-200" data-icon="edit_note">edit_note</span>
@@ -132,13 +132,13 @@
 </a>
 <a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-white/50 dark:hover:bg-slate-800/50 transition-all rounded-lg group" href="#">
 <span class="material-symbols-outlined text-[20px] group-hover:translate-x-1 duration-200" data-icon="settings">settings</span>
-<span class="text-sm font-medium Inter">Paramètres</span>
+<span class="text-sm font-medium Inter">ParamÃ¨tres</span>
 </a>
 </nav>
 <div class="mt-auto pt-4">
 <button class="w-full flex items-center gap-3 px-3 py-2 text-error hover:bg-error-container/20 transition-all rounded-lg group">
 <span class="material-symbols-outlined text-[20px] group-hover:translate-x-1 duration-200" data-icon="logout">logout</span>
-<span class="text-sm font-medium Inter">Déconnexion</span>
+<span class="text-sm font-medium Inter">DÃ©connexion</span>
 </button>
 </div>
 </aside>
@@ -152,17 +152,17 @@
 <span class="material-symbols-outlined text-sm" data-icon="school">school</span>
 <span class="text-xs font-bold tracking-widest uppercase">Parcours Licence</span>
 </div>
-<h1 class="text-3xl font-extrabold tracking-tight text-on-background">Licence Génie Logiciel</h1>
-<p class="text-on-surface-variant text-sm mt-1">Semestre 1 &amp; 2 • Session 2023-2024</p>
+<h1 class="text-3xl font-extrabold tracking-tight text-on-background">Licence GÃ©nie Logiciel</h1>
+<p class="text-on-surface-variant text-sm mt-1">Semestre 1 &amp; 2 â€¢ Session 2023-2024</p>
 </div>
 <div class="flex gap-3">
 <button class="flex items-center gap-2 px-4 py-2 bg-surface-container-low text-on-surface font-semibold text-sm rounded-md hover:bg-surface-container-high transition-colors">
 <span class="material-symbols-outlined text-sm" data-icon="filter_list">filter_list</span>
-                        Changer de Filière
+                        Changer de FiliÃ¨re
                     </button>
 <button class="flex items-center gap-2 px-5 py-2 bg-primary text-on-primary font-bold text-sm rounded-md shadow-sm hover:opacity-90 transition-opacity">
 <span class="material-symbols-outlined text-sm" data-icon="add">add</span>
-                        Nouvelle Unité (UE)
+                        Nouvelle UnitÃ© (UE)
                     </button>
 </div>
 </div>
@@ -173,7 +173,7 @@
 <p class="text-2xl font-black text-on-background">12</p>
 </div>
 <div class="bg-surface-container-lowest p-5 rounded-lg shadow-[0_12px_32px_rgba(25,28,30,0.04)] border-l-4 border-primary">
-<p class="text-xs font-bold text-outline uppercase mb-1">Crédits ECTS</p>
+<p class="text-xs font-bold text-outline uppercase mb-1">CrÃ©dits ECTS</p>
 <p class="text-2xl font-black text-primary">60.0</p>
 </div>
 <div class="bg-surface-container-lowest p-5 rounded-lg shadow-[0_12px_32px_rgba(25,28,30,0.04)]">
@@ -191,7 +191,7 @@
 <thead>
 <tr class="bg-surface-container-low border-none">
 <th class="px-6 py-4 text-[11px] font-black uppercase text-outline tracking-wider w-1/3">Structure de l'Enseignement (UE / EC)</th>
-<th class="px-6 py-4 text-[11px] font-black uppercase text-outline tracking-wider text-center">Crédits ECTS</th>
+<th class="px-6 py-4 text-[11px] font-black uppercase text-outline tracking-wider text-center">CrÃ©dits ECTS</th>
 <th class="px-6 py-4 text-[11px] font-black uppercase text-outline tracking-wider text-center">Coefficient / Volume</th>
 <th class="px-6 py-4 text-[11px] font-black uppercase text-outline tracking-wider text-right">Actions</th>
 </tr>
@@ -203,8 +203,8 @@
 <div class="flex items-center gap-3">
 <span class="material-symbols-outlined text-primary" data-icon="folder_open">folder_open</span>
 <div>
-<p class="text-sm font-extrabold text-on-background">INF101 — Algorithmique et Algèbre</p>
-<p class="text-[10px] font-bold text-outline uppercase">Unité Fondamentale • S1</p>
+<p class="text-sm font-extrabold text-on-background">INF101 â€” Algorithmique et AlgÃ¨bre</p>
+<p class="text-[10px] font-bold text-outline uppercase">UnitÃ© Fondamentale â€¢ S1</p>
 </div>
 </div>
 </td>
@@ -212,7 +212,7 @@
 <span class="bg-secondary-container text-on-secondary-container text-[10px] font-black px-2.5 py-1 rounded-full">6.0 ECTS</span>
 </td>
 <td class="px-6 py-4 text-center">
-<span class="text-xs font-medium text-on-surface-variant">Moyenne Pondérée</span>
+<span class="text-xs font-medium text-on-surface-variant">Moyenne PondÃ©rÃ©e</span>
 </td>
 <td class="px-6 py-4 text-right">
 <div class="flex justify-end gap-2">
@@ -230,34 +230,34 @@
 <td class="px-6 py-2 pl-16">
 <div class="flex items-center gap-3">
 <div class="w-1.5 h-1.5 rounded-full bg-outline-variant"></div>
-<p class="text-xs font-semibold text-on-surface">EC1 : Algèbre Linéaire</p>
+<p class="text-xs font-semibold text-on-surface">EC1 : AlgÃ¨bre LinÃ©aire</p>
 </div>
 </td>
 <td class="px-6 py-2 text-center">
-<p class="text-[11px] text-outline font-medium">—</p>
+<p class="text-[11px] text-outline font-medium">â€”</p>
 </td>
 <td class="px-6 py-2 text-center">
 <p class="text-xs font-bold text-on-surface-variant">Coeff 2.0 <span class="text-outline font-normal ml-1">/ 45h</span></p>
 </td>
 <td class="px-6 py-2 text-right opacity-0 group-hover:opacity-100">
-<button class="text-[10px] font-bold text-primary hover:underline uppercase tracking-tighter">Paramètres EC</button>
+<button class="text-[10px] font-bold text-primary hover:underline uppercase tracking-tighter">ParamÃ¨tres EC</button>
 </td>
 </tr>
 <tr class="bg-surface/50 border-b border-outline-variant/10">
 <td class="px-6 py-2 pl-16">
 <div class="flex items-center gap-3">
 <div class="w-1.5 h-1.5 rounded-full bg-outline-variant"></div>
-<p class="text-xs font-semibold text-on-surface">EC2 : Analyse Numérique</p>
+<p class="text-xs font-semibold text-on-surface">EC2 : Analyse NumÃ©rique</p>
 </div>
 </td>
 <td class="px-6 py-2 text-center">
-<p class="text-[11px] text-outline font-medium">—</p>
+<p class="text-[11px] text-outline font-medium">â€”</p>
 </td>
 <td class="px-6 py-2 text-center">
 <p class="text-xs font-bold text-on-surface-variant">Coeff 1.5 <span class="text-outline font-normal ml-1">/ 30h</span></p>
 </td>
 <td class="px-6 py-2 text-right opacity-0 group-hover:opacity-100">
-<button class="text-[10px] font-bold text-primary hover:underline uppercase tracking-tighter">Paramètres EC</button>
+<button class="text-[10px] font-bold text-primary hover:underline uppercase tracking-tighter">ParamÃ¨tres EC</button>
 </td>
 </tr>
 <!-- UE Item 2 -->
@@ -266,8 +266,8 @@
 <div class="flex items-center gap-3">
 <span class="material-symbols-outlined text-primary" data-icon="folder_open">folder_open</span>
 <div>
-<p class="text-sm font-extrabold text-on-background">INF102 — Programmation C++</p>
-<p class="text-[10px] font-bold text-outline uppercase">Unité Technique • S1</p>
+<p class="text-sm font-extrabold text-on-background">INF102 â€” Programmation C++</p>
+<p class="text-[10px] font-bold text-outline uppercase">UnitÃ© Technique â€¢ S1</p>
 </div>
 </div>
 </td>
@@ -297,13 +297,13 @@
 </div>
 </td>
 <td class="px-6 py-2 text-center">
-<p class="text-[11px] text-outline font-medium">—</p>
+<p class="text-[11px] text-outline font-medium">â€”</p>
 </td>
 <td class="px-6 py-2 text-center">
 <p class="text-xs font-bold text-on-surface-variant">Coeff 3.0 <span class="text-outline font-normal ml-1">/ 60h</span></p>
 </td>
 <td class="px-6 py-2 text-right opacity-0 group-hover:opacity-100">
-<button class="text-[10px] font-bold text-primary hover:underline uppercase tracking-tighter">Paramètres EC</button>
+<button class="text-[10px] font-bold text-primary hover:underline uppercase tracking-tighter">ParamÃ¨tres EC</button>
 </td>
 </tr>
 <!-- UE Item 3 -->
@@ -312,8 +312,8 @@
 <div class="flex items-center gap-3">
 <span class="material-symbols-outlined text-primary" data-icon="folder_open">folder_open</span>
 <div>
-<p class="text-sm font-extrabold text-on-background">ANG101 — Anglais Technique</p>
-<p class="text-[10px] font-bold text-outline uppercase">Unité Transversale • S1</p>
+<p class="text-sm font-extrabold text-on-background">ANG101 â€” Anglais Technique</p>
+<p class="text-[10px] font-bold text-outline uppercase">UnitÃ© Transversale â€¢ S1</p>
 </div>
 </div>
 </td>
@@ -321,7 +321,7 @@
 <span class="bg-secondary-container text-on-secondary-container text-[10px] font-black px-2.5 py-1 rounded-full">2.0 ECTS</span>
 </td>
 <td class="px-6 py-4 text-center">
-<span class="text-xs font-medium text-on-surface-variant">Contrôle Continu</span>
+<span class="text-xs font-medium text-on-surface-variant">ContrÃ´le Continu</span>
 </td>
 <td class="px-6 py-4 text-right">
 <div class="flex justify-end gap-2">
@@ -340,8 +340,8 @@
 <div class="flex items-center gap-3">
 <span class="material-symbols-outlined text-primary" data-icon="folder_open">folder_open</span>
 <div>
-<p class="text-sm font-extrabold text-on-background">INF201 — Bases de Données</p>
-<p class="text-[10px] font-bold text-outline uppercase">Unité Fondamentale • S2</p>
+<p class="text-sm font-extrabold text-on-background">INF201 â€” Bases de DonnÃ©es</p>
+<p class="text-[10px] font-bold text-outline uppercase">UnitÃ© Fondamentale â€¢ S2</p>
 </div>
 </div>
 </td>
@@ -349,7 +349,7 @@
 <span class="bg-secondary-container text-on-secondary-container text-[10px] font-black px-2.5 py-1 rounded-full">5.0 ECTS</span>
 </td>
 <td class="px-6 py-4 text-center">
-<span class="text-xs font-medium text-on-surface-variant">Moyenne Pondérée</span>
+<span class="text-xs font-medium text-on-surface-variant">Moyenne PondÃ©rÃ©e</span>
 </td>
 <td class="px-6 py-4 text-right">
 <div class="flex justify-end gap-2">
@@ -367,17 +367,17 @@
 <td class="px-6 py-2 pl-16">
 <div class="flex items-center gap-3">
 <div class="w-1.5 h-1.5 rounded-full bg-outline-variant"></div>
-<p class="text-xs font-semibold text-on-surface">EC1 : Modélisation SQL</p>
+<p class="text-xs font-semibold text-on-surface">EC1 : ModÃ©lisation SQL</p>
 </div>
 </td>
 <td class="px-6 py-2 text-center">
-<p class="text-[11px] text-outline font-medium">—</p>
+<p class="text-[11px] text-outline font-medium">â€”</p>
 </td>
 <td class="px-6 py-2 text-center">
 <p class="text-xs font-bold text-on-surface-variant">Coeff 2.5 <span class="text-outline font-normal ml-1">/ 45h</span></p>
 </td>
 <td class="px-6 py-2 text-right opacity-0 group-hover:opacity-100">
-<button class="text-[10px] font-bold text-primary hover:underline uppercase tracking-tighter">Paramètres EC</button>
+<button class="text-[10px] font-bold text-primary hover:underline uppercase tracking-tighter">ParamÃ¨tres EC</button>
 </td>
 </tr>
 </tbody>
@@ -385,7 +385,7 @@
 <div class="bg-surface-container-low px-6 py-3 flex justify-between items-center">
 <p class="text-xs text-outline font-medium">Affichage de 4 UE sur 12</p>
 <div class="flex gap-2">
-<button class="px-3 py-1 bg-white border border-outline-variant/20 rounded text-xs font-bold text-on-surface-variant hover:bg-surface-container-lowest transition-colors">Précédent</button>
+<button class="px-3 py-1 bg-white border border-outline-variant/20 rounded text-xs font-bold text-on-surface-variant hover:bg-surface-container-lowest transition-colors">PrÃ©cÃ©dent</button>
 <button class="px-3 py-1 bg-white border border-outline-variant/20 rounded text-xs font-bold text-on-surface-variant hover:bg-surface-container-lowest transition-colors">Suivant</button>
 </div>
 </div>
@@ -395,7 +395,7 @@
 <div class="lg:col-span-2">
 <h3 class="text-xl font-bold text-on-background mb-4 flex items-center gap-2">
 <span class="material-symbols-outlined text-primary" data-icon="description">description</span>
-                        Détails de l'Unité : INF101
+                        DÃ©tails de l'UnitÃ© : INF101
                     </h3>
 <div class="bg-surface-container-low p-6 rounded-lg">
 <div class="grid grid-cols-2 gap-6">
@@ -405,17 +405,17 @@
 </div>
 <div>
 <label class="text-[10px] font-bold text-outline uppercase block mb-1">Validation</label>
-<span class="bg-secondary-container text-on-secondary-container text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Note ≥ 10.00</span>
+<span class="bg-secondary-container text-on-secondary-container text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Note â‰¥ 10.00</span>
 </div>
 <div class="col-span-2">
 <label class="text-[10px] font-bold text-outline uppercase block mb-1">Description</label>
-<p class="text-xs text-on-surface-variant leading-relaxed">Cette unité d'enseignement regroupe les concepts fondamentaux de la logique algorithmique et les outils mathématiques nécessaires à la modélisation informatique. Elle constitue le socle du premier semestre.</p>
+<p class="text-xs text-on-surface-variant leading-relaxed">Cette unitÃ© d'enseignement regroupe les concepts fondamentaux de la logique algorithmique et les outils mathÃ©matiques nÃ©cessaires Ã  la modÃ©lisation informatique. Elle constitue le socle du premier semestre.</p>
 </div>
 </div>
 </div>
 </div>
 <div class="lg:col-span-1">
-<h3 class="text-xl font-bold text-on-background mb-4">Aperçu Répartition</h3>
+<h3 class="text-xl font-bold text-on-background mb-4">AperÃ§u RÃ©partition</h3>
 <div class="bg-surface-container-lowest p-6 rounded-lg shadow-sm">
 <!-- Simulated Chart Area -->
 <div class="flex items-end justify-between gap-2 h-32 mb-4">
@@ -436,7 +436,7 @@
 <span>EC3</span>
 <span>EC4</span>
 </div>
-<p class="text-xs text-outline mt-4 italic text-center">Poids relatif des éléments constitutifs (EC) dans l'unité.</p>
+<p class="text-xs text-outline mt-4 italic text-center">Poids relatif des Ã©lÃ©ments constitutifs (EC) dans l'unitÃ©.</p>
 </div>
 </div>
 </div>
