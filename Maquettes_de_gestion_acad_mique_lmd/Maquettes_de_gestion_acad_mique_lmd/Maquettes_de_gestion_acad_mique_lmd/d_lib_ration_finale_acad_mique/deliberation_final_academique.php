@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html class="light" lang="fr"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Système LMD Académique - Délibération Finale</title>
+<title>SystÃ¨me LMD AcadÃ©mique - DÃ©libÃ©ration Finale</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
@@ -86,7 +86,7 @@
 <!-- SideNavBar (from Shared Components JSON) -->
 <aside class="h-screen w-64 fixed left-0 top-0 border-r border-slate-200 bg-slate-50 flex flex-col py-4 space-y-2 z-50">
 <div class="px-6 mb-8">
-<h1 class="text-lg font-black text-blue-900">Portail Académique</h1>
+<h1 class="text-lg font-black text-blue-900">Portail AcadÃ©mique</h1>
 <p class="text-xs text-slate-500 font-medium">Gestion LMD v2.0</p>
 </div>
 <nav class="flex-1 space-y-1">
@@ -96,11 +96,11 @@
 </a>
 <a class="flex items-center px-4 py-2.5 mx-2 text-slate-600 hover:bg-slate-100 rounded-lg transition-all duration-200" href="#">
 <span class="material-symbols-outlined mr-3" data-icon="account_tree">account_tree</span>
-<span class="font-semibold text-sm">Filières</span>
+<span class="font-semibold text-sm">FiliÃ¨res</span>
 </a>
 <a class="flex items-center px-4 py-2.5 mx-2 text-slate-600 hover:bg-slate-100 rounded-lg transition-all duration-200" href="#">
 <span class="material-symbols-outlined mr-3" data-icon="school">school</span>
-<span class="font-semibold text-sm">Étudiants</span>
+<span class="font-semibold text-sm">Ã‰tudiants</span>
 </a>
 <a class="flex items-center px-4 py-2.5 mx-2 text-slate-600 hover:bg-slate-100 rounded-lg transition-all duration-200" href="#">
 <span class="material-symbols-outlined mr-3" data-icon="grade">grade</span>
@@ -110,10 +110,10 @@
 <span class="material-symbols-outlined mr-3" data-icon="history_edu">history_edu</span>
 <span class="font-semibold text-sm">Rattrapages</span>
 </a>
-<!-- ACTIVE TAB: DÉLIBÉRATION -->
+<!-- ACTIVE TAB: DÃ‰LIBÃ‰RATION -->
 <a class="flex items-center px-4 py-2.5 bg-blue-50 text-blue-700 rounded-lg mx-2 transition-all duration-200" href="#">
 <span class="material-symbols-outlined mr-3" data-icon="gavel" style="font-variation-settings: 'FILL' 1;">gavel</span>
-<span class="font-semibold text-sm">Délibération</span>
+<span class="font-semibold text-sm">DÃ©libÃ©ration</span>
 </a>
 </nav>
 <div class="mt-auto pt-4 border-t border-slate-200 mx-4">
@@ -123,7 +123,7 @@
 </a>
 <a class="flex items-center px-4 py-2 text-slate-600 hover:bg-slate-100 rounded-lg" href="#">
 <span class="material-symbols-outlined mr-3" data-icon="logout">logout</span>
-<span class="text-sm font-semibold">Déconnexion</span>
+<span class="text-sm font-semibold">DÃ©connexion</span>
 </a>
 </div>
 </aside>
@@ -149,8 +149,8 @@
 <div class="h-8 w-px bg-slate-100 mx-2"></div>
 <div class="flex items-center gap-3">
 <div class="text-right">
-<p class="text-xs font-bold text-on-surface">Dr. Kouamé</p>
-<p class="text-[10px] text-slate-500 font-medium">Président du Jury</p>
+<p class="text-xs font-bold text-on-surface">Dr. KouamÃ©</p>
+<p class="text-[10px] text-slate-500 font-medium">PrÃ©sident du Jury</p>
 </div>
 <img class="w-10 h-10 rounded-full border-2 border-primary/10 object-cover" data-alt="Photo de profil de l'administrateur" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvmGtF0UG8sNAirPxe2EKzqD8Jr8jYBtVOfc4nRFpxXstxTDfotlzV_JbTlSkMJqqPm4_7PWNYuD4PDIU0eW95pQ7lOgYotaWPl3IsKtW-DOytsHA6lc2mBKIymh8-fGHVEljWBgHPj1XweqHhZOYhSml_hDqR2_jfN4m42-2WRN2Pe66edJOobqa_XBxUJ7Gtek7GbK2txCMzVsSvg9NLzkWema-Wij0KTqBk2SpR-aqSVjTCfYwXeqJJGpuZcTLV97W0LKQlftA"/>
 </div>
@@ -161,17 +161,17 @@
 <!-- Header & Context -->
 <div class="flex justify-between items-end">
 <div class="space-y-1">
-<h2 class="text-3xl font-black tracking-tight text-primary">Procès-Verbal de Délibération</h2>
+<h2 class="text-3xl font-black tracking-tight text-primary">ProcÃ¨s-Verbal de DÃ©libÃ©ration</h2>
 <div class="flex items-center gap-3">
 <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-bold tracking-wide uppercase">Session Normale</span>
 <span class="text-slate-400 font-medium">|</span>
-<span class="text-on-surface-variant font-semibold text-sm">Semestre 1 • Année Académique 2023-2024</span>
+<span class="text-on-surface-variant font-semibold text-sm">Semestre 1 â€¢ AnnÃ©e AcadÃ©mique 2023-2024</span>
 </div>
 </div>
 <div class="flex gap-3">
 <button class="flex items-center gap-2 px-4 py-2 bg-surface-container-low text-on-surface-variant font-bold text-sm rounded-md hover:bg-surface-container-high transition-colors">
 <span class="material-symbols-outlined text-lg" data-icon="upload_file">upload_file</span>
-                        Importer les résultats
+                        Importer les rÃ©sultats
                     </button>
 <button class="flex items-center gap-2 px-4 py-2 bg-secondary text-white font-bold text-sm rounded-md hover:bg-secondary/90 transition-colors">
 <span class="material-symbols-outlined text-lg" data-icon="picture_as_pdf">picture_as_pdf</span>
@@ -179,7 +179,7 @@
                     </button>
 <button class="flex items-center gap-2 px-5 py-2 bg-primary text-white font-bold text-sm rounded-md hover:shadow-lg hover:shadow-primary/20 transition-all">
 <span class="material-symbols-outlined text-lg" data-icon="lock">lock</span>
-                        Clôturer la délibération
+                        ClÃ´turer la dÃ©libÃ©ration
                     </button>
 </div>
 </div>
@@ -199,7 +199,7 @@
 <p class="text-slate-500 text-xs font-bold uppercase tracking-widest mb-4">Rattrapages</p>
 <div class="flex items-baseline gap-2">
 <span class="text-4xl font-black text-tertiary">24</span>
-<span class="text-slate-400 text-xs font-medium">étudiants concernés</span>
+<span class="text-slate-400 text-xs font-medium">Ã©tudiants concernÃ©s</span>
 </div>
 <p class="text-[10px] text-tertiary font-bold mt-4 uppercase">Traitement prioritaire requis</p>
 </div>
@@ -216,24 +216,24 @@
 </div>
 <div class="bg-primary p-6 rounded-xl shadow-md flex flex-col justify-center items-center text-center">
 <span class="material-symbols-outlined text-white/50 text-4xl mb-2" data-icon="verified">verified</span>
-<p class="text-white text-xs font-bold uppercase tracking-widest opacity-80">Statut du Procès</p>
+<p class="text-white text-xs font-bold uppercase tracking-widest opacity-80">Statut du ProcÃ¨s</p>
 <p class="text-white text-xl font-bold mt-1">En cours de validation</p>
 </div>
 </div>
 <!-- Filters & Controls -->
 <div class="bg-surface-container-low p-4 rounded-lg flex flex-wrap items-center gap-6">
 <div class="flex flex-col gap-1.5 min-w-[200px]">
-<label class="text-[10px] font-bold text-slate-500 uppercase px-1">Département</label>
+<label class="text-[10px] font-bold text-slate-500 uppercase px-1">DÃ©partement</label>
 <select class="bg-surface-container-lowest border-none rounded-md text-sm font-semibold text-on-surface py-2 px-3 focus:ring-2 focus:ring-primary">
-<option>Sciences de l'Ingénieur</option>
-<option>Mathématiques et Info</option>
+<option>Sciences de l'IngÃ©nieur</option>
+<option>MathÃ©matiques et Info</option>
 </select>
 </div>
 <div class="flex flex-col gap-1.5 min-w-[200px]">
-<label class="text-[10px] font-bold text-slate-500 uppercase px-1">Filière</label>
+<label class="text-[10px] font-bold text-slate-500 uppercase px-1">FiliÃ¨re</label>
 <select class="bg-surface-container-lowest border-none rounded-md text-sm font-semibold text-on-surface py-2 px-3 focus:ring-2 focus:ring-primary">
 <option>Informatique de Gestion (L3)</option>
-<option>Réseaux et Télécoms (L3)</option>
+<option>RÃ©seaux et TÃ©lÃ©coms (L3)</option>
 </select>
 </div>
 <div class="flex flex-col gap-1.5 min-w-[150px]">
@@ -245,7 +245,7 @@
 </div>
 <div class="h-10 w-px bg-outline-variant/30 ml-auto hidden lg:block"></div>
 <div class="flex items-center gap-2 bg-surface-container-lowest p-1 rounded-md">
-<button class="px-4 py-1.5 bg-primary text-white rounded shadow-sm text-xs font-bold">Liste complète</button>
+<button class="px-4 py-1.5 bg-primary text-white rounded shadow-sm text-xs font-bold">Liste complÃ¨te</button>
 <button class="px-4 py-1.5 text-slate-500 hover:bg-slate-50 rounded text-xs font-bold transition-colors">Admis</button>
 <button class="px-4 py-1.5 text-slate-500 hover:bg-slate-50 rounded text-xs font-bold transition-colors">Rattrapages</button>
 </div>
@@ -257,13 +257,13 @@
 <thead>
 <tr class="bg-surface-container-low/50">
 <th class="py-4 px-6 text-[11px] font-black text-slate-500 uppercase tracking-wider">Matricule</th>
-<th class="py-4 px-6 text-[11px] font-black text-slate-500 uppercase tracking-wider">Nom &amp; Prénom</th>
+<th class="py-4 px-6 text-[11px] font-black text-slate-500 uppercase tracking-wider">Nom &amp; PrÃ©nom</th>
 <th class="py-4 px-4 text-[11px] font-black text-slate-500 uppercase tracking-wider text-center bg-primary/5">UE Base (Coeff 4)</th>
-<th class="py-4 px-4 text-[11px] font-black text-slate-500 uppercase tracking-wider text-center bg-primary/5">UE Spé (Coeff 6)</th>
+<th class="py-4 px-4 text-[11px] font-black text-slate-500 uppercase tracking-wider text-center bg-primary/5">UE SpÃ© (Coeff 6)</th>
 <th class="py-4 px-4 text-[11px] font-black text-slate-500 uppercase tracking-wider text-center bg-primary/5">UE Transv (Coeff 2)</th>
 <th class="py-4 px-6 text-[11px] font-black text-primary uppercase tracking-wider text-right">MG Semestre</th>
-<th class="py-4 px-6 text-[11px] font-black text-slate-500 uppercase tracking-wider text-center">Crédits ECTS</th>
-<th class="py-4 px-6 text-[11px] font-black text-slate-500 uppercase tracking-wider">Décision du Jury</th>
+<th class="py-4 px-6 text-[11px] font-black text-slate-500 uppercase tracking-wider text-center">CrÃ©dits ECTS</th>
+<th class="py-4 px-6 text-[11px] font-black text-slate-500 uppercase tracking-wider">DÃ©cision du Jury</th>
 </tr>
 </thead>
 <tbody class="divide-y divide-slate-50">
@@ -273,7 +273,7 @@
 <td class="py-4 px-6">
 <div class="flex flex-col">
 <span class="text-sm font-bold text-on-surface">ABDOULAYE Fatoumata</span>
-<span class="text-[10px] text-slate-400 font-medium">Née le 12/05/2002</span>
+<span class="text-[10px] text-slate-400 font-medium">NÃ©e le 12/05/2002</span>
 </div>
 </td>
 <td class="py-4 px-4 text-center">
@@ -301,7 +301,7 @@
 <td class="py-4 px-6">
 <div class="flex flex-col">
 <span class="text-sm font-bold text-on-surface">DIOP Moussa</span>
-<span class="text-[10px] text-slate-400 font-medium">Né le 05/09/2001</span>
+<span class="text-[10px] text-slate-400 font-medium">NÃ© le 05/09/2001</span>
 </div>
 </td>
 <td class="py-4 px-4 text-center">
@@ -329,7 +329,7 @@
 <td class="py-4 px-6">
 <div class="flex flex-col">
 <span class="text-sm font-bold text-on-surface">GOMEZ Catherine</span>
-<span class="text-[10px] text-slate-400 font-medium">Née le 22/02/2002</span>
+<span class="text-[10px] text-slate-400 font-medium">NÃ©e le 22/02/2002</span>
 </div>
 </td>
 <td class="py-4 px-4 text-center">
@@ -357,7 +357,7 @@
 <td class="py-4 px-6">
 <div class="flex flex-col">
 <span class="text-sm font-bold text-on-surface">N'GORAN Jean-Eudes</span>
-<span class="text-[10px] text-slate-400 font-medium">Né le 30/11/2000</span>
+<span class="text-[10px] text-slate-400 font-medium">NÃ© le 30/11/2000</span>
 </div>
 </td>
 <td class="py-4 px-4 text-center">
@@ -385,7 +385,7 @@
 <td class="py-4 px-6">
 <div class="flex flex-col">
 <span class="text-sm font-bold text-on-surface">TURE Salif</span>
-<span class="text-[10px] text-slate-400 font-medium">Né le 15/03/2002</span>
+<span class="text-[10px] text-slate-400 font-medium">NÃ© le 15/03/2002</span>
 </div>
 </td>
 <td class="py-4 px-4 text-center"><span class="text-sm font-semibold">11.00</span></td>
@@ -400,7 +400,7 @@
 </div>
 <!-- Table Footer / Pagination -->
 <div class="bg-surface-container-low/30 px-6 py-4 flex items-center justify-between border-t border-slate-50">
-<p class="text-xs text-slate-500 font-semibold">Affichage de 1 à 10 sur 45 étudiants</p>
+<p class="text-xs text-slate-500 font-semibold">Affichage de 1 Ã  10 sur 45 Ã©tudiants</p>
 <div class="flex gap-1">
 <button class="p-2 hover:bg-surface-container-high rounded transition-colors">
 <span class="material-symbols-outlined text-sm" data-icon="chevron_left">chevron_left</span>
@@ -422,16 +422,16 @@
 <div class="space-y-2">
 <h4 class="text-sm font-bold text-blue-900">Note de calcul des moyennes</h4>
 <p class="text-xs text-blue-800 leading-relaxed max-w-4xl">
-                        Les moyennes sont calculées dynamiquement selon le modèle LMD : <span class="font-bold">MG = Σ(Note × Coeff) / Σ(Coeffs)</span>. 
-                        Un étudiant est déclaré "ADMIS" s'il obtient une moyenne générale ≥ 10/20 et valide l'ensemble de ses crédits ECTS (30). 
-                        Le passage en "RATTRAPAGE" est automatique pour toute UE non validée (note &lt; 10) sans compensation.
+                        Les moyennes sont calculÃ©es dynamiquement selon le modÃ¨le LMD : <span class="font-bold">MG = Î£(Note Ã— Coeff) / Î£(Coeffs)</span>. 
+                        Un Ã©tudiant est dÃ©clarÃ© "ADMIS" s'il obtient une moyenne gÃ©nÃ©rale â‰¥ 10/20 et valide l'ensemble de ses crÃ©dits ECTS (30). 
+                        Le passage en "RATTRAPAGE" est automatique pour toute UE non validÃ©e (note &lt; 10) sans compensation.
                     </p>
 </div>
 </div>
 </div>
 <!-- Footer Spacer -->
 <footer class="mt-auto py-8 text-center text-slate-400 text-[10px] font-bold uppercase tracking-widest">
-            © 2024 Horizon LMD System — Plateforme de Gouvernance Académique
+            Â© 2024 Horizon LMD System â€” Plateforme de Gouvernance AcadÃ©mique
         </footer>
 </main>
 <!-- FAB for quick action (Suppressed as per rules on detail/transaction pages, but here for context in main view) -->
