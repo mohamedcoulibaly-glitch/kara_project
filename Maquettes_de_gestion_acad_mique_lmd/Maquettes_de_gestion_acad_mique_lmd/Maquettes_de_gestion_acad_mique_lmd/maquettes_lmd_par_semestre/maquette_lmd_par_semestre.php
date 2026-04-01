@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html class="light" lang="fr"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Maquettes LMD - Portail Académique</title>
+<title>Maquettes LMD - Portail AcadÃ©mique</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
@@ -84,10 +84,10 @@
 <header class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-sm shadow-slate-200/50">
 <div class="flex justify-between items-center px-6 py-3 w-full">
 <div class="flex items-center gap-8">
-<span class="text-xl font-bold tracking-tighter text-blue-700 dark:text-blue-400">Portail Académique LMD</span>
+<span class="text-xl font-bold tracking-tighter text-blue-700 dark:text-blue-400">Portail AcadÃ©mique LMD</span>
 <nav class="hidden md:flex gap-6 items-center font-sans text-sm font-medium tracking-tight">
 <a class="text-slate-500 hover:text-blue-600 transition-colors duration-200" href="#">Semestres</a>
-<a class="text-blue-700 dark:text-blue-400 border-b-2 border-blue-700 pb-1" href="#">Unités d'Enseignement</a>
+<a class="text-blue-700 dark:text-blue-400 border-b-2 border-blue-700 pb-1" href="#">UnitÃ©s d'Enseignement</a>
 <a class="text-slate-500 hover:text-blue-600 transition-colors duration-200" href="#">Parcours</a>
 </nav>
 </div>
@@ -108,7 +108,7 @@
 <!-- SideNavBar Shell -->
 <aside class="h-screen w-64 fixed left-0 top-0 overflow-y-auto bg-slate-50 dark:bg-slate-950 flex flex-col pt-20 pb-4 gap-2 z-40 hidden md:flex">
 <div class="px-6 py-4 flex flex-col gap-1">
-<span class="text-lg font-black text-slate-900 dark:text-white">Filière Informatique</span>
+<span class="text-lg font-black text-slate-900 dark:text-white">FiliÃ¨re Informatique</span>
 <span class="text-xs font-semibold text-slate-500">Licence LMD</span>
 </div>
 <div class="flex flex-col gap-1 mt-4">
@@ -145,7 +145,7 @@
 </a>
 <a class="flex items-center gap-3 px-4 py-3 mx-2 rounded-lg text-slate-600 hover:bg-slate-200/50 transition-all" href="#">
 <span class="material-symbols-outlined">logout</span>
-<span class="font-sans text-sm font-semibold">Déconnexion</span>
+<span class="font-sans text-sm font-semibold">DÃ©connexion</span>
 </a>
 </div>
 </aside>
@@ -156,10 +156,10 @@
 <div class="space-y-2">
 <div class="flex items-center gap-3 text-primary font-semibold text-sm">
 <span class="material-symbols-outlined text-sm">school</span>
-<span>Licence en Génie Logiciel</span>
+<span>Licence en GÃ©nie Logiciel</span>
 </div>
 <h1 class="text-4xl font-extrabold tracking-tight text-on-surface">Visualisation de la Maquette</h1>
-<p class="text-on-surface-variant font-medium">Parcours académique structuré selon le système LMD.</p>
+<p class="text-on-surface-variant font-medium">Parcours acadÃ©mique structurÃ© selon le systÃ¨me LMD.</p>
 </div>
 <div class="flex items-center gap-3">
 <button class="flex items-center gap-2 px-5 py-2.5 bg-surface-container-low text-on-surface rounded-xl font-semibold text-sm hover:bg-surface-container-high transition-colors active:scale-95">
@@ -184,12 +184,12 @@
 <!-- Semester Summary Card -->
 <div class="bg-surface-container-lowest rounded-xl p-8 mb-10 flex flex-col md:flex-row items-center justify-between gap-8 border-none shadow-[0_12px_32px_rgba(25,28,30,0.04)]">
 <div class="flex flex-col gap-1">
-<span class="text-xs font-bold uppercase tracking-widest text-primary opacity-80">Résumé du Semestre S1</span>
+<span class="text-xs font-bold uppercase tracking-widest text-primary opacity-80">RÃ©sumÃ© du Semestre S1</span>
 <h2 class="text-2xl font-bold">Semestre de Fondamentaux</h2>
 </div>
 <div class="flex gap-12">
 <div class="text-center">
-<p class="text-xs font-semibold text-on-surface-variant uppercase mb-1">Total Crédits</p>
+<p class="text-xs font-semibold text-on-surface-variant uppercase mb-1">Total CrÃ©dits</p>
 <p class="text-3xl font-black text-primary">30 ECTS</p>
 </div>
 <div class="text-center">
@@ -220,7 +220,7 @@
 <table class="w-full text-sm text-left border-collapse">
 <thead class="bg-white">
 <tr>
-<th class="px-6 py-3 font-semibold text-xs text-on-surface-variant uppercase">Élément Constitutif (EC)</th>
+<th class="px-6 py-3 font-semibold text-xs text-on-surface-variant uppercase">Ã‰lÃ©ment Constitutif (EC)</th>
 <th class="px-4 py-3 font-semibold text-xs text-on-surface-variant uppercase text-right">Coeff.</th>
 <th class="px-4 py-3 font-semibold text-xs text-on-surface-variant uppercase text-right">ECTS</th>
 <th class="px-6 py-3 font-semibold text-xs text-on-surface-variant uppercase text-right">VH (CM/TD/TP)</th>
@@ -244,7 +244,7 @@
 </div>
 <div class="mt-auto p-4 bg-surface-container-lowest border-t border-slate-50 flex justify-end">
 <button class="text-primary text-xs font-bold hover:underline flex items-center gap-1">
-                        Détails du syllabus <span class="material-symbols-outlined text-xs">arrow_forward</span>
+                        DÃ©tails du syllabus <span class="material-symbols-outlined text-xs">arrow_forward</span>
 </button>
 </div>
 </div>
@@ -253,7 +253,7 @@
 <div class="px-6 py-5 bg-surface-container-low flex justify-between items-center">
 <div>
 <span class="inline-block px-3 py-1 bg-secondary-container text-on-secondary-container rounded-full text-[10px] font-bold uppercase tracking-wider mb-2">Obligatoire</span>
-<h3 class="text-lg font-bold leading-tight">UEF 1.2 : Mathématiques pour l'Informatique</h3>
+<h3 class="text-lg font-bold leading-tight">UEF 1.2 : MathÃ©matiques pour l'Informatique</h3>
 </div>
 <div class="text-right">
 <p class="text-2xl font-black text-primary">06</p>
@@ -264,7 +264,7 @@
 <table class="w-full text-sm text-left border-collapse">
 <thead class="bg-white">
 <tr>
-<th class="px-6 py-3 font-semibold text-xs text-on-surface-variant uppercase">Élément Constitutif (EC)</th>
+<th class="px-6 py-3 font-semibold text-xs text-on-surface-variant uppercase">Ã‰lÃ©ment Constitutif (EC)</th>
 <th class="px-4 py-3 font-semibold text-xs text-on-surface-variant uppercase text-right">Coeff.</th>
 <th class="px-4 py-3 font-semibold text-xs text-on-surface-variant uppercase text-right">ECTS</th>
 <th class="px-6 py-3 font-semibold text-xs text-on-surface-variant uppercase text-right">VH (CM/TD/TP)</th>
@@ -272,7 +272,7 @@
 </thead>
 <tbody class="divide-y-0">
 <tr class="hover:bg-surface-container-low transition-colors">
-<td class="px-6 py-4 font-medium">Analyse et Algèbre Linéaire</td>
+<td class="px-6 py-4 font-medium">Analyse et AlgÃ¨bre LinÃ©aire</td>
 <td class="px-4 py-4 text-right">2</td>
 <td class="px-4 py-4 text-right font-bold text-primary">3</td>
 <td class="px-6 py-4 text-right tabular-nums text-on-surface-variant">30/20/00</td>
@@ -288,7 +288,7 @@
 </div>
 <div class="mt-auto p-4 bg-surface-container-lowest border-t border-slate-50 flex justify-end">
 <button class="text-primary text-xs font-bold hover:underline flex items-center gap-1">
-                        Détails du syllabus <span class="material-symbols-outlined text-xs">arrow_forward</span>
+                        DÃ©tails du syllabus <span class="material-symbols-outlined text-xs">arrow_forward</span>
 </button>
 </div>
 </div>
@@ -308,7 +308,7 @@
 <table class="w-full text-sm text-left border-collapse">
 <thead class="bg-white">
 <tr>
-<th class="px-6 py-3 font-semibold text-xs text-on-surface-variant uppercase">Élément Constitutif (EC)</th>
+<th class="px-6 py-3 font-semibold text-xs text-on-surface-variant uppercase">Ã‰lÃ©ment Constitutif (EC)</th>
 <th class="px-4 py-3 font-semibold text-xs text-on-surface-variant uppercase text-right">Coeff.</th>
 <th class="px-4 py-3 font-semibold text-xs text-on-surface-variant uppercase text-right">ECTS</th>
 <th class="px-6 py-3 font-semibold text-xs text-on-surface-variant uppercase text-right">VH (CM/TD/TP)</th>
@@ -322,7 +322,7 @@
 <td class="px-6 py-4 text-right tabular-nums text-on-surface-variant">10/20/00</td>
 </tr>
 <tr class="hover:bg-surface-container-low transition-colors">
-<td class="px-6 py-4 font-medium">Techniques de Comm. Écrite</td>
+<td class="px-6 py-4 font-medium">Techniques de Comm. Ã‰crite</td>
 <td class="px-4 py-4 text-right">1</td>
 <td class="px-4 py-4 text-right font-bold text-primary">2</td>
 <td class="px-6 py-4 text-right tabular-nums text-on-surface-variant">10/10/00</td>
@@ -332,7 +332,7 @@
 </div>
 <div class="mt-auto p-4 bg-surface-container-lowest border-t border-slate-50 flex justify-end">
 <button class="text-primary text-xs font-bold hover:underline flex items-center gap-1">
-                        Détails du syllabus <span class="material-symbols-outlined text-xs">arrow_forward</span>
+                        DÃ©tails du syllabus <span class="material-symbols-outlined text-xs">arrow_forward</span>
 </button>
 </div>
 </div>
@@ -341,7 +341,7 @@
 <div class="px-6 py-5 bg-surface-container-low flex justify-between items-center">
 <div>
 <span class="inline-block px-3 py-1 bg-surface-variant text-on-surface-variant rounded-full text-[10px] font-bold uppercase tracking-wider mb-2">Optionnelle</span>
-<h3 class="text-lg font-bold leading-tight">UEO 1.4 : Culture Numérique</h3>
+<h3 class="text-lg font-bold leading-tight">UEO 1.4 : Culture NumÃ©rique</h3>
 </div>
 <div class="text-right">
 <p class="text-2xl font-black text-primary">02</p>
@@ -352,7 +352,7 @@
 <table class="w-full text-sm text-left border-collapse">
 <thead class="bg-white">
 <tr>
-<th class="px-6 py-3 font-semibold text-xs text-on-surface-variant uppercase">Élément Constitutif (EC)</th>
+<th class="px-6 py-3 font-semibold text-xs text-on-surface-variant uppercase">Ã‰lÃ©ment Constitutif (EC)</th>
 <th class="px-4 py-3 font-semibold text-xs text-on-surface-variant uppercase text-right">Coeff.</th>
 <th class="px-4 py-3 font-semibold text-xs text-on-surface-variant uppercase text-right">ECTS</th>
 <th class="px-6 py-3 font-semibold text-xs text-on-surface-variant uppercase text-right">VH (CM/TD/TP)</th>
@@ -360,7 +360,7 @@
 </thead>
 <tbody class="divide-y-0">
 <tr class="hover:bg-surface-container-low transition-colors">
-<td class="px-6 py-4 font-medium">Éthique &amp; Droit du Numérique</td>
+<td class="px-6 py-4 font-medium">Ã‰thique &amp; Droit du NumÃ©rique</td>
 <td class="px-4 py-4 text-right">1</td>
 <td class="px-4 py-4 text-right font-bold text-primary">2</td>
 <td class="px-6 py-4 text-right tabular-nums text-on-surface-variant">12/08/00</td>
@@ -370,7 +370,7 @@
 </div>
 <div class="mt-auto p-4 bg-surface-container-lowest border-t border-slate-50 flex justify-end">
 <button class="text-primary text-xs font-bold hover:underline flex items-center gap-1">
-                        Détails du syllabus <span class="material-symbols-outlined text-xs">arrow_forward</span>
+                        DÃ©tails du syllabus <span class="material-symbols-outlined text-xs">arrow_forward</span>
 </button>
 </div>
 </div>
