@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html class="light" lang="fr"><head>
 <meta charset="utf-8"/>
@@ -86,22 +86,22 @@
 <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">school</span>
 </div>
 <div>
-<h1 class="text-lg font-black text-slate-900 leading-tight">Portail Académique</h1>
-<p class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Système LMD</p>
+<h1 class="text-lg font-black text-slate-900 leading-tight">Portail AcadÃ©mique</h1>
+<p class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">SystÃ¨me LMD</p>
 </div>
 </div>
 <nav class="flex-1 flex flex-col gap-1">
-<a class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:text-slate-900 hover:translate-x-1 transition-transform duration-200 text-sm font-medium Inter" href="#">
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:text-slate-900 hover:translate-x-1 transition-transform duration-200 text-sm font-medium Inter" href="../index.php">
 <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
 <span>Tableau de bord</span>
 </a>
 <a class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:text-slate-900 hover:translate-x-1 transition-transform duration-200 text-sm font-medium Inter" href="#">
 <span class="material-symbols-outlined" data-icon="account_tree">account_tree</span>
-<span>Filières</span>
+<span>FiliÃ¨res</span>
 </a>
 <a class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:text-slate-900 hover:translate-x-1 transition-transform duration-200 text-sm font-medium Inter" href="#">
 <span class="material-symbols-outlined" data-icon="group">group</span>
-<span>Étudiants</span>
+<span>Ã‰tudiants</span>
 </a>
 <a class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:text-slate-900 hover:translate-x-1 transition-transform duration-200 text-sm font-medium Inter" href="#">
 <span class="material-symbols-outlined" data-icon="edit_note">edit_note</span>
@@ -150,7 +150,7 @@
 <div class="mb-10">
 <h3 class="text-3xl font-extrabold text-on-surface tracking-tight mb-2">Gestion des Rattrapages</h3>
 <p class="text-on-surface-variant text-base max-w-2xl leading-relaxed">
-                    Interface de centralisation pour le traitement des examens de seconde session. Gérez les éligibilités, planifiez les épreuves et saisissez les résultats finaux du cycle LMD.
+                    Interface de centralisation pour le traitement des examens de seconde session. GÃ©rez les Ã©ligibilitÃ©s, planifiez les Ã©preuves et saisissez les rÃ©sultats finaux du cycle LMD.
                 </p>
 </div>
 <!-- Stats Bento Row -->
@@ -163,7 +163,7 @@
 <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total</span>
 </div>
 <p class="text-3xl font-black text-on-surface -tracking-widest">142</p>
-<p class="text-sm font-medium text-slate-500 mt-1">Étudiants en rattrapage</p>
+<p class="text-sm font-medium text-slate-500 mt-1">Ã‰tudiants en rattrapage</p>
 </div>
 <div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border-b-4 border-tertiary">
 <div class="flex justify-between items-start mb-4">
@@ -173,41 +173,41 @@
 <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Actif</span>
 </div>
 <p class="text-3xl font-black text-on-surface -tracking-widest">28</p>
-<p class="text-sm font-medium text-slate-500 mt-1">Sessions planifiées</p>
+<p class="text-sm font-medium text-slate-500 mt-1">Sessions planifiÃ©es</p>
 </div>
 <div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border-b-4 border-secondary">
 <div class="flex justify-between items-start mb-4">
 <div class="p-2 bg-secondary-fixed text-secondary rounded-lg">
 <span class="material-symbols-outlined">pending_actions</span>
 </div>
-<span class="text-xs font-bold text-slate-400 uppercase tracking-wider">À faire</span>
+<span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Ã€ faire</span>
 </div>
 <p class="text-3xl font-black text-on-surface -tracking-widest">56</p>
-<p class="text-sm font-medium text-slate-500 mt-1">Notes à saisir</p>
+<p class="text-sm font-medium text-slate-500 mt-1">Notes Ã  saisir</p>
 </div>
 </div>
 <!-- Filter Control Bar -->
 <div class="bg-surface-container-low p-5 rounded-xl mb-8 flex flex-wrap gap-4 items-end">
 <div class="flex-1 min-w-[200px]">
-<label class="block text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-2 px-1">Filière</label>
+<label class="block text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-2 px-1">FiliÃ¨re</label>
 <select class="w-full bg-surface-container-lowest border-none rounded-md text-sm focus:ring-2 focus:ring-primary h-10 shadow-sm">
 <option>L1 Informatique</option>
-<option>L2 Mathématiques</option>
+<option>L2 MathÃ©matiques</option>
 <option>L3 Physique-Chimie</option>
 </select>
 </div>
 <div class="flex-1 min-w-[200px]">
-<label class="block text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-2 px-1">Unité d'Enseignement (UE)</label>
+<label class="block text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-2 px-1">UnitÃ© d'Enseignement (UE)</label>
 <select class="w-full bg-surface-container-lowest border-none rounded-md text-sm focus:ring-2 focus:ring-primary h-10 shadow-sm">
 <option>UE-INF101 : Algorithmique</option>
-<option>UE-INF102 : Systèmes</option>
+<option>UE-INF102 : SystÃ¨mes</option>
 </select>
 </div>
 <div class="flex-1 min-w-[200px]">
-<label class="block text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-2 px-1">Élément Constitutif (EC)</label>
+<label class="block text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-2 px-1">Ã‰lÃ©ment Constitutif (EC)</label>
 <select class="w-full bg-surface-container-lowest border-none rounded-md text-sm focus:ring-2 focus:ring-primary h-10 shadow-sm">
-<option>EC1 : Introduction à la programmation</option>
-<option>EC2 : Structures de données</option>
+<option>EC1 : Introduction Ã  la programmation</option>
+<option>EC2 : Structures de donnÃ©es</option>
 </select>
 </div>
 <button class="bg-primary text-white px-6 h-10 rounded-md font-semibold text-sm hover:opacity-90 transition-opacity flex items-center gap-2">
@@ -218,7 +218,7 @@
 <!-- Data Table Section -->
 <div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden">
 <div class="px-6 py-5 border-b border-slate-50 flex justify-between items-center">
-<h4 class="font-bold text-on-surface">Liste des étudiants éligibles</h4>
+<h4 class="font-bold text-on-surface">Liste des Ã©tudiants Ã©ligibles</h4>
 <div class="flex gap-2">
 <button class="p-2 text-slate-500 hover:bg-slate-50 rounded-lg transition-colors">
 <span class="material-symbols-outlined">download</span>
@@ -233,7 +233,7 @@
 <thead>
 <tr class="bg-surface-container-low/50">
 <th class="px-6 py-4 text-[11px] font-bold text-slate-500 uppercase tracking-widest">Matricule</th>
-<th class="px-6 py-4 text-[11px] font-bold text-slate-500 uppercase tracking-widest">Nom &amp; Prénom</th>
+<th class="px-6 py-4 text-[11px] font-bold text-slate-500 uppercase tracking-widest">Nom &amp; PrÃ©nom</th>
 <th class="px-6 py-4 text-[11px] font-bold text-slate-500 uppercase tracking-widest text-right">Moyenne Initiale</th>
 <th class="px-6 py-4 text-[11px] font-bold text-slate-500 uppercase tracking-widest text-center">Statut Session</th>
 <th class="px-6 py-4 text-[11px] font-bold text-slate-500 uppercase tracking-widest">Date Rattrapage</th>
@@ -251,10 +251,10 @@
 <td class="px-6 py-4 text-right text-sm font-medium">08.45 / 20</td>
 <td class="px-6 py-4 text-center">
 <span class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-tertiary-container text-on-tertiary-container">
-                                        Planifié
+                                        PlanifiÃ©
                                     </span>
 </td>
-<td class="px-6 py-4 text-sm text-slate-600">24 Oct. 2023 • 08h30</td>
+<td class="px-6 py-4 text-sm text-slate-600">24 Oct. 2023 â€¢ 08h30</td>
 <td class="px-6 py-4 text-right">
 <button class="text-primary font-bold text-xs uppercase tracking-tighter hover:underline decoration-2 underline-offset-4">Saisir la note</button>
 </td>
@@ -272,7 +272,7 @@
                                         En attente
                                     </span>
 </td>
-<td class="px-6 py-4 text-sm text-slate-400 italic">Non définie</td>
+<td class="px-6 py-4 text-sm text-slate-400 italic">Non dÃ©finie</td>
 <td class="px-6 py-4 text-right">
 <button class="text-slate-300 font-bold text-xs uppercase tracking-tighter cursor-not-allowed">Saisir la note</button>
 </td>
@@ -287,10 +287,10 @@
 <td class="px-6 py-4 text-right text-sm font-medium">07.30 / 20</td>
 <td class="px-6 py-4 text-center">
 <span class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-secondary-container text-on-secondary-container">
-                                        Validé
+                                        ValidÃ©
                                     </span>
 </td>
-<td class="px-6 py-4 text-sm text-slate-600">21 Oct. 2023 • 14h00</td>
+<td class="px-6 py-4 text-sm text-slate-600">21 Oct. 2023 â€¢ 14h00</td>
 <td class="px-6 py-4 text-right">
 <button class="text-primary font-bold text-xs uppercase tracking-tighter hover:underline decoration-2 underline-offset-4">Modifier note</button>
 </td>
@@ -305,10 +305,10 @@
 <td class="px-6 py-4 text-right text-sm font-medium">09.80 / 20</td>
 <td class="px-6 py-4 text-center">
 <span class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-tertiary-container text-on-tertiary-container">
-                                        Planifié
+                                        PlanifiÃ©
                                     </span>
 </td>
-<td class="px-6 py-4 text-sm text-slate-600">24 Oct. 2023 • 08h30</td>
+<td class="px-6 py-4 text-sm text-slate-600">24 Oct. 2023 â€¢ 08h30</td>
 <td class="px-6 py-4 text-right">
 <button class="text-primary font-bold text-xs uppercase tracking-tighter hover:underline decoration-2 underline-offset-4">Saisir la note</button>
 </td>
@@ -317,7 +317,7 @@
 </table>
 </div>
 <div class="px-6 py-4 bg-slate-50/50 flex justify-between items-center border-t border-slate-100">
-<p class="text-[11px] text-slate-500 font-medium">Affichage de 1-4 sur 42 étudiants éligibles</p>
+<p class="text-[11px] text-slate-500 font-medium">Affichage de 1-4 sur 42 Ã©tudiants Ã©ligibles</p>
 <div class="flex gap-1">
 <button class="w-8 h-8 flex items-center justify-center rounded-md border border-slate-200 text-slate-400 hover:bg-white transition-colors">
 <span class="material-symbols-outlined text-sm">chevron_left</span>
@@ -337,7 +337,7 @@
 <div>
 <h5 class="text-sm font-bold text-blue-900 mb-1">Information sur la Seconde Session</h5>
 <p class="text-xs text-blue-800/80 leading-relaxed">
-                        Conformément au règlement LMD, la note obtenue au rattrapage remplace la note initiale uniquement si elle lui est supérieure. Les résultats validés sont automatiquement transférés au jury de délibération final. Pour toute anomalie technique, contactez le support académique.
+                        ConformÃ©ment au rÃ¨glement LMD, la note obtenue au rattrapage remplace la note initiale uniquement si elle lui est supÃ©rieure. Les rÃ©sultats validÃ©s sont automatiquement transfÃ©rÃ©s au jury de dÃ©libÃ©ration final. Pour toute anomalie technique, contactez le support acadÃ©mique.
                     </p>
 </div>
 </div>
