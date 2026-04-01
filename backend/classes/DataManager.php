@@ -20,8 +20,17 @@ class EtudiantManager {
                   WHERE e.id_etudiant = ?";
         
         $stmt = $this->db->prepare($query);
+        if ($stmt === false) {
+            logError("Erreur de préparation de requête: " . $this->db->error);
+            return null;
+        }
+        
         $stmt->bind_param("i", $id_etudiant);
-        $stmt->execute();
+        if (!$stmt->execute()) {
+            logError("Erreur d'exécution: " . $stmt->error);
+            return null;
+        }
+        
         return $stmt->get_result()->fetch_assoc();
     }
 
@@ -36,12 +45,24 @@ class EtudiantManager {
         if ($limite) {
             $query .= " LIMIT ? OFFSET ?";
             $stmt = $this->db->prepare($query);
+            if ($stmt === false) {
+                logError("Erreur de préparation de requête: " . $this->db->error);
+                return [];
+            }
             $stmt->bind_param("ii", $limite, $offset);
         } else {
             $stmt = $this->db->prepare($query);
+            if ($stmt === false) {
+                logError("Erreur de préparation de requête: " . $this->db->error);
+                return [];
+            }
         }
         
-        $stmt->execute();
+        if (!$stmt->execute()) {
+            logError("Erreur d'exécution: " . $stmt->error);
+            return [];
+        }
+        
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
@@ -54,8 +75,17 @@ class EtudiantManager {
                   ORDER BY e.nom, e.prenom";
         
         $stmt = $this->db->prepare($query);
+        if ($stmt === false) {
+            logError("Erreur de préparation de requête: " . $this->db->error);
+            return [];
+        }
+        
         $stmt->bind_param("i", $id_filiere);
-        $stmt->execute();
+        if (!$stmt->execute()) {
+            logError("Erreur d'exécution: " . $stmt->error);
+            return [];
+        }
+        
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
@@ -69,8 +99,17 @@ class EtudiantManager {
                   ORDER BY e.nom DESC LIMIT 50";
         
         $stmt = $this->db->prepare($query);
+        if ($stmt === false) {
+            logError("Erreur de préparation de requête: " . $this->db->error);
+            return [];
+        }
+        
         $stmt->bind_param("sss", $terme, $terme, $terme);
-        $stmt->execute();
+        if (!$stmt->execute()) {
+            logError("Erreur d'exécution: " . $stmt->error);
+            return [];
+        }
+        
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
@@ -81,13 +120,23 @@ class EtudiantManager {
                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         $stmt = $this->db->prepare($query);
+        if ($stmt === false) {
+            logError("Erreur de préparation de requête: " . $this->db->error);
+            return false;
+        }
+        
         $stmt->bind_param("sssssssssi", 
             $data['matricule'], $data['nom'], $data['prenom'], $data['email'],
             $data['telephone'], $data['date_naissance'], $data['lieu_naissance'],
             $data['sexe'], $data['nationalite'], $data['id_filiere']
         );
         
-        return $stmt->execute();
+        if (!$stmt->execute()) {
+            logError("Erreur d'insertion: " . $stmt->error);
+            return false;
+        }
+        
+        return true;
     }
 
     // Mettre à jour un étudiant
@@ -98,13 +147,23 @@ class EtudiantManager {
                   WHERE id_etudiant = ?";
         
         $stmt = $this->db->prepare($query);
+        if ($stmt === false) {
+            logError("Erreur de préparation de requête: " . $this->db->error);
+            return false;
+        }
+        
         $stmt->bind_param("sssssssssii",
             $data['nom'], $data['prenom'], $data['email'], $data['telephone'],
             $data['date_naissance'], $data['lieu_naissance'], $data['sexe'],
             $data['nationalite'], $data['id_filiere'], $data['semestre_actuel'], $id_etudiant
         );
         
-        return $stmt->execute();
+        if (!$stmt->execute()) {
+            logError("Erreur de mise à jour: " . $stmt->error);
+            return false;
+        }
+        
+        return true;
     }
 
     // Obtenir le parcours académique d'un étudiant
@@ -117,8 +176,17 @@ class EtudiantManager {
                   ORDER BY n.date_examen DESC";
         
         $stmt = $this->db->prepare($query);
+        if ($stmt === false) {
+            logError("Erreur de préparation de requête: " . $this->db->error);
+            return [];
+        }
+        
         $stmt->bind_param("i", $id_etudiant);
-        $stmt->execute();
+        if (!$stmt->execute()) {
+            logError("Erreur d'exécution: " . $stmt->error);
+            return [];
+        }
+        
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 }
@@ -145,8 +213,17 @@ class NoteManager {
                   ORDER BY ue.code_ue";
         
         $stmt = $this->db->prepare($query);
+        if ($stmt === false) {
+            logError("Erreur de préparation de requête: " . $this->db->error);
+            return [];
+        }
+        
         $stmt->bind_param("is", $id_etudiant, $session);
-        $stmt->execute();
+        if (!$stmt->execute()) {
+            logError("Erreur d'exécution: " . $stmt->error);
+            return [];
+        }
+        
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
