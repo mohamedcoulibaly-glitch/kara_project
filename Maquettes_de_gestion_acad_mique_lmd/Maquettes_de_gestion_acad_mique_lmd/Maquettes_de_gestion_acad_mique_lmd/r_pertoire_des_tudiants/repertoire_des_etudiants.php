@@ -64,7 +64,7 @@ if (!empty($where)) {
 $sql .= ' ORDER BY e.nom, e.prenom'; // tri par nom et prénom
 $stmt = $pdo->prepare($sql);   // préparation sécurisée
 $stmt->execute($params);      // exécution avec paramètres
-$students = $stmt->fetchAll(); // tableau des étudiants affichés
+$students = $stmt->fetchAll() ?? []; // tableau des étudiants affichés (tableau vide par défaut)
 
 // === statistiques simples ===
 // total d'étudiants (tous départements confondus)
@@ -76,7 +76,9 @@ $nouveaux = (int)round($totalInscrits * 0.24); // exemple : 24% comme dans la ma
 
 $affichageDebut = count($students) > 0 ? 1 : 0;
 $affichageFin = count($students);
-$infoPagination = "Affichage de {$affichageDebut} à {$affichageFin} sur {$totalInscrits} étudiants";
+$infoPagination = count($students) === 0 
+    ? "Aucun étudiant trouvé" 
+    : "Affichage de {$affichageDebut} à {$affichageFin} sur {$totalInscrits} étudiants";
 ?>
 
 <!DOCTYPE html>
@@ -293,7 +295,7 @@ $infoPagination = "Affichage de {$affichageDebut} à {$affichageFin} sur {$total
 </div>
 </div>
 </form>
-</main>section>
+</section>
 <!-- Table Section -->
 <div class="bg-surface-container-lowest rounded-xl overflow-hidden border border-outline-variant/5 shadow-sm">
 <div class="overflow-x-auto no-scrollbar">
@@ -309,7 +311,8 @@ $infoPagination = "Affichage de {$affichageDebut} à {$affichageFin} sur {$total
 </tr>
 </thead>
 <tbody class="divide-y divide-outline-variant/10">
-<?php foreach ($filteredStudents as $student): ?>
+<?php if (is_array($students) && count($students) > 0): ?>
+    <?php foreach ($students as $student): ?>
     <?php
         // En cas de champ absent, on définit des valeurs par défaut
         $student['statut'] = $student['statut'] ?? 'Inscrit';
@@ -350,7 +353,14 @@ $infoPagination = "Affichage de {$affichageDebut} à {$affichageFin} sur {$total
             </button>
         </td>
     </tr>
-<?php endforeach; ?>
+    <?php endforeach; ?>
+<?php else: ?>
+    <tr>
+        <td colspan="6" class="px-6 py-8 text-center text-on-surface-variant">
+            <p class="text-sm">Aucun étudiant trouvé correspondant à vos critères.</p>
+        </td>
+    </tr>
+<?php endif; ?>
 </tbody>
 </table>
 </div>
