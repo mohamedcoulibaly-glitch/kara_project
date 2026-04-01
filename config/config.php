@@ -30,6 +30,82 @@ date_default_timezone_set(TIMEZONE);
 
 /**
  * ====================================================
+ * TRAITEMENT DES ERREURS ET LOG
+ * ====================================================
+ * DÉFINI EN PREMIER - Utilisé par d'autres classes
+ */
+function logError($message, $type = 'ERROR') {
+    $logDir = BASE_PATH . '/logs';
+    if (!is_dir($logDir)) {
+        @mkdir($logDir, 0755, true);
+    }
+    
+    $date = date('Y-m-d H:i:s');
+    $logFile = $logDir . '/' . date('Y-m-d') . '.log';
+    @file_put_contents($logFile, "[$date] [$type] $message\n", FILE_APPEND);
+}
+
+/**
+ * ====================================================
+ * CLASSE WRAPPER POUR GÉRER LES ERREURS
+ * ====================================================
+ * SafeStatement encapsule les prepared statements
+ * et gère automatiquement les erreurs
+ */
+class SafeStatement {
+    private $stmt;
+    private $error = false;
+    
+    public function __construct($stmt) {
+        if ($stmt === false) {
+            $this->error = true;
+            $this->stmt = null;
+        } else {
+            $this->stmt = $stmt;
+        }
+    }
+    
+    public function bind_param($types, &...$vars) {
+        if ($this->error || !$this->stmt) {
+            return false;
+        }
+        
+        if (!$this->stmt->bind_param($types, ...$vars)) {
+            $this->error = true;
+            return false;
+        }
+        return true;
+    }
+    
+    public function execute() {
+        if ($this->error || !$this->stmt) {
+            return false;
+        }
+        
+        if (!$this->stmt->execute()) {
+            $this->error = true;
+            return false;
+        }
+        return true;
+    }
+    
+    public function get_result() {
+        if ($this->error || !$this->stmt) {
+            return false;
+        }
+        return $this->stmt->get_result();
+    }
+    
+    public function __get($name) {
+        if ($this->stmt) {
+            return $this->stmt->$name;
+        }
+        return null;
+    }
+}
+
+/**
+ * ====================================================
  * CLASSE DE CONNEXION À LA BASE DE DONNÉES
  * ====================================================
  */
@@ -72,9 +148,14 @@ class Database {
         return $this->connection;
     }
 
-    // Exécuter une requête préparée
+    // Exécuter une requête préparée - retourne automatiquement un wrapper sécurisé
     public function prepare($query) {
-        return $this->connection->prepare($query);
+        $stmt = $this->connection->prepare($query);
+        if ($stmt === false) {
+            logError("Erreur de préparation: " . $this->connection->error . " | Query: " . substr($query, 0, 100));
+            return new SafeStatement(false);
+        }
+        return new SafeStatement($stmt);
     }
 
     // Fermer la connexion
@@ -96,18 +177,117 @@ function getDB() {
 
 /**
  * ====================================================
- * TRAITEMENT DES ERREURS ET LOG
+ * FONCTIONS DE GESTION DES REQUÊTES SÉCURISÉES
  * ====================================================
  */
-function logError($message, $type = 'ERROR') {
-    $logDir = BASE_PATH . '/logs';
-    if (!is_dir($logDir)) {
-        mkdir($logDir, 0755, true);
+
+/**
+ * Exécute une requête SELECT en toute sécurité
+ * Retourne le résultat ou false en cas d'erreur
+ */
+function safeQuery($query, $bindParams = []) {
+    try {
+        $db = getDB();
+        if (!$db) {
+            logError("Erreur: Connexion à la base de données impossible");
+            return false;
+        }
+        
+        $stmt = $db->prepare($query);
+        if ($stmt === false) {
+            logError("Erreur de préparation de requête: " . $db->error);
+            return false;
+        }
+        
+        if (!empty($bindParams)) {
+            if (!$stmt->execute($bindParams)) {
+                logError("Erreur d'exécution de requête: " . $stmt->error);
+                return false;
+            }
+        } else {
+            if (!$stmt->execute()) {
+                logError("Erreur d'exécution de requête: " . $stmt->error);
+                return false;
+            }
+        }
+        
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    } catch (Exception $e) {
+        logError("Exception lors de l'exécution: " . $e->getMessage());
+        return false;
     }
-    
-    $date = date('Y-m-d H:i:s');
-    $logFile = $logDir . '/' . date('Y-m-d') . '.log';
-    file_put_contents($logFile, "[$date] [$type] $message\n", FILE_APPEND);
+}
+
+/**
+ * Exécute une requête SELECT et retourne une seule ligne
+ */
+function safeQuerySingle($query, $bindParams = []) {
+    try {
+        $db = getDB();
+        if (!$db) {
+            logError("Erreur: Connexion à la base de données impossible");
+            return false;
+        }
+        
+        $stmt = $db->prepare($query);
+        if ($stmt === false) {
+            logError("Erreur de préparation de requête: " . $db->error);
+            return false;
+        }
+        
+        if (!empty($bindParams)) {
+            if (!$stmt->execute($bindParams)) {
+                logError("Erreur d'exécution de requête: " . $stmt->error);
+                return false;
+            }
+        } else {
+            if (!$stmt->execute()) {
+                logError("Erreur d'exécution de requête: " . $stmt->error);
+                return false;
+            }
+        }
+        
+        return $stmt->get_result()->fetch_assoc();
+    } catch (Exception $e) {
+        logError("Exception lors de l'exécution: " . $e->getMessage());
+        return false;
+    }
+}
+
+/**
+ * Exécute une requête UPDATE/INSERT/DELETE en toute sécurité
+ */
+function safeExecute($query, $bindParams = []) {
+    try {
+        $db = getDB();
+        if (!$db) {
+            logError("Erreur: Connexion à la base de données impossible");
+            return false;
+        }
+        
+        $stmt = $db->prepare($query);
+        if ($stmt === false) {
+            logError("Erreur de préparation de requête: " . $db->error);
+            return false;
+        }
+        
+        if (!empty($bindParams)) {
+            if (!$stmt->execute($bindParams)) {
+                logError("Erreur d'exécution de requête: " . $stmt->error);
+                return false;
+            }
+        } else {
+            if (!$stmt->execute()) {
+                logError("Erreur d'exécution de requête: " . $stmt->error);
+                return false;
+            }
+        }
+        
+        return true;
+    } catch (Exception $e) {
+        logError("Exception lors de l'exécution: " . $e->getMessage());
+        return false;
+    }
 }
 
 /**
