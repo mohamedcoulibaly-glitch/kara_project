@@ -87,6 +87,43 @@ foreach ($etudiants_stats as &$et) {
 
 // Traiter les créations de délibérations
 $message = '';
+$message_type = '';
+
+// Traiter la sauvegarde d'une délibération unique (depuis la table)
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'save_deliberation') {
+    $id_etudiant = (int)($_POST['id_etudiant'] ?? 0);
+    $statut = clean($_POST['statut'] ?? 'En attente');
+    $moyenne_semestre = (float)($_POST['moyenne_semestre'] ?? 0);
+    $code_deliberation = clean($_POST['code_deliberation'] ?? '');
+    
+    if ($id_etudiant && $id_filiere && $semestre) {
+        $mention = getMention($moyenne_semestre);
+        $credits_obtenus = ($moyenne_semestre >= 10) ? 60 : 0; // 6 UE * 6 crédits par UE
+        
+        $data = [
+            'moyenne_semestre' => $moyenne_semestre,
+            'statut' => $statut,
+            'mention' => $mention,
+            'credits_obtenus' => $credits_obtenus,
+            'responsable_deliberation' => $_SESSION['user_name'] ?? 'Admin',
+            'observations' => "Délibération du semestre $semestre - Filière $id_filiere"
+        ];
+        
+        if ($deliberationManager->create($id_etudiant, $semestre, $data)) {
+            $message_success = "✅ Délibération enregistrée avec succès (Statut: $statut)";
+        } else {
+            $message_success = "❌ Erreur lors de l'enregistrement";
+        }
+    } else {
+        $message_success = "❌ Données invalides";
+    }
+    
+    // Rediriger avec les paramètres de contexte
+    header("Location: " . BASE_URL . "/backend/deliberation_backend.php?filiere=$id_filiere&semestre=$semestre&msg=" . urlencode($message_success));
+    exit;
+}
+
+// Traiter les créations en bulk de délibérations
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'create_deliberations') {
     $ids_etudiant = isset($_POST['ids_etudiant']) ? $_POST['ids_etudiant'] : [];
     $responsable = postParam('responsable_deliberation', 'Admin Académique');
@@ -117,7 +154,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         }
     }
     
-    $message = showSuccess("$count_created délibérations créées avec succès");
+    $message = "$count_created délibérations créées avec succès";
+    $message_type = 'success';
+}
+
+// Récupérer les messages depuis GET (après redirection)
+if (isset($_GET['msg'])) {
+    $message = $_GET['msg'];
+    $message_type = 'success';
 }
 
 // Préparer les données

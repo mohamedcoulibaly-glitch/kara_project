@@ -26,7 +26,7 @@ $current_page = $current_page ?? '';
 // Déterminer le chemin de base selon le contexte
 // On utilise BASE_URL défini dans config.php
 $base_url = rtrim(BASE_URL, '/') . '/';
-$backend_url = $base_url . 'backend/';
+$backend_url = 'backend/';
 
 // Récupérer les informations de l'utilisateur connecté
 $current_user = getCurrentUser();
@@ -36,18 +36,18 @@ $user_role = $current_user ? $current_user['role'] : 'Super Admin';
 // Liens de navigation
 $nav_items = [
     ['id' => 'dashboard', 'label' => 'Tableau de bord', 'icon' => 'dashboard', 'href' => $base_url . 'index.php'],
-    ['id' => 'etudiants', 'label' => 'Étudiants', 'icon' => 'group', 'href' => $backend_url . 'repertoire_etudiants_backend.php'],
-    ['id' => 'inscription', 'label' => 'Inscription', 'icon' => 'person_add', 'href' => $backend_url . 'saisie_etudiants_backend.php'],
-    ['id' => 'departements', 'label' => 'Départements', 'icon' => 'domain', 'href' => $backend_url . 'saisie_deprtement_backend.php'],
-    ['id' => 'maquettes', 'label' => 'Maquettes LMD', 'icon' => 'library_books', 'href' => $backend_url . 'maquette_lmd_backend.php'],
-    ['id' => 'ue_ec', 'label' => 'Gestion UE/EC', 'icon' => 'account_tree', 'href' => $backend_url . 'gestion_filieres_ue_backend.php'],
-    ['id' => 'saisie_ue_ec', 'label' => 'Saisie UE/EC', 'icon' => 'edit_note', 'href' => $backend_url . 'saisie_ue_ec_backend.php'],
-    ['id' => 'notes', 'label' => 'Saisie Notes', 'icon' => 'grade', 'href' => $backend_url . 'saisie_notes_par_ec_backend.php'],
-    ['id' => 'configuration', 'label' => 'Configuration', 'icon' => 'settings', 'href' => $backend_url . 'configuration_coefficients_backend.php'],
-    ['id' => 'deliberations', 'label' => 'Délibérations', 'icon' => 'gavel', 'href' => $backend_url . 'deliberation_backend.php'],
-    ['id' => 'pv', 'label' => 'Procès-Verbaux', 'icon' => 'description', 'href' => $backend_url . 'proces_verbal_backend.php'],
-    ['id' => 'rattrapage', 'label' => 'Rattrapage', 'icon' => 'autorenew', 'href' => $backend_url . 'gestion_sessions_rattrapage_backend.php'],
-    ['id' => 'statistiques', 'label' => 'Statistiques', 'icon' => 'bar_chart', 'href' => $backend_url . 'statistiques_reussites_backend.php'],
+    ['id' => 'etudiants', 'label' => 'Étudiants', 'icon' => 'group', 'href' => $base_url . $backend_url . 'repertoire_etudiants_backend.php'],
+    ['id' => 'inscription', 'label' => 'Inscription', 'icon' => 'person_add', 'href' => $base_url . $backend_url . 'saisie_etudiants_backend.php'],
+    ['id' => 'departements', 'label' => 'Départements', 'icon' => 'domain', 'href' => $base_url . $backend_url . 'saisie_deprtement_backend.php'],
+    ['id' => 'maquettes', 'label' => 'Maquettes LMD', 'icon' => 'library_books', 'href' => $base_url . $backend_url . 'maquette_lmd_backend.php'],
+    ['id' => 'ue_ec', 'label' => 'Gestion UE/EC', 'icon' => 'account_tree', 'href' => $base_url . $backend_url . 'gestion_filieres_ue_backend.php'],
+    ['id' => 'saisie_ue_ec', 'label' => 'Saisie UE/EC', 'icon' => 'edit_note', 'href' => $base_url . $backend_url . 'saisie_ue_ec_backend.php'],
+    ['id' => 'notes', 'label' => 'Saisie Notes', 'icon' => 'grade', 'href' => $base_url . $backend_url . 'saisie_notes_par_ec_backend.php'],
+    ['id' => 'configuration', 'label' => 'Configuration', 'icon' => 'settings', 'href' => $base_url . $backend_url . 'configuration_coefficients_backend.php'],
+    ['id' => 'deliberations', 'label' => 'Délibérations', 'icon' => 'gavel', 'href' => $base_url . $backend_url . 'deliberation_backend.php'],
+    ['id' => 'pv', 'label' => 'Procès-Verbaux', 'icon' => 'description', 'href' => $base_url . $backend_url . 'proces_verbal_backend.php'],
+    ['id' => 'rattrapage', 'label' => 'Rattrapage', 'icon' => 'autorenew', 'href' => $base_url . $backend_url . 'gestion_sessions_rattrapage_backend.php'],
+    ['id' => 'statistiques', 'label' => 'Statistiques', 'icon' => 'bar_chart', 'href' => $base_url . $backend_url . 'statistiques_reussites_backend.php'],
 ];
 ?>
 <!DOCTYPE html>

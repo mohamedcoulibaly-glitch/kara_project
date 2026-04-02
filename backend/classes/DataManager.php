@@ -139,6 +139,26 @@ class EtudiantManager {
         return true;
     }
 
+    // Créer un étudiant (alias pour insert avec gestion des champs supplémentaires)
+    public function create($data) {
+        // Préparer les données pour que insert les traite correctement
+        // On ne garde que les champs supportés par insert()
+        $clean_data = [
+            'matricule' => $data['matricule'] ?? uniqid('ETU_'),
+            'nom' => $data['nom'] ?? '',
+            'prenom' => $data['prenom'] ?? '',
+            'email' => $data['email'] ?? '',
+            'telephone' => $data['telephone'] ?? '',
+            'date_naissance' => $data['date_naissance'] ?? null,
+            'lieu_naissance' => $data['lieu_naissance'] ?? '',
+            'sexe' => $data['sexe'] ?? 'M',
+            'nationalite' => $data['nationalite'] ?? '',
+            'id_filiere' => $data['id_filiere'] ?? null
+        ];
+        
+        return $this->insert($clean_data);
+    }
+
     // Mettre à jour un étudiant
     public function update($id_etudiant, $data) {
         $query = "UPDATE etudiant SET nom = ?, prenom = ?, email = ?, telephone = ?, 

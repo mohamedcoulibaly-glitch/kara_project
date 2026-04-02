@@ -104,6 +104,16 @@ $message = $message ?? '';
     </div>
 </div>
 
+<!-- Message d'alerte si présent -->
+<?php if ($message): ?>
+    <div class="mb-6 p-4 rounded-lg shadow-sm animate-pulse <?= ($message_type ?? '') === 'success' ? 'bg-green-50 border-l-4 border-green-500 text-green-800' : 'bg-red-50 border-l-4 border-red-500 text-red-800' ?>">
+        <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined"><?= ($message_type ?? '') === 'success' ? 'check_circle' : 'error' ?></span>
+            <span><?= htmlspecialchars($message) ?></span>
+        </div>
+    </div>
+<?php endif; ?>
+
 <!-- Results Table -->
 <div class="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
     <div class="px-6 py-4 bg-slate-50 border-b border-slate-100 flex justify-between items-center">
@@ -143,20 +153,22 @@ $message = $message ?? '';
                             </span>
                         </td>
                         <td class="px-6 py-4 text-right">
-                            <form method="POST" action="<?= $base_url . $backend_url ?>deliberation_backend.php?filiere=<?= $id_filiere ?>&semestre=<?= $semestre ?>">
+                            <form method="POST" action="<?= $base_url . $backend_url ?>deliberation_backend.php?filiere=<?= $id_filiere ?>&semestre=<?= $semestre ?>" onsubmit="return confirm('Êtes-vous sûr de vouloir enregistrer cette décision ?');">
                                 <input type="hidden" name="action" value="save_deliberation">
                                 <input type="hidden" name="id_etudiant" value="<?= $et['id_etudiant'] ?>">
                                 <input type="hidden" name="moyenne_semestre" value="<?= $et['moyenne_semestre'] ?>">
                                 <input type="hidden" name="code_deliberation" value="DEL-<?= $semestre ?>-<?= $id_filiere ?>-<?= date('Y') ?>">
                                 
-                                <select name="statut" class="text-[11px] font-bold border-none bg-slate-100 rounded px-3 py-1.5 focus:ring-1 focus:ring-primary appearance-none cursor-pointer">
-                                    <option value="Admis" <?= $et['moyenne_semestre'] >= 12 ? 'selected' : '' ?>>Admis</option>
-                                    <option value="Admis avec dettes" <?= ($et['moyenne_semestre'] >= 10 && $et['moyenne_semestre'] < 12) ? 'selected' : '' ?>>Admis dettes</option>
-                                    <option value="Non Admis" <?= $et['moyenne_semestre'] < 10 ? 'selected' : '' ?>>Non Admis</option>
-                                    <option value="Redoublant">Redoublant</option>
-                                    <option value="Exclu">Exclu</option>
-                                </select>
-                                <button type="submit" class="material-symbols-outlined text-primary hover:text-primary-container text-[18px] ml-2">save</button>
+                                <div class="flex gap-2 items-center">
+                                    <select name="statut" class="text-[11px] font-bold border-none bg-slate-100 rounded px-3 py-1.5 focus:ring-1 focus:ring-primary appearance-none cursor-pointer">
+                                        <option value="Admis" <?= $et['moyenne_semestre'] >= 12 ? 'selected' : '' ?>>Admis</option>
+                                        <option value="Admis avec dettes" <?= ($et['moyenne_semestre'] >= 10 && $et['moyenne_semestre'] < 12) ? 'selected' : '' ?>>Admis dettes</option>
+                                        <option value="Non Admis" <?= $et['moyenne_semestre'] < 10 ? 'selected' : '' ?>>Non Admis</option>
+                                        <option value="Redoublant">Redoublant</option>
+                                        <option value="Exclu">Exclu</option>
+                                    </select>
+                                    <button type="submit" class="material-symbols-outlined text-primary hover:text-primary-container hover:scale-110 text-[18px] transition-transform" title="Enregistrer cette décision">save</button>
+                                </div>
                             </form>
                         </td>
                     </tr>

@@ -56,7 +56,7 @@ include __DIR__ . '/../../../../backend/includes/sidebar.php';
 <!-- Filters -->
 <div class="bg-white p-6 rounded-xl border border-outline-variant/20 mb-8 flex items-center justify-between">
     <div class="flex-1 max-w-sm">
-        <form method="GET" action="backend/gestion_filieres_ue_backend.php" action="<?= $base_url . $backend_url ?>gestion_filieres_ue_backend.php" id="filiere-form">
+        <form method="GET" action="<?= $base_url . $backend_url ?>gestion_filieres_ue_backend.php" id="filiere-form">
             <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Sélectionnez une filière</label>
             <select name="id" class="w-full bg-surface-container-low border-none rounded-lg py-2.5 px-4 focus:ring-2 focus:ring-primary font-medium text-slate-700" onchange="document.getElementById('filiere-form').submit();">
                 <?php foreach ($filieres as $filiere): ?>

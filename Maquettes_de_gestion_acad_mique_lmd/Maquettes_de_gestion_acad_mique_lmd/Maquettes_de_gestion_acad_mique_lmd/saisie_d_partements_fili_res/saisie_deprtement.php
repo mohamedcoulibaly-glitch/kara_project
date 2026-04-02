@@ -2,10 +2,6 @@
 $page_title = 'Paramétrage Structure Académique';
 $current_page = 'departements';
 include __DIR__ . '/../../../../backend/includes/sidebar.php';
-
-// Variables assumed to be extracted from backend
-$departements = $departements ?? [];
-$filieres = $filieres ?? [];
 $message = $message ?? '';
 $type_message = $type_message ?? '';
 ?>
