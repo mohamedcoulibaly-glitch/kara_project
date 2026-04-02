@@ -1,312 +1,191 @@
-﻿<?php
-// === Variables dynamiques du Backend ===
-$totalInscrits = isset($stats['total']) ? $stats['total'] : 0;
-$actifs = isset($stats['actifs']) ? $stats['actifs'] : 0;
-$suspendus = isset($stats['suspendus']) ? $stats['suspendus'] : 0;
-$nouveaux = isset($stats['diplomes']) ? $stats['diplomes'] : 0; 
+<?php
+/**
+ * ====================================================
+ * VUE: Répertoire des Étudiants
+ * ====================================================
+ */
 
-$affichageDebut = count($etudiants) > 0 ? (($page - 1) * $limite) + 1 : 0;
-$affichageFin = (($page - 1) * $limite) + count($etudiants);
+// === Synchronisation avec les variables du Backend ===
+$total_etudiants = $total_etudiants ?? 0;
+$total_pages = $total_pages ?? 1;
+$page = $page ?? 1;
+$limit = $limite ?? 50;
+$search = $recherche ?? '';
+$id_filiere = $id_filiere ?? 0;
+$etudiants = $etudiants ?? [];
+
+$affichageDebut = count($etudiants) > 0 ? (($page - 1) * $limit) + 1 : 0;
+$affichageFin = (($page - 1) * $limit) + count($etudiants);
 $infoPagination = count($etudiants) === 0 ? "Aucun étudiant trouvé" : "Affichage de {$affichageDebut} à {$affichageFin} sur {$total_etudiants} étudiants";
-$students = $etudiants;
+
+$page_title = 'Annuaire Étudiants';
+$current_page = 'etudiants';
+include __DIR__ . '/../../../../backend/includes/sidebar.php';
 ?>
 
-<!DOCTYPE html>
-
-<html class="light" lang="fr"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>LMD AcadÃ©mique - Liste des Ã‰tudiants</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "on-surface-variant": "#434654",
-                        "on-error": "#ffffff",
-                        "error-container": "#ffdad6",
-                        "outline": "#737686",
-                        "on-secondary-container": "#3d4e84",
-                        "background": "#f7f9fb",
-                        "primary-container": "#1a56db",
-                        "primary-fixed-dim": "#b5c4ff",
-                        "surface-bright": "#f7f9fb",
-                        "on-primary": "#ffffff",
-                        "inverse-on-surface": "#eff1f3",
-                        "secondary-fixed": "#dbe1ff",
-                        "primary-fixed": "#dbe1ff",
-                        "on-tertiary-container": "#ffd4c5",
-                        "on-secondary": "#ffffff",
-                        "on-background": "#191c1e",
-                        "inverse-surface": "#2d3133",
-                        "surface-variant": "#e0e3e5",
-                        "tertiary-container": "#ad3b00",
-                        "surface-container-highest": "#e0e3e5",
-                        "surface-container": "#eceef0",
-                        "tertiary": "#852b00",
-                        "surface": "#f7f9fb",
-                        "error": "#ba1a1a",
-                        "on-secondary-fixed-variant": "#334479",
-                        "secondary-container": "#b1c2ff",
-                        "surface-dim": "#d8dadc",
-                        "tertiary-fixed-dim": "#ffb59a",
-                        "surface-container-lowest": "#ffffff",
-                        "on-error-container": "#93000a",
-                        "surface-tint": "#1353d8",
-                        "secondary": "#4b5c92",
-                        "on-secondary-fixed": "#01174b",
-                        "on-primary-container": "#d4dcff",
-                        "primary": "#003fb1",
-                        "outline-variant": "#c3c5d7",
-                        "inverse-primary": "#b5c4ff",
-                        "tertiary-fixed": "#ffdbcf",
-                        "on-surface": "#191c1e",
-                        "secondary-fixed-dim": "#b5c4ff",
-                        "surface-container-high": "#e6e8ea",
-                        "on-tertiary-fixed": "#380d00",
-                        "on-tertiary": "#ffffff",
-                        "on-primary-fixed-variant": "#003dab",
-                        "on-tertiary-fixed-variant": "#802a00",
-                        "on-primary-fixed": "#00174d",
-                        "surface-container-low": "#f2f4f6"
-                    },
-                    fontFamily: {
-                        "headline": ["Inter"],
-                        "body": ["Inter"],
-                        "label": ["Inter"]
-                    },
-                    borderRadius: { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" },
-                },
-            },
-        }
-    </script>
-<style>
-        body { font-family: 'Inter', sans-serif; background-color: #f7f9fb; }
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-    </style>
-</head>
-<body class="text-on-background selection:bg-primary-container selection:text-on-primary-container">
-<!-- TopAppBar -->
-<header class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md fixed top-0 w-full z-50 shadow-sm dark:shadow-none font-sans antialiased text-slate-900 dark:text-slate-100 h-16 flex justify-between items-center px-6">
-<div class="flex items-center gap-8">
-<span class="text-xl font-bold tracking-tight text-blue-700 dark:text-blue-400">LMD AcadÃ©mique</span>
-<div class="hidden md:flex items-center bg-surface-container px-4 py-1.5 rounded-full border border-outline-variant/20">
-<span class="material-symbols-outlined text-on-surface-variant text-sm pr-2">search</span>
-<input class="bg-transparent border-none focus:ring-0 text-sm w-64 placeholder:text-on-surface-variant" placeholder="Rechercher un Ã©tudiant..." type="text"/>
-</div>
-</div>
-<div class="flex items-center gap-4">
-<button class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors rounded-full cursor-pointer active:opacity-70">
-<span class="material-symbols-outlined text-slate-500 dark:text-slate-400">notifications</span>
-</button>
-<button class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors rounded-full cursor-pointer active:opacity-70">
-<span class="material-symbols-outlined text-slate-500 dark:text-slate-400">settings</span>
-</button>
-<div class="h-8 w-px bg-outline-variant/30 mx-2"></div>
-<span class="text-sm font-medium text-slate-600 dark:text-slate-400 cursor-pointer hover:text-blue-700">Aide</span>
-<img alt="Photo de profil de l'administrateur" class="h-9 w-9 rounded-full object-cover border border-outline-variant/30" data-alt="Portrait photo of a male administrator" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1XrgLNMMYItUiyCN0gs6b5NPeLIL0qwuHut__Okq4hWI-hyfLPGTofcAqtadaTbLSo3GzfKP6fLPwaJV8RsV5YLsCPnrdJ8SQ0oj3Zr5M_mP-MPjPzEe04jznepKLlBjp4HSk5b4njpXTxAZKBATvJ1E_DRixqBxh3KL8ygHKTvioNCaOUQ99P5iHuoXqdgj-qxIvQ8E6sEyBOhnB3Jhsyb2VXBFgr-HDv8D3mXRYmIIB8mt28DHnm5JDiucKokhHYC36rUeIGHs"/>
-</div>
-</header>
-<div class="flex pt-16">
-<!-- SideNavBar -->
-<aside class="fixed left-0 top-16 h-[calc(100vh-64px)] w-64 bg-slate-50 dark:bg-slate-950 flex flex-col py-6 px-4 gap-2 text-sm font-medium Inter border-r-0">
-<div class="px-2 mb-8">
-<h2 class="font-black text-blue-800 dark:text-blue-300 text-lg uppercase tracking-wider">Portail AcadÃ©mique</h2>
-<p class="text-xs text-slate-500 font-normal">Gestion LMD v2.0</p>
-</div>
-<nav class="flex-1 space-y-1">
-<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-white/50 dark:hover:bg-slate-800/50 transition-all rounded-lg group" href="../index.php">
-<span class="material-symbols-outlined group-hover:translate-x-1 duration-200">dashboard</span>
-<span>Dashboard</span>
-</a>
-<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-white/50 dark:hover:bg-slate-800/50 transition-all rounded-lg group" href="#">
-<span class="material-symbols-outlined group-hover:translate-x-1 duration-200">account_tree</span>
-<span>FiliÃ¨res</span>
-</a>
-<a class="flex items-center gap-3 px-3 py-2.5 bg-white dark:bg-slate-800 text-blue-700 dark:text-blue-300 shadow-sm rounded-lg group" href="#">
-<span class="material-symbols-outlined group-hover:translate-x-1 duration-200">group</span>
-<span>Ã‰tudiants</span>
-</a>
-<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-white/50 dark:hover:bg-slate-800/50 transition-all rounded-lg group" href="saisie_notes_par_ec_backend.php">
-<span class="material-symbols-outlined group-hover:translate-x-1 duration-200">edit_note</span>
-<span>Notes</span>
-</a>
-<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-white/50 dark:hover:bg-slate-800/50 transition-all rounded-lg group" href="#">
-<span class="material-symbols-outlined group-hover:translate-x-1 duration-200">settings</span>
-<span>ParamÃ¨tres</span>
-</a>
-</nav>
-<div class="pt-4 mt-auto border-t border-slate-200 dark:border-slate-800">
-<button class="flex items-center gap-3 px-3 py-2.5 w-full text-slate-600 dark:text-slate-400 hover:text-error transition-all rounded-lg group">
-<span class="material-symbols-outlined group-hover:translate-x-1 duration-200">logout</span>
-<span>DÃ©connexion</span>
-</button>
-</div>
-</aside>
-<!-- Main Content -->
-<main class="ml-64 w-full p-8 min-h-screen bg-surface">
 <!-- Header Section -->
 <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
-<div>
-<nav class="flex text-xs font-medium text-slate-500 mb-2 gap-2 uppercase tracking-widest">
-<span>Gestion</span>
-<span class="material-symbols-outlined text-[10px]">chevron_right</span>
-<span class="text-primary font-bold">Ã‰tudiants</span>
-</nav>
-<h1 class="text-4xl font-extrabold text-on-background tracking-tighter">Annuaire Ã‰tudiants</h1>
-<p class="text-on-surface-variant mt-2 max-w-xl">Consultez, gÃ©rez et exportez la liste complÃ¨te des Ã©tudiants inscrits au titre de l'annÃ©e acadÃ©mique 2023-2024.</p>
+    <div>
+        <nav class="flex text-[10px] font-black text-slate-400 mb-2 gap-2 uppercase tracking-widest">
+            <span>Gestion</span>
+            <span class="material-symbols-outlined text-[12px]">chevron_right</span>
+            <span class="text-primary font-bold">Annuaire Étudiants</span>
+        </nav>
+        <h1 class="text-4xl font-black text-slate-800 tracking-tighter">Répertoire Académique</h1>
+        <p class="text-slate-500 mt-2 max-w-xl font-medium leading-relaxed">Consultez l'ensemble de la population étudiante. Filtrez par filière ou utilisez la recherche globale.</p>
+    </div>
+    <div class="flex gap-3">
+        <a href="<?= $base_url . $backend_url ?>repertoire_etudiants_backend.php?export=csv&recherche=<?= urlencode($search) ?>&filiere=<?= $id_filiere ?>" class="flex items-center gap-2 px-5 py-3 rounded-xl border border-slate-200 bg-white text-slate-700 font-bold text-sm hover:bg-slate-50 hover:shadow-sm transition-all" title="Télécharger CSV">
+            <span class="material-symbols-outlined text-[20px]">download</span> Exporter CSV
+        </a>
+        <a href="<?= $base_url . $backend_url ?>export_etudiants_pdf.php?filiere=<?= $id_filiere ?>" class="flex items-center gap-2 px-5 py-3 rounded-xl border border-slate-200 bg-white text-slate-700 font-bold text-sm hover:bg-slate-50 hover:shadow-sm transition-all" title="Télécharger PDF">
+            <span class="material-symbols-outlined text-[20px]">description</span> Exporter PDF
+        </a>
+        <button onclick="window.print()" class="flex items-center gap-2 px-5 py-3 rounded-xl border border-slate-200 bg-white text-slate-700 font-bold text-sm hover:bg-slate-50 hover:shadow-sm transition-all">
+            <span class="material-symbols-outlined text-[20px]">print</span> IMPRIMER
+        </button>
+        <a href="<?= $base_url . $backend_url ?>saisie_etudiants_backend.php" class="flex items-center gap-2 px-8 py-3 rounded-xl bg-slate-900 text-white font-black text-sm shadow-xl shadow-slate-200 hover:bg-black active:scale-95 transition-all">
+            <span class="material-symbols-outlined text-[20px]">add</span> NOUVEAU
+        </a>
+    </div>
 </div>
-<div class="flex gap-3">
-<button class="flex items-center gap-2 px-5 py-2.5 rounded-md border border-outline-variant/40 bg-white text-on-surface font-semibold text-sm hover:bg-surface-container transition-all">
-<span class="material-symbols-outlined text-lg">picture_as_pdf</span>
-                        Exporter PDF
-                    </button>
-<button class="flex items-center gap-2 px-6 py-2.5 rounded-md bg-gradient-to-r from-primary to-primary-container text-white font-bold text-sm shadow-sm hover:opacity-90 active:scale-95 transition-all">
-<span class="material-symbols-outlined text-lg">add</span>
-                        Ajouter Ã‰tudiant
-                    </button>
+
+<!-- Stats Row -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+    <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+        <p class="text-[10px] text-slate-400 font-black uppercase tracking-widest mb-2 px-1">Total Inscrits</p>
+        <p class="text-3xl font-black text-primary leading-none"><?= number_format($stats['total'] ?? 0, 0, ',', ' ') ?></p>
+    </div>
+    <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+        <p class="text-[10px] text-slate-400 font-black uppercase tracking-widest mb-2 px-1">Étudiants Actifs</p>
+        <p class="text-3xl font-black text-green-600 leading-none"><?= number_format($stats['actifs'] ?? 0, 0, ',', ' ') ?></p>
+    </div>
+    <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+        <p class="text-[10px] text-slate-400 font-black uppercase tracking-widest mb-2 px-1">Diplômés</p>
+        <p class="text-3xl font-black text-slate-800 leading-none"><?= number_format($stats['diplomes'] ?? 0, 0, ',', ' ') ?></p>
+    </div>
+    <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+        <p class="text-[10px] text-slate-400 font-black uppercase tracking-widest mb-2 px-1">Suspendus</p>
+        <p class="text-3xl font-black text-red-500 leading-none"><?= number_format($stats['suspendus'] ?? 0, 0, ',', ' ') ?></p>
+    </div>
 </div>
-</div>
-<!-- Dashboard Bento / Stats Row -->
-<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-<div class="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/10">
-<p class="text-xs text-on-surface-variant font-medium uppercase tracking-wider mb-1">Total Inscrits</p>
-<p class="text-3xl font-bold text-primary"><?= number_format($totalInscrits, 0, ',', ' ') ?></p>
-</div>
-<div class="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/10">
-<p class="text-xs text-on-surface-variant font-medium uppercase tracking-wider mb-1">Actifs</p>
-<p class="text-3xl font-bold text-secondary"><?= number_format($actifs, 0, ',', ' ') ?></p>
-</div>
-<div class="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/10">
-<p class="text-xs text-on-surface-variant font-medium uppercase tracking-wider mb-1">Suspendus</p>
-<p class="text-3xl font-bold text-error"><?= number_format($suspendus, 0, ',', ' ') ?></p>
-</div>
-<div class="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/10">
-<p class="text-xs text-on-surface-variant font-medium uppercase tracking-wider mb-1">Diplômés</p>
-<p class="text-3xl font-bold text-tertiary"><?= number_format($nouveaux, 0, ',', ' ') ?></p>
-</div>
-</div>
+
 <!-- Filters Section -->
-<section class="bg-surface-container-low rounded-xl p-6 mb-8">
-<form method="get">
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-<div class="space-y-1.5">
-<label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest px-1">DÃ©partement</label>
-<select name="departement" class="w-full bg-white border-none rounded-md text-sm py-2.5 focus:ring-2 focus:ring-primary shadow-sm text-on-surface">
-<option value="Tous les dÃ©partements"<?= $filters['departement'] === 'Tous les dÃ©partements' ? ' selected' : '' ?>>Tous les dÃ©partements</option>
-<?php foreach ($departements as $dept): ?>
-<option value="<?= htmlspecialchars($dept) ?>"<?= $filters['departement'] === $dept ? ' selected' : '' ?>><?= htmlspecialchars($dept) ?></option>
-<?php endforeach; ?>
-</select>
-</div>
-<div class="space-y-1.5">
-<label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest px-1">FiliÃ¨re</label>
-<select name="filiere" class="w-full bg-white border-none rounded-md text-sm py-2.5 focus:ring-2 focus:ring-primary shadow-sm text-on-surface">
-<option value="0" <?php echo ($id_filiere == 0) ? 'selected' : ''; ?>>Toutes les filières</option>
-<?php foreach ($filieres as $fil): ?>
-<option value="<?php echo $fil['id_filiere']; ?>" <?php echo ($id_filiere == $fil['id_filiere']) ? 'selected' : ''; ?>><?php echo htmlspecialchars($fil['nom_filiere']); ?></option>
-<?php endforeach; ?>
-</select>
-</div>
-<div class="space-y-1.5">
-<label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest px-1">Recherche Rapide</label>
-<div class="relative">
-<input name="search" value="<?= htmlspecialchars($filters['search']) ?>" class="w-full bg-white border-none rounded-md text-sm py-2.5 pl-10 focus:ring-2 focus:ring-primary shadow-sm text-on-surface" placeholder="Nom ou matricule..." type="text"/>
-<span class="material-symbols-outlined absolute left-3 top-2.5 text-on-surface-variant text-lg">search</span>
-</div>
-</div>
-</div>
-</form>
-</section>
-<!-- Table Section -->
-<div class="bg-surface-container-lowest rounded-xl overflow-hidden border border-outline-variant/5 shadow-sm">
-<div class="overflow-x-auto no-scrollbar">
-<table class="w-full text-left border-collapse">
-<thead>
-<tr class="bg-surface-container-low/50">
-<th class="px-6 py-4 text-[11px] font-bold text-on-surface-variant uppercase tracking-widest">Ã‰tudiant</th>
-<th class="px-6 py-4 text-[11px] font-bold text-on-surface-variant uppercase tracking-widest">Matricule</th>
-<th class="px-6 py-4 text-[11px] font-bold text-on-surface-variant uppercase tracking-widest">Nom &amp; PrÃ©nom</th>
-<th class="px-6 py-4 text-[11px] font-bold text-on-surface-variant uppercase tracking-widest">Date de Naissance</th>
-<th class="px-6 py-4 text-[11px] font-bold text-on-surface-variant uppercase tracking-widest">Statut</th>
-<th class="px-6 py-4 text-[11px] font-bold text-on-surface-variant uppercase tracking-widest text-right">Actions</th>
-</tr>
-</thead>
-<tbody class="divide-y divide-outline-variant/10">
-<?php if (is_array($students) && count($students) > 0): ?>
-    <?php foreach ($students as $student): ?>
-    <?php
-        // En cas de champ absent, on dÃ©finit des valeurs par dÃ©faut
-        $student['statut'] = $student['statut'] ?? 'Inscrit';
-        $statusClass = strtolower($student['statut']) === 'suspendu'
-            ? 'bg-tertiary-container text-on-tertiary-container'
-            : 'bg-secondary-container text-on-secondary-container';
-
-        // Photo par dÃ©faut si aucune URL fournie
-        $photo = $student['photo'] ?? 'https://via.placeholder.com/40?text=U';
-
-        // Les noms de champs date peuvent Ãªtre diffÃ©rents selon la table
-        $naissance = $student['date_naissance'] ?? $student['naissance'] ?? 'Non renseignÃ©';
-    ?>
-
-    <!-- Ligne Ã©tudiant (boucle) -->
-    <tr class="hover:bg-surface-container-low transition-colors group">
-        <td class="px-6 py-4">
-            <!-- image -->
-            <img alt="Avatar Ã©tudiant"
-                 class="w-10 h-10 rounded-full border border-outline-variant/20 object-cover<?= strtolower($student['statut']) === 'suspendu' ? ' opacity-60' : '' ?>"
-                 src="<?= htmlspecialchars($photo) ?>"/>
-        </td>
-        <td class="px-6 py-4 font-mono text-sm font-semibold text-primary"><?= htmlspecialchars($student['matricule'] ?? '---') ?></td>
-        <td class="px-6 py-4">
-            <div class="flex flex-col">
-                <span class="text-sm font-bold text-on-surface"><?= htmlspecialchars($student['nom'] ?? '---') ?></span>
-                <span class="text-xs text-on-surface-variant"><?= htmlspecialchars($student['prenom'] ?? '---') ?></span>
-            </div>
-        </td>
-        <td class="px-6 py-4 text-sm text-on-surface-variant"><?= htmlspecialchars($naissance) ?></td>
-        <td class="px-6 py-4">
-            <span class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider <?= $statusClass ?>"><?= htmlspecialchars($student['statut']) ?></span>
-        </td>
-        <td class="px-6 py-4 text-right">
-            <!-- actions (bouton) -->
-            <button class="p-1.5 rounded-full hover:bg-white text-on-surface-variant group-hover:text-primary transition-all">
-                <span class="material-symbols-outlined text-xl">more_vert</span>
+<section class="bg-white rounded-2xl border border-slate-100 p-6 mb-10 shadow-sm">
+    <form method="GET" action="<?= $base_url . $backend_url ?>repertoire_etudiants_backend.php" id="repertoire-filter-form" class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div class="md:col-span-2 relative group">
+            <label class="block text-[10px] font-black text-slate-400 uppercase mb-2 tracking-widest px-1">Recherche Globale</label>
+            <span class="material-symbols-outlined absolute left-3 top-[38px] text-slate-400 group-focus-within:text-primary transition-colors text-[20px]">search</span>
+            <input name="recherche" value="<?= htmlspecialchars($search) ?>" class="w-full bg-slate-50 border-none rounded-xl text-sm py-3.5 pl-10 focus:ring-2 focus:ring-primary focus:bg-white shadow-sm text-slate-700 font-bold transition-all" placeholder="Nom, prénom ou matricule..." type="text"/>
+        </div>
+        <div>
+            <label class="block text-[10px] font-black text-slate-400 uppercase mb-2 tracking-widest px-1">Filière</label>
+            <select name="filiere" class="w-full bg-slate-50 border-none rounded-xl text-sm py-3.5 px-4 focus:ring-2 focus:ring-primary shadow-sm text-slate-700 font-bold appearance-none outline-none" onchange="this.form.submit()">
+                <option value="0">Toutes les filières</option>
+                <?php foreach ($filieres as $f): ?>
+                    <option value="<?= $f['id_filiere'] ?>" <?= ($id_filiere == $f['id_filiere']) ? 'selected' : '' ?>><?= htmlspecialchars($f['nom_filiere']) ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div class="flex items-end">
+            <button type="submit" class="w-full bg-primary/10 text-primary font-black text-xs py-4 rounded-xl hover:bg-primary hover:text-white transition-all uppercase tracking-widest">
+                FILTRER
             </button>
-        </td>
-    </tr>
-    <?php endforeach; ?>
-<?php else: ?>
-    <tr>
-        <td colspan="6" class="px-6 py-8 text-center text-on-surface-variant">
-            <p class="text-sm">Aucun Ã©tudiant trouvÃ© correspondant Ã  vos critÃ¨res.</p>
-        </td>
-    </tr>
-<?php endif; ?>
-</tbody>
-</table>
+        </div>
+    </form>
+</section>
+
+<!-- Table Section -->
+<div class="bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm mb-12">
+    <div class="overflow-x-auto no-scrollbar">
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="bg-slate-50/50">
+                    <th class="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Étudiant</th>
+                    <th class="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Matricule</th>
+                    <th class="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Filière</th>
+                    <th class="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Inscrit le</th>
+                    <th class="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Statut</th>
+                    <th class="px-6 py-4 text-right"></th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-50">
+                <?php if (!empty($etudiants)): ?>
+                    <?php foreach ($etudiants as $et): ?>
+                    <tr class="hover:bg-slate-50/80 transition-all group searchable-item">
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-3">
+                                <div class="h-10 w-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-400 font-black text-xs group-hover:bg-primary group-hover:text-white transition-all duration-300 uppercase">
+                                    <?= substr($et['nom'], 0, 1) . substr($et['prenom'], 0, 1) ?>
+                                </div>
+                                <div class="flex flex-col">
+                                    <span class="text-sm font-black text-slate-800"><?= htmlspecialchars($et['nom'] . ' ' . $et['prenom']) ?></span>
+                                    <span class="text-[10px] font-bold text-slate-400 lowercase"><?= htmlspecialchars($et['email']) ?></span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="text-xs font-mono font-black text-primary bg-primary/5 px-2 py-1 rounded"><?= htmlspecialchars($et['matricule']) ?></span>
+                        </td>
+                        <td class="px-6 py-4 text-xs font-bold text-slate-600 truncate max-w-[150px]"><?= htmlspecialchars($et['nom_filiere']) ?></td>
+                        <td class="px-6 py-4 text-[10px] font-black text-slate-400 tracking-wider">
+                            <?= date('d M Y', strtotime($et['date_inscription'])) ?>
+                        </td>
+                        <td class="px-6 py-4">
+                             <span class="px-2 py-1 rounded-full text-[9px] font-black uppercase tracking-widest <?= $et['statut'] == 'Actif' ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-600' ?>">
+                                <?= htmlspecialchars($et['statut']) ?>
+                             </span>
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                            <div class="flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <a href="<?= $base_url . $backend_url ?>carte_etudiant_backend.php?id=<?= $et['id_etudiant'] ?>" class="p-2 hover:bg-white rounded-lg text-slate-400 hover:text-primary shadow-sm border border-transparent hover:border-slate-100" title="Carte">
+                                    <span class="material-symbols-outlined text-[20px]">badge</span>
+                                </a>
+                                <a href="#" class="p-2 hover:bg-white rounded-lg text-slate-400 hover:text-primary shadow-sm border border-transparent hover:border-slate-100">
+                                    <span class="material-symbols-outlined text-[20px]">edit</span>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="6" class="px-6 py-24 text-center">
+                            <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <span class="material-symbols-outlined text-4xl text-slate-200">person_search</span>
+                            </div>
+                            <h3 class="text-lg font-black text-slate-800">Aucun étudiant trouvé</h3>
+                            <p class="text-slate-400 text-xs font-medium">Affinez vos filtres ou lancez une nouvelle recherche.</p>
+                        </td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
+    
+    <!-- Pagination Footer -->
+    <div class="bg-slate-50/50 px-8 py-5 flex items-center justify-between border-t border-slate-100">
+        <p class="text-[10px] text-slate-400 font-black uppercase tracking-widest italic"><?= htmlspecialchars($infoPagination) ?></p>
+        <div class="flex gap-2">
+            <a href="?page=<?= max(1, $page-1) ?>&filiere=<?= $id_filiere ?>&recherche=<?= urlencode($search) ?>" class="h-9 w-9 flex items-center justify-center rounded-xl border border-slate-200 bg-white hover:bg-primary hover:text-white transition-all text-slate-500 <?= $page <= 1 ? 'pointer-events-none opacity-30' : '' ?>">
+                <span class="material-symbols-outlined text-[18px]">chevron_left</span>
+            </a>
+            <div class="h-9 flex items-center px-4 bg-white border border-slate-200 rounded-xl text-xs font-black text-primary">
+                <?= $page ?> / <?= $total_pages ?>
+            </div>
+            <a href="?page=<?= min($total_pages, $page+1) ?>&filiere=<?= $id_filiere ?>&recherche=<?= urlencode($search) ?>" class="h-9 w-9 flex items-center justify-center rounded-xl border border-slate-200 bg-white hover:bg-primary hover:text-white transition-all text-slate-500 <?= $page >= $total_pages ? 'pointer-events-none opacity-30' : '' ?>">
+                <span class="material-symbols-outlined text-[18px]">chevron_right</span>
+            </a>
+        </div>
+    </div>
 </div>
-<!-- Pagination Footer -->
-<div class="bg-surface-container-low/30 px-6 py-4 flex items-center justify-between">
-<p class="text-xs text-on-surface-variant font-medium"><?= htmlspecialchars($infoPagination) ?></p>
-<div class="flex gap-2">
-<button class="p-2 rounded-md border border-outline-variant/20 bg-white hover:bg-surface-container transition-all disabled:opacity-30" disabled="">
-<span class="material-symbols-outlined text-lg">chevron_left</span>
-</button>
-<button class="p-2 rounded-md border border-outline-variant/20 bg-white hover:bg-surface-container transition-all">
-<span class="material-symbols-outlined text-lg">chevron_right</span>
-</button>
-</div>
-</div>
-</div>
-</main>
-</div>
-</body></html>
+
+<!-- Floating Action Button (FAB) -->
+<a href="<?= $base_url . $backend_url ?>saisie_etudiants_backend.php" class="fixed bottom-8 right-8 h-16 w-16 bg-primary text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-50 group">
+    <span class="material-symbols-outlined text-[32px] group-hover:rotate-90 transition-transform duration-300">add</span>
+    <div class="absolute right-full mr-4 bg-slate-900 text-white px-4 py-2 rounded-xl text-[10px] font-black opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-xl uppercase tracking-widest">
+        Nouvelle Inscription
+    </div>
+</a>
+
+<?php include __DIR__ . '/../../../../backend/includes/footer.php'; ?>

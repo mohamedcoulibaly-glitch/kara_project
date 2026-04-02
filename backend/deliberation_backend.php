@@ -138,6 +138,8 @@ if (isset($_GET['format']) && $_GET['format'] === 'json') {
     exit;
 }
 
+$etudiants = $etudiants_stats;
+extract($deliberation_data);
 // Inclure le fichier frontend
 include __DIR__ . '/../Maquettes_de_gestion_acad_mique_lmd/Maquettes_de_gestion_acad_mique_lmd/Maquettes_de_gestion_acad_mique_lmd/d_lib_ration_finale_acad_mique/deliberation_final_academique.php';
 

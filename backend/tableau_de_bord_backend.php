@@ -118,56 +118,12 @@ if ($stmt->execute()) {
 }
 
 ?>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tableau de Bord - Gestion Académique</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
-</head>
-<body class="bg-surface text-on-surface min-h-screen">
-
-<!-- SideNavBar -->
-<aside class="h-screen w-64 fixed left-0 top-0 bg-surface-container-lowest flex flex-col p-4 z-50">
-    <div class="mb-8 px-2">
-        <h1 class="text-lg font-bold text-primary">Portail Académique</h1>
-        <p class="text-xs text-slate-500">Gestion LMD v2.0</p>
-    </div>
-    <nav class="flex-1 space-y-1">
-        <a href="../../index.php" class="flex items-center gap-3 px-3 py-2 bg-white text-primary shadow-sm rounded-lg">
-            <span class="material-symbols-outlined">dashboard</span>
-            <span class="text-sm">Dashboard</span>
-        </a>
-        <a href="repertoire_etudiants_backend.php" class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-100 rounded-lg">
-            <span class="material-symbols-outlined">group</span>
-            <span class="text-sm">Étudiants</span>
-        </a>
-        <a href="saisie_notes_moyennes_backend.php" class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-100 rounded-lg">
-            <span class="material-symbols-outlined">edit_note</span>
-            <span class="text-sm">Notes</span>
-        </a>
-    </nav>
-</aside>
-
-<!-- TopAppBar -->
-<header class="fixed top-0 right-0 w-[calc(100%-16rem)] h-16 bg-white/80 backdrop-blur-md z-40 flex items-center justify-between px-8 shadow-sm">
-    <h2 class="text-xl font-bold text-primary">Tableau de Bord Académique</h2>
-    <div class="flex items-center gap-4">
-        <button class="p-2 text-slate-500 hover:bg-slate-100 rounded-full">
-            <span class="material-symbols-outlined">notifications</span>
-        </button>
-        <button class="p-2 text-slate-500 hover:bg-slate-100 rounded-full">
-            <span class="material-symbols-outlined">settings</span>
-        </button>
-    </div>
-</header>
-
-<!-- Main Content -->
-<main class="ml-64 pt-24 pb-12 px-8 min-h-screen">
-    <div class="max-w-7xl mx-auto space-y-8">
+<?php
+$page_title = 'Tableau de Bord Académique';
+$current_page = 'dashboard';
+include __DIR__ . '/includes/sidebar.php';
+?>
+<!-- KPI Cards -->
 
         <!-- KPI Cards -->
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -265,7 +221,4 @@ if ($stmt->execute()) {
         </div>
 
     </div>
-</main>
-
-</body>
-</html>
+<?php include __DIR__ . '/includes/footer.php'; ?>

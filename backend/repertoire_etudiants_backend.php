@@ -165,6 +165,7 @@ if (isset($_GET['format']) && $_GET['format'] === 'json') {
     exit;
 }
 
+extract($repertoire_data);
 // Inclure le fichier frontend
 include __DIR__ . '/../Maquettes_de_gestion_acad_mique_lmd/Maquettes_de_gestion_acad_mique_lmd/Maquettes_de_gestion_acad_mique_lmd/r_pertoire_des_tudiants/repertoire_des_etudiants.php';
 

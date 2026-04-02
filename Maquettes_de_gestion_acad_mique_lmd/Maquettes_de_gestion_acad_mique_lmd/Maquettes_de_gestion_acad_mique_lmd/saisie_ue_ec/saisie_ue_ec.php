@@ -1,357 +1,273 @@
-﻿<!DOCTYPE html>
+<?php
+$page_title = 'Paramétrage UE & Éléments';
+$current_page = 'saisie_ue_ec';
+include __DIR__ . '/../../../../backend/includes/sidebar.php';
 
-<html lang="fr"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "secondary": "#4b5c92",
-                        "on-surface": "#191c1e",
-                        "surface-dim": "#d8dadc",
-                        "inverse-surface": "#2d3133",
-                        "inverse-on-surface": "#eff1f3",
-                        "primary": "#003fb1",
-                        "on-tertiary-container": "#ffd4c5",
-                        "on-primary": "#ffffff",
-                        "secondary-container": "#b1c2ff",
-                        "on-tertiary-fixed-variant": "#802a00",
-                        "inverse-primary": "#b5c4ff",
-                        "on-primary-fixed-variant": "#003dab",
-                        "surface-container-lowest": "#ffffff",
-                        "on-secondary-fixed-variant": "#334479",
-                        "error-container": "#ffdad6",
-                        "surface-tint": "#1353d8",
-                        "surface": "#f7f9fb",
-                        "on-secondary-fixed": "#01174b",
-                        "secondary-fixed": "#dbe1ff",
-                        "surface-container": "#eceef0",
-                        "primary-fixed-dim": "#b5c4ff",
-                        "tertiary-fixed": "#ffdbcf",
-                        "surface-container-low": "#f2f4f6",
-                        "surface-container-high": "#e6e8ea",
-                        "on-background": "#191c1e",
-                        "on-primary-fixed": "#00174d",
-                        "primary-container": "#1a56db",
-                        "error": "#ba1a1a",
-                        "tertiary-container": "#ad3b00",
-                        "on-primary-container": "#d4dcff",
-                        "on-secondary": "#ffffff",
-                        "tertiary": "#852b00",
-                        "on-tertiary-fixed": "#380d00",
-                        "on-tertiary": "#ffffff",
-                        "outline-variant": "#c3c5d7",
-                        "on-error-container": "#93000a",
-                        "primary-fixed": "#dbe1ff",
-                        "surface-container-highest": "#e0e3e5",
-                        "on-error": "#ffffff",
-                        "surface-bright": "#f7f9fb",
-                        "tertiary-fixed-dim": "#ffb59a",
-                        "secondary-fixed-dim": "#b5c4ff",
-                        "outline": "#737686",
-                        "surface-variant": "#e0e3e5",
-                        "background": "#f7f9fb",
-                        "on-secondary-container": "#3d4e84",
-                        "on-surface-variant": "#434654"
-                    },
-                    fontFamily: {
-                        "headline": ["Inter"],
-                        "body": ["Inter"],
-                        "label": ["Inter"]
-                    },
-                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
-                },
-            },
-        }
-    </script>
-<style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-            vertical-align: middle;
-        }
-        body { font-family: 'Inter', sans-serif; }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-    </style>
-</head>
-<body class="bg-surface text-on-surface antialiased">
-<!-- SideNavBar -->
-<aside class="h-screen w-64 fixed left-0 top-0 bg-[#f7f9fb] dark:bg-slate-900 flex flex-col p-4 z-50">
-<div class="flex items-center gap-3 px-2 mb-8">
-<div class="w-10 h-10 bg-primary-container rounded-lg flex items-center justify-center">
-<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">account_balance</span>
+// Variables from backend
+$unites = $unites ?? [];
+$id_filiere = $id_filiere ?? ($filieres[0]['id_filiere'] ?? 0);
+$filieres = $filieres ?? [];
+$elements_constitutifs = $elements_constitutifs ?? [];
+$message = $message ?? '';
+$type_message = $type_message ?? '';
+?>
+
+<div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
+    <div>
+        <nav class="flex text-xs font-medium text-slate-500 mb-2 gap-2 uppercase tracking-widest">
+            <span>Configuration</span>
+            <span class="material-symbols-outlined text-[10px]">chevron_right</span>
+            <span class="text-primary font-bold">Structure Pédagogique</span>
+        </nav>
+        <h1 class="text-4xl font-black text-on-surface tracking-tighter">Gestion des Unités (UE/EC)</h1>
+        <p class="text-slate-500 mt-2 max-w-xl">Configurez le contenu académique par filière. Ajoutez des unités et décomposez-les en éléments constitutifs.</p>
+    </div>
+    
+    <!-- View Switcher -->
+    <div class="flex items-center bg-white p-1 rounded-xl shadow-sm border border-slate-100">
+        <button data-view-switch="list" class="p-2 px-4 rounded-lg bg-primary text-white flex items-center gap-2 text-xs font-bold transition-all">
+            <span class="material-symbols-outlined text-[18px]">list</span> Liste
+        </button>
+        <button data-view-switch="grid" class="p-2 px-4 rounded-lg bg-white text-slate-400 hover:bg-slate-50 flex items-center gap-2 text-xs font-bold transition-all">
+            <span class="material-symbols-outlined text-[18px]">grid_view</span> Grille
+        </button>
+    </div>
 </div>
-<div>
-<h1 class="text-lg font-bold tracking-tight text-[#1A56DB]">Portail AcadÃ©mique</h1>
-<p class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Gestion LMD</p>
+
+<?php if ($message): ?>
+    <script>window.onload = () => showToast("<?= addslashes($message) ?>", "<?= $type_message ?>");</script>
+<?php endif; ?>
+
+<!-- Filters Section -->
+<div class="bg-white p-6 rounded-2xl border border-slate-100 mb-10 shadow-sm flex flex-col md:flex-row gap-6 items-center justify-between">
+    <form method="GET" action="" id="filiere-filter-form" class="flex-1 max-w-md w-full">
+        <label class="block text-[10px] font-black text-slate-400 uppercase mb-2 tracking-widest">Filière d'étude</label>
+        <div class="relative">
+            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-primary">school</span>
+            <select name="filiere" class="w-full pl-10 pr-4 py-3 bg-slate-50 border-none rounded-xl text-sm font-bold text-slate-700 focus:ring-2 focus:ring-primary appearance-none outline-none" onchange="document.getElementById('filiere-filter-form').submit();">
+                <?php foreach ($filieres as $f): ?>
+                    <option value="<?= $f['id_filiere'] ?>" <?= ($f['id_filiere'] == $id_filiere) ? 'selected' : '' ?>>
+                        <?= htmlspecialchars($f['nom_filiere']) ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+    </form>
+    
+    <button data-modal-target="create-ue-modal" class="bg-slate-900 text-white px-8 py-3.5 rounded-xl font-bold text-sm shadow-xl shadow-slate-200 hover:bg-black transition-all flex items-center gap-2">
+        <span class="material-symbols-outlined">add_box</span> Nouvelle Unité
+    </button>
 </div>
-</div>
-<nav class="flex-1 space-y-1">
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 hover:bg-[#f2f4f6] transition-colors duration-200" href="#">
-<span class="material-symbols-outlined">domain</span>
-<span class="font-medium text-sm">DÃ©partements</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 hover:bg-[#f2f4f6] transition-colors duration-200" href="#">
-<span class="material-symbols-outlined">account_tree</span>
-<span class="font-medium text-sm">FiliÃ¨res</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg bg-white text-[#1A56DB] font-semibold shadow-sm" href="#">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">library_books</span>
-<span class="font-medium text-sm">UnitÃ©s d'Enseignement</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 hover:bg-[#f2f4f6] transition-colors duration-200" href="#">
-<span class="material-symbols-outlined">menu_book</span>
-<span class="font-medium text-sm">Ã‰lÃ©ments Constitutifs</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 hover:bg-[#f2f4f6] transition-colors duration-200" href="#">
-<span class="material-symbols-outlined">group</span>
-<span class="font-medium text-sm">Ã‰tudiants</span>
-</a>
-</nav>
-<div class="mt-auto pt-4 border-t border-slate-200">
-<button class="w-full bg-primary-container text-white py-3 rounded-lg font-semibold text-sm mb-4 active:scale-[0.98] transition-transform flex items-center justify-center gap-2">
-<span class="material-symbols-outlined text-sm">add</span>
-                Nouvelle Saisie
-            </button>
-<a class="flex items-center gap-3 px-4 py-2 text-slate-500 hover:text-primary transition-colors" href="#">
-<span class="material-symbols-outlined">settings</span>
-<span class="text-sm">ParamÃ¨tres</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-2 text-slate-500 hover:text-error transition-colors" href="#">
-<span class="material-symbols-outlined">logout</span>
-<span class="text-sm">DÃ©connexion</span>
-</a>
-</div>
-</aside>
-<!-- TopAppBar -->
-<header class="fixed top-0 right-0 w-[calc(100%-16rem)] h-16 bg-white/80 backdrop-blur-md z-40 border-b border-[#f2f4f6]/50 flex items-center justify-between px-8">
-<h2 class="text-xl font-black text-[#1A56DB]">SystÃ¨me de Gestion AcadÃ©mique</h2>
-<div class="flex items-center gap-6">
-<div class="relative hidden lg:block">
-<input class="bg-surface-container-low border-none rounded-full py-2 pl-10 pr-4 text-sm w-64 focus:ring-2 focus:ring-primary/20" placeholder="Rechercher une UE..." type="text"/>
-<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">search</span>
-</div>
-<div class="flex items-center gap-4 border-l border-slate-100 pl-6">
-<button class="text-slate-500 hover:text-primary transition-colors relative">
-<span class="material-symbols-outlined">notifications</span>
-<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full border-2 border-white"></span>
-</button>
-<button class="text-slate-500 hover:text-primary transition-colors">
-<span class="material-symbols-outlined">help_outline</span>
-</button>
-<img alt="Avatar Administrateur" class="w-8 h-8 rounded-full border-2 border-primary-container object-cover" data-alt="Avatar portrait of an administrative director" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCeLEbI3t4yCPlNTVfI_CQGo1kAIPYh7D_pY3bUdzSzppYqR0ZZ2fC4KiHqTeoRBzZo5pUXU_LMlvTeUS7WhtAH74agBsUFpF-3DHRDp0_M2VCxghWkoR6hKeer0dezIj-ttfMMNbqt8MNUerfhtUlMhixUuzbNaIuiaX3DCAbTbOe88bINFscyA20Q-eAO6-nQNcp6zpvb-b98guWcTUZzKhIIjrctoKxZl5nvpne3Zk0x_e53WHln67z-FUQbBT8fj2tS4oYai30"/>
-</div>
-</div>
-</header>
-<!-- Main Content -->
-<main class="ml-64 pt-24 p-8 min-h-screen">
-<div class="max-w-6xl mx-auto space-y-10">
-<!-- Header Section -->
-<div class="flex items-end justify-between">
-<div>
-<nav class="flex items-center gap-2 text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">
-<span>AcadÃ©mique</span>
-<span class="material-symbols-outlined text-xs">chevron_right</span>
-<span class="text-primary">Configuration UE/EC</span>
-</nav>
-<h3 class="text-3xl font-extrabold text-on-surface tracking-tight">Gestion des UnitÃ©s d'Enseignement</h3>
-<p class="text-slate-500 mt-1">DÃ©finissez la structure pÃ©dagogique du semestre en cours.</p>
-</div>
-</div>
-<!-- Editor Grid -->
-<div class="grid grid-cols-1 xl:grid-cols-12 gap-8 items-start">
-<!-- Form Area -->
-<div class="xl:col-span-5 space-y-6">
-<div class="bg-surface-container-lowest rounded-xl p-8 shadow-sm border border-slate-100/50">
-<div class="flex items-center gap-3 mb-8">
-<span class="material-symbols-outlined text-primary bg-primary-fixed p-2 rounded-lg" style="font-variation-settings: 'FILL' 1;">edit_square</span>
-<h4 class="text-lg font-bold">Nouvelle UnitÃ© (UE)</h4>
-</div>
-<form class="space-y-6">
-<!-- UE Fields -->
-<div class="grid grid-cols-2 gap-4">
-<div class="col-span-1">
-<label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Code UE</label>
-<input class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 text-sm focus:bg-white focus:ring-2 focus:ring-primary-container transition-all" placeholder="Ex: INF101" type="text"/>
-</div>
-<div class="col-span-1">
-<label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">CrÃ©dits ECTS</label>
-<input class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 text-sm focus:bg-white focus:ring-2 focus:ring-primary-container transition-all" placeholder="6" type="number"/>
-</div>
-<div class="col-span-2">
-<label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">LibellÃ© de l'UnitÃ©</label>
-<input class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 text-sm focus:bg-white focus:ring-2 focus:ring-primary-container transition-all" placeholder="Ex: Algorithmique et Structures de DonnÃ©es" type="text"/>
-</div>
-</div>
-<!-- Dynamic EC Section -->
-<div class="pt-6 border-t border-slate-100 space-y-4">
-<div class="flex items-center justify-between mb-2">
-<h5 class="text-sm font-bold text-slate-700">Ã‰lÃ©ments Constitutifs (EC)</h5>
-<button class="text-xs font-bold text-primary hover:underline flex items-center gap-1" type="button">
-<span class="material-symbols-outlined text-sm">add_circle</span>
-                                        AJOUTER UN EC
-                                    </button>
-</div>
-<!-- EC Row 1 -->
-<div class="flex gap-3 items-end group">
-<div class="flex-1">
-<label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Nom de l'EC</label>
-<input class="w-full bg-surface-container-low border-none rounded-lg px-4 py-2 text-xs focus:bg-white focus:ring-1 focus:ring-primary transition-all" type="text" value="Programmation C"/>
-</div>
-<div class="w-24">
-<label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Coefficient</label>
-<input class="w-full bg-surface-container-low border-none rounded-lg px-4 py-2 text-xs focus:bg-white focus:ring-1 focus:ring-primary transition-all" type="number" value="2"/>
-</div>
-<button class="p-2 text-slate-300 hover:text-error transition-colors">
-<span class="material-symbols-outlined text-lg">delete</span>
-</button>
-</div>
-<!-- EC Row 2 -->
-<div class="flex gap-3 items-end group">
-<div class="flex-1">
-<label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Nom de l'EC</label>
-<input class="w-full bg-surface-container-low border-none rounded-lg px-4 py-2 text-xs focus:bg-white focus:ring-1 focus:ring-primary transition-all" type="text" value="Structures de donnÃ©es"/>
-</div>
-<div class="w-24">
-<label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Coefficient</label>
-<input class="w-full bg-surface-container-low border-none rounded-lg px-4 py-2 text-xs focus:bg-white focus:ring-1 focus:ring-primary transition-all" type="number" value="3"/>
-</div>
-<button class="p-2 text-slate-300 hover:text-error transition-colors">
-<span class="material-symbols-outlined text-lg">delete</span>
-</button>
-</div>
-</div>
-<button class="w-full bg-primary py-4 text-white rounded-lg font-bold text-sm shadow-lg shadow-primary/20 hover:bg-primary-container transition-all active:scale-[0.99] mt-4">
-                                ENREGISTRER L'UNITÃ‰ D'ENSEIGNEMENT
+
+<!-- Main Display Area -->
+<div id="maquette-view-container" class="space-y-6">
+    <?php if (empty($unites)): ?>
+        <div class="text-center py-32 bg-white rounded-3xl border border-dashed border-slate-200 searchable-item">
+            <div class="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                <span class="material-symbols-outlined text-5xl text-slate-200 scale-150">auto_stories</span>
+            </div>
+            <h3 class="text-xl font-black text-slate-800">Aucune donnée trouvée</h3>
+            <p class="text-slate-400 mt-2 font-medium">Commencez par ajouter des unités d'enseignement pour cette filière.</p>
+        </div>
+    <?php else: ?>
+        <?php foreach ($unites as $ue): ?>
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl hover:border-primary/20 transition-all overflow-hidden group searchable-item">
+                <div class="p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-slate-50/50">
+                    <div class="flex items-center gap-4">
+                        <div class="h-14 w-14 bg-primary rounded-2xl flex flex-col items-center justify-center text-white p-2">
+                            <span class="text-[10px] font-black uppercase opacity-60">UE</span>
+                            <span class="text-xs font-black"><?= htmlspecialchars($ue['code_ue']) ?></span>
+                        </div>
+                        <div>
+                            <h5 class="text-lg font-black text-slate-800 leading-tight"><?= htmlspecialchars($ue['libelle_ue']) ?></h5>
+                            <div class="flex items-center gap-2 mt-1">
+                                <span class="bg-primary/10 text-primary text-[10px] font-black px-2 py-0.5 rounded tracking-widest uppercase">Semestre <?= $ue['semestre'] ?></span>
+                                <span class="text-xs font-bold text-slate-400">•</span>
+                                <span class="text-xs font-bold text-slate-400"><?= $ue['credits_ects'] ?> Crédits ECTS</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button data-modal-target="edit-ue-modal-<?= $ue['id_ue'] ?>" class="p-2.5 bg-white border border-slate-100 text-slate-400 hover:text-primary hover:border-primary/50 rounded-xl transition-all shadow-sm" title="Modifier">
+                            <span class="material-symbols-outlined text-[18px]">edit</span>
+                        </button>
+                        <form method="POST" action="<?= $base_url . $backend_url ?>saisie_ue_ec_backend.php?filiere=<?= $id_filiere ?>" class="inline btn-delete-confirm">
+                            <input type="hidden" name="action" value="delete_ue">
+                            <input type="hidden" name="id_ue" value="<?= $ue['id_ue'] ?>">
+                            <button type="submit" class="p-2.5 bg-white border border-slate-100 text-slate-400 hover:text-error hover:border-error/50 rounded-xl transition-all shadow-sm" title="Supprimer">
+                                <span class="material-symbols-outlined text-[18px]">delete</span>
                             </button>
-</form>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- MODAL DYNAMIQUE: Editer UE -->
+                <div id="edit-ue-modal-<?= $ue['id_ue'] ?>" class="modal-container fixed inset-0 z-[110] hidden items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4">
+                    <div class="bg-white w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden animate-in zoom-in duration-300">
+                        <div class="p-6 bg-primary text-white flex justify-between items-center">
+                            <h4 class="text-sm font-black tracking-tight uppercase">Modifier Unité: <?= $ue['code_ue'] ?></h4>
+                            <button data-modal-close class="hover:bg-white/10 p-1 rounded-full"><span class="material-symbols-outlined">close</span></button>
+                        </div>
+                        <form method="POST" action="<?= $base_url . $backend_url ?>saisie_ue_ec_backend.php?filiere=<?= $id_filiere ?>" class="p-8 space-y-6">
+                            <input type="hidden" name="action" value="update_ue">
+                            <input type="hidden" name="id_ue" value="<?= $ue['id_ue'] ?>">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-[10px] font-black text-slate-400 uppercase mb-2">Code UE</label>
+                                    <input name="code_ue" value="<?= htmlspecialchars($ue['code_ue']) ?>" required class="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm font-bold focus:ring-2 focus:ring-primary" type="text"/>
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-black text-slate-400 uppercase mb-2">Crédits ECTS</label>
+                                    <input name="credits_ects" value="<?= $ue['credits_ects'] ?>" required class="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm font-bold focus:ring-2 focus:ring-primary" type="number"/>
+                                </div>
+                                <div class="col-span-2">
+                                    <label class="block text-[10px] font-black text-slate-400 uppercase mb-2">Semestre</label>
+                                    <select name="semestre" class="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm font-bold focus:ring-2 focus:ring-primary">
+                                        <?php for($i=1;$i<=10;$i++) echo "<option value='$i' ".($ue['semestre']==$i?'selected':'').">$i</option>"; ?>
+                                    </select>
+                                </div>
+                                <div class="col-span-2">
+                                    <label class="block text-[10px] font-black text-slate-400 uppercase mb-2">Libellé</label>
+                                    <input name="libelle_ue" value="<?= htmlspecialchars($ue['libelle_ue']) ?>" required class="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm font-bold focus:ring-2 focus:ring-primary" type="text"/>
+                                </div>
+                            </div>
+                            <div class="pt-4 flex justify-end">
+                                <button type="submit" class="bg-primary text-white px-8 py-3 rounded-xl font-bold text-sm shadow-lg shadow-primary/20 hover:opacity-90 active:scale-95 transition-all">Enregistrer les modifications</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- MODAL DYNAMIQUE: Ajouter EC -->
+                <div id="add-ec-modal-<?= $ue['id_ue'] ?>" class="modal-container fixed inset-0 z-[110] hidden items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4">
+                    <div class="bg-white w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden animate-in zoom-in duration-300">
+                        <div class="p-6 bg-slate-800 text-white flex justify-between items-center">
+                            <h4 class="text-sm font-black tracking-tight uppercase">Ajouter un EC à <?= $ue['code_ue'] ?></h4>
+                            <button data-modal-close class="hover:bg-white/10 p-1 rounded-full"><span class="material-symbols-outlined">close</span></button>
+                        </div>
+                        <form method="POST" action="<?= $base_url . $backend_url ?>saisie_ue_ec_backend.php?filiere=<?= $id_filiere ?>" class="p-8 space-y-6">
+                            <input type="hidden" name="action" value="save_ec">
+                            <input type="hidden" name="id_ue" value="<?= $ue['id_ue'] ?>">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-[10px] font-black text-slate-400 uppercase mb-2">Code EC</label>
+                                    <input name="code_ec" required class="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm font-bold focus:ring-2 focus:ring-primary" placeholder="Ex: EC1" type="text"/>
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-black text-slate-400 uppercase mb-2">Coefficient</label>
+                                    <input name="coefficient" required step="0.1" value="1" class="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm font-bold focus:ring-2 focus:ring-primary" type="number"/>
+                                </div>
+                                <div class="col-span-2">
+                                    <label class="block text-[10px] font-black text-slate-400 uppercase mb-2">Nom de l'élément</label>
+                                    <input name="nom_ec" required class="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm font-bold focus:ring-2 focus:ring-primary" placeholder="Libellé de l'élément constitutif" type="text"/>
+                                </div>
+                            </div>
+                            <div class="pt-4 flex justify-end">
+                                <button type="submit" class="bg-slate-800 text-white px-8 py-3 rounded-xl font-bold text-sm shadow-lg hover:opacity-90 active:scale-95 transition-all">Ajouter cet élément</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="px-6 py-4">
+                    <div class="flex items-center justify-between mb-4">
+                        <h6 class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Éléments Constitutifs (EC)</h6>
+                        <span class="text-[10px] font-bold text-primary bg-primary/5 px-2 py-0.5 rounded">STRUCTURE LMD</span>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <?php 
+                        $has_ec = false;
+                        foreach ($elements_constitutifs as $ec):
+                            if ($ec['code_ue'] === $ue['code_ue']):
+                                $has_ec = true;
+                        ?>
+                            <div class="flex items-center justify-between p-3 bg-slate-50/50 rounded-xl border border-transparent hover:border-slate-200 transition-all">
+                                <div class="flex items-center gap-3">
+                                    <div class="h-2 w-2 rounded-full bg-primary/40"></div>
+                                    <div class="flex flex-col">
+                                        <span class="text-xs font-bold text-slate-700"><?= htmlspecialchars($ec['nom_ec']) ?></span>
+                                        <span class="text-[9px] font-black text-slate-400 font-mono"><?= htmlspecialchars($ec['code_ec']) ?></span>
+                                    </div>
+                                </div>
+                                <span class="bg-white px-2 py-1 rounded-lg shadow-sm text-[10px] font-black text-slate-500">Coeff: <?= $ec['coefficient'] ?></span>
+                            </div>
+                        <?php 
+                            endif;
+                        endforeach; 
+                        ?>
+                        
+                        <!-- Mini Add EC Inline Action -->
+                        <div class="flex items-center justify-center p-3 border-2 border-dashed border-slate-100 rounded-xl hover:border-primary/30 group cursor-pointer transition-all" data-modal-target="add-ec-modal-<?= $ue['id_ue'] ?>">
+                            <span class="material-symbols-outlined text-slate-300 group-hover:text-primary transition-colors">add_circle</span>
+                            <span class="text-[10px] font-black text-slate-400 group-hover:text-primary transition-colors ml-2 uppercase">Ajouter un EC</span>
+                        </div>
+                    </div>
+                    
+                    <?php if (!$has_ec): ?>
+                        <div class="py-4 text-center">
+                            <p class="text-xs italic text-slate-300">Aucun élément rattaché à cette unité.</p>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    <?php endif; ?>
 </div>
-<!-- Form Tips -->
-<div class="bg-secondary-container/20 rounded-xl p-6 border border-secondary-container/30">
-<div class="flex gap-4">
-<span class="material-symbols-outlined text-secondary">info</span>
-<div>
-<h6 class="text-sm font-bold text-on-secondary-container">Standard LMD 2024</h6>
-<p class="text-xs text-on-secondary-container/80 mt-1 leading-relaxed">
-                                    La somme des coefficients des EC doit Ãªtre proportionnelle aux crÃ©dits ECTS de l'UE pour maintenir la cohÃ©rence du systÃ¨me de notation.
-                                </p>
+
+<!-- MODAL: Création UE + EC Dynamique -->
+<div id="create-ue-modal" class="modal-container fixed inset-0 z-[100] hidden items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4">
+    <div class="bg-white w-full max-w-2xl rounded-3xl shadow-2xl overflow-hidden animate-in zoom-in duration-300">
+        <div class="p-6 bg-slate-900 text-white flex justify-between items-center">
+            <h4 class="text-lg font-black tracking-tight">Nouvelle Structure d'Enseignement</h4>
+            <button data-modal-close class="hover:bg-white/10 p-1 rounded-full"><span class="material-symbols-outlined">close</span></button>
+        </div>
+        
+        <form method="POST" action="<?= $base_url . $backend_url ?>saisie_ue_ec_backend.php?filiere=<?= $id_filiere ?>" class="p-8 space-y-8">
+            <input type="hidden" name="action" value="save_ue_batch">
+            
+            <div class="grid grid-cols-3 gap-6">
+                <div>
+                    <label class="block text-[10px] font-black text-slate-400 uppercase mb-2">Code UE</label>
+                    <input name="code_ue" required class="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm font-bold focus:ring-2 focus:ring-primary h-12" placeholder="Ex: INF101" type="text"/>
+                </div>
+                <div>
+                    <label class="block text-[10px] font-black text-slate-400 uppercase mb-2">Crédits ECTS</label>
+                    <input name="credits_ects" required class="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm font-bold focus:ring-2 focus:ring-primary h-12" placeholder="6" type="number"/>
+                </div>
+                <div>
+                    <label class="block text-[10px] font-black text-slate-400 uppercase mb-2">Semestre</label>
+                    <select name="semestre" class="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm font-bold focus:ring-2 focus:ring-primary h-12">
+                        <?php for($i=1;$i<=6;$i++) echo "<option value='$i'>$i</option>"; ?>
+                    </select>
+                </div>
+                <div class="col-span-3">
+                    <label class="block text-[10px] font-black text-slate-400 uppercase mb-2">Libellé complet de l'Unité</label>
+                    <input name="libelle_ue" required class="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm font-bold focus:ring-2 focus:ring-primary h-12" placeholder="Ex: Algorithmique et Programmation" type="text"/>
+                </div>
+            </div>
+            
+            <div class="pt-6 border-t border-slate-100">
+                <div class="flex items-center justify-between mb-4">
+                    <h5 class="text-sm font-black text-slate-800 uppercase tracking-widest">Éléments Constitutifs (DYNAMIQUE)</h5>
+                    <button type="button" id="add-ec-row-btn" class="text-xs font-black text-primary hover:underline flex items-center gap-1">
+                        <span class="material-symbols-outlined text-[16px]">add_circle</span> AJOUTER UN EC
+                    </button>
+                </div>
+                
+                <div id="ec-dynamic-container" class="space-y-3 max-h-60 overflow-y-auto no-scrollbar pr-1">
+                    <!-- Dynamic rows go here via JS -->
+                </div>
+            </div>
+            
+            <div class="pt-6 flex justify-end gap-3">
+                <button type="button" data-modal-close class="px-6 py-3 font-bold text-slate-500 hover:bg-slate-50 rounded-xl transition-all">Annuler</button>
+                <button type="submit" class="bg-primary text-white px-10 py-3 rounded-xl font-bold text-sm shadow-xl shadow-primary/20 hover:opacity-90 transition-all flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[20px]">save_as</span> CRÉER LA STRUCTURE
+                </button>
+            </div>
+        </form>
+    </div>
 </div>
-</div>
-</div>
-</div>
-<!-- Display Area -->
-<div class="xl:col-span-7 space-y-6">
-<div class="flex items-center justify-between">
-<h4 class="text-lg font-bold flex items-center gap-2">
-<span class="material-symbols-outlined text-slate-400">inventory_2</span>
-                            UE EnregistrÃ©es
-                        </h4>
-<div class="flex gap-2">
-<button class="bg-white p-2 rounded-lg border border-slate-100 text-slate-400 hover:text-primary transition-colors">
-<span class="material-symbols-outlined">grid_view</span>
-</button>
-<button class="bg-white p-2 rounded-lg border border-slate-100 text-slate-400 hover:text-primary transition-colors">
-<span class="material-symbols-outlined">list</span>
-</button>
-</div>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-<!-- UE Card 1 -->
-<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow p-6 flex flex-col group relative overflow-hidden">
-<div class="absolute top-0 right-0 w-24 h-24 bg-primary-container/5 rounded-full -mr-12 -mt-12 group-hover:scale-110 transition-transform"></div>
-<div class="flex justify-between items-start mb-4">
-<span class="bg-primary-fixed-dim text-on-primary-fixed-variant text-[10px] font-black px-2 py-1 rounded tracking-widest uppercase">INF202</span>
-<div class="flex gap-1">
-<button class="p-1 text-slate-300 hover:text-primary"><span class="material-symbols-outlined text-sm">edit</span></button>
-<button class="p-1 text-slate-300 hover:text-error"><span class="material-symbols-outlined text-sm">delete</span></button>
-</div>
-</div>
-<h5 class="text-base font-bold text-slate-800 leading-tight mb-2">Bases de DonnÃ©es AvancÃ©es</h5>
-<div class="mt-auto pt-6 flex items-center justify-between border-t border-slate-50">
-<div class="flex items-center gap-2">
-<span class="material-symbols-outlined text-secondary text-sm">history_edu</span>
-<span class="text-xs font-semibold text-slate-500">3 Ã‰lÃ©ments (EC)</span>
-</div>
-<div class="bg-secondary-container px-3 py-1 rounded-full">
-<span class="text-[10px] font-black text-on-secondary-container uppercase tracking-widest">6 ECTS</span>
-</div>
-</div>
-</div>
-<!-- UE Card 2 -->
-<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow p-6 flex flex-col group relative overflow-hidden">
-<div class="absolute top-0 right-0 w-24 h-24 bg-tertiary-container/5 rounded-full -mr-12 -mt-12 group-hover:scale-110 transition-transform"></div>
-<div class="flex justify-between items-start mb-4">
-<span class="bg-tertiary-fixed text-on-tertiary-fixed-variant text-[10px] font-black px-2 py-1 rounded tracking-widest uppercase">MATH101</span>
-<div class="flex gap-1">
-<button class="p-1 text-slate-300 hover:text-primary"><span class="material-symbols-outlined text-sm">edit</span></button>
-<button class="p-1 text-slate-300 hover:text-error"><span class="material-symbols-outlined text-sm">delete</span></button>
-</div>
-</div>
-<h5 class="text-base font-bold text-slate-800 leading-tight mb-2">Analyse MathÃ©matique I</h5>
-<div class="mt-auto pt-6 flex items-center justify-between border-t border-slate-50">
-<div class="flex items-center gap-2">
-<span class="material-symbols-outlined text-secondary text-sm">history_edu</span>
-<span class="text-xs font-semibold text-slate-500">2 Ã‰lÃ©ments (EC)</span>
-</div>
-<div class="bg-secondary-container px-3 py-1 rounded-full">
-<span class="text-[10px] font-black text-on-secondary-container uppercase tracking-widest">4 ECTS</span>
-</div>
-</div>
-</div>
-<!-- UE Card 3 -->
-<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow p-6 flex flex-col group relative overflow-hidden">
-<div class="absolute top-0 right-0 w-24 h-24 bg-primary-container/5 rounded-full -mr-12 -mt-12 group-hover:scale-110 transition-transform"></div>
-<div class="flex justify-between items-start mb-4">
-<span class="bg-primary-fixed-dim text-on-primary-fixed-variant text-[10px] font-black px-2 py-1 rounded tracking-widest uppercase">ANG105</span>
-<div class="flex gap-1">
-<button class="p-1 text-slate-300 hover:text-primary"><span class="material-symbols-outlined text-sm">edit</span></button>
-<button class="p-1 text-slate-300 hover:text-error"><span class="material-symbols-outlined text-sm">delete</span></button>
-</div>
-</div>
-<h5 class="text-base font-bold text-slate-800 leading-tight mb-2">Anglais Technique &amp; Communication</h5>
-<div class="mt-auto pt-6 flex items-center justify-between border-t border-slate-50">
-<div class="flex items-center gap-2">
-<span class="material-symbols-outlined text-secondary text-sm">history_edu</span>
-<span class="text-xs font-semibold text-slate-500">1 Ã‰lÃ©ment (EC)</span>
-</div>
-<div class="bg-secondary-container px-3 py-1 rounded-full">
-<span class="text-[10px] font-black text-on-secondary-container uppercase tracking-widest">2 ECTS</span>
-</div>
-</div>
-</div>
-<!-- Empty State / Add New -->
-<div class="bg-slate-50 rounded-xl border-2 border-dashed border-slate-200 p-6 flex flex-col items-center justify-center text-center group cursor-pointer hover:border-primary-container/30 transition-all">
-<div class="w-12 h-12 rounded-full bg-white flex items-center justify-center text-slate-300 group-hover:text-primary transition-colors">
-<span class="material-symbols-outlined">add_circle</span>
-</div>
-<p class="text-xs font-bold text-slate-400 mt-2 uppercase tracking-widest">Ajouter une nouvelle unitÃ©</p>
-</div>
-</div>
-<!-- Statistics / Summary -->
-<div class="grid grid-cols-3 gap-6 pt-4">
-<div class="bg-white p-4 rounded-xl border border-slate-100">
-<p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Total UE</p>
-<p class="text-2xl font-black text-primary">12</p>
-</div>
-<div class="bg-white p-4 rounded-xl border border-slate-100">
-<p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Total ECTS</p>
-<p class="text-2xl font-black text-primary">30</p>
-</div>
-<div class="bg-white p-4 rounded-xl border border-slate-100">
-<p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Moyenne Coeff</p>
-<p class="text-2xl font-black text-primary">2.4</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-</main>
-<!-- Contextual FAB (Suppressing as per mandate on management screens, but kept placeholder for layout awareness) -->
-<!-- Suppression logic: Screen is Management Task Focused -->
-</body></html>
+
+<?php include __DIR__ . '/../../../../backend/includes/footer.php'; ?>

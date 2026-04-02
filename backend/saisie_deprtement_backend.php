@@ -260,6 +260,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['format']) && $_GET['fo
 }
 
 // Sinon inclure le fichier frontend
+extract($saisie_data);
 include __DIR__ . '/../Maquettes_de_gestion_acad_mique_lmd/Maquettes_de_gestion_acad_mique_lmd/Maquettes_de_gestion_acad_mique_lmd/saisie_d_partements_fili_res/saisie_deprtement.php';
 
 ?>

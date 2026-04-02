@@ -80,7 +80,12 @@ foreach ($filieres as $f) {
 }
 
 // Préparer les données
+$page_title = 'Maquette LMD';
+$current_page = 'maquettes';
+
 $maquette_data = [
+    'page_title' => $page_title,
+    'current_page' => $current_page,
     'filieres' => $filieres,
     'id_filiere' => $id_filiere,
     'filiere_courante' => $filiere_courante,
@@ -94,7 +99,10 @@ if (isset($_GET['format']) && $_GET['format'] === 'json') {
     exit;
 }
 
+extract($maquette_data);
 // Inclure le fichier frontend
-include __DIR__ . '/../Maquettes_de_gestion_acad_mique_lmd/Maquettes_de_gestion_acad_mique_lmd/Maquettes_de_gestion_acad_mique_lmd/maquettes_lmd_par_semestre/maquette_lmd_par_semestre.php';
+if (!defined('FRONTEND_LOADED')) {
+    include __DIR__ . '/../Maquettes_de_gestion_acad_mique_lmd/Maquettes_de_gestion_acad_mique_lmd/Maquettes_de_gestion_acad_mique_lmd/maquettes_lmd_par_semestre/maquette_lmd_par_semestre.php';
+}
 
 ?>

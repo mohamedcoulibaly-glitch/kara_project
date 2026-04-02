@@ -1,373 +1,154 @@
-﻿<!DOCTYPE html>
+<?php
+define('FRONTEND_LOADED', true);
+require_once __DIR__ . '/../../../../backend/saisie_notes_par_ec_backend.php';
+// Variables from backend: $filieres, $id_filiere, $id_ue, $id_ec, $session, $date_examen, $unites, $elements, $etudiants, $message, $type_message
+$page_title = 'Saisie des Notes par EC';
+$current_page = 'notes';
+include __DIR__ . '/../../../../backend/includes/sidebar.php';
+?>
 
-<html class="light" lang="fr"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Saisie des Notes - LMD Horizon</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "on-surface": "#191c1e",
-                        "on-tertiary-fixed-variant": "#802a00",
-                        "on-primary-fixed": "#00174d",
-                        "surface-tint": "#1353d8",
-                        "on-tertiary-fixed": "#380d00",
-                        "primary-container": "#1a56db",
-                        "outline": "#737686",
-                        "error": "#ba1a1a",
-                        "secondary-fixed": "#dbe1ff",
-                        "inverse-surface": "#2d3133",
-                        "tertiary": "#852b00",
-                        "surface-bright": "#f7f9fb",
-                        "surface-variant": "#e0e3e5",
-                        "surface-dim": "#d8dadc",
-                        "tertiary-fixed-dim": "#ffb59a",
-                        "secondary-fixed-dim": "#b5c4ff",
-                        "on-secondary-fixed": "#01174b",
-                        "secondary-container": "#b1c2ff",
-                        "primary": "#003fb1",
-                        "on-surface-variant": "#434654",
-                        "on-tertiary-container": "#ffd4c5",
-                        "surface-container-low": "#f2f4f6",
-                        "primary-fixed-dim": "#b5c4ff",
-                        "surface-container": "#eceef0",
-                        "on-error": "#ffffff",
-                        "on-secondary": "#ffffff",
-                        "on-primary-fixed-variant": "#003dab",
-                        "inverse-primary": "#b5c4ff",
-                        "surface-container-highest": "#e0e3e5",
-                        "surface": "#f7f9fb",
-                        "on-secondary-fixed-variant": "#334479",
-                        "on-error-container": "#93000a",
-                        "surface-container-lowest": "#ffffff",
-                        "on-background": "#191c1e",
-                        "secondary": "#4b5c92",
-                        "tertiary-container": "#ad3b00",
-                        "tertiary-fixed": "#ffdbcf",
-                        "background": "#f7f9fb",
-                        "surface-container-high": "#e6e8ea",
-                        "on-secondary-container": "#3d4e84",
-                        "on-tertiary": "#ffffff",
-                        "error-container": "#ffdad6",
-                        "outline-variant": "#c3c5d7",
-                        "on-primary": "#ffffff",
-                        "inverse-on-surface": "#eff1f3",
-                        "on-primary-container": "#d4dcff",
-                        "primary-fixed": "#dbe1ff"
-                    },
-                    fontFamily: {
-                        "headline": ["Inter"],
-                        "body": ["Inter"],
-                        "label": ["Inter"]
-                    },
-                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
-                },
-            },
-        }
-    </script>
-<style>
-        body { font-family: 'Inter', sans-serif; background-color: #f7f9fb; }
-        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
-        .glass-effect { backdrop-filter: blur(12px); }
-        input[type="number"]::-webkit-inner-spin-button, 
-        input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-    </style>
-</head>
-<body class="text-on-surface bg-surface">
-<!-- SideNavBar (Authority: Shared Components JSON) -->
-<aside class="flex flex-col fixed left-0 top-0 h-full py-6 bg-slate-50 dark:bg-slate-950 h-screen w-64 border-r-0 tonal-shift bg-surface-container-low transition-all duration-150 ease-in-out z-40 hidden md:flex">
-<div class="px-6 mb-10 flex items-center gap-3">
-<div class="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center text-white font-bold text-xl">H</div>
-<div>
-<h2 class="text-lg font-black text-blue-900 dark:text-blue-300 leading-none">LMD Horizon</h2>
-<p class="text-[10px] uppercase tracking-widest text-slate-500 font-bold mt-1">Administration</p>
-</div>
-</div>
-<nav class="flex-1 space-y-1 px-3">
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-500 dark:text-slate-500 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-all duration-150" href="#">
-<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
-<span class="text-sm font-medium Inter">Tableau de bord</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 border-r-4 border-blue-700 transition-all duration-150" href="#">
-<span class="material-symbols-outlined" data-icon="account_tree">account_tree</span>
-<span class="text-sm font-medium Inter">FiliÃ¨res</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-500 dark:text-slate-500 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-all duration-150" href="#">
-<span class="material-symbols-outlined" data-icon="grading">grading</span>
-<span class="text-sm font-medium Inter">Notes</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-500 dark:text-slate-500 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-all duration-150" href="#">
-<span class="material-symbols-outlined" data-icon="settings">settings</span>
-<span class="text-sm font-medium Inter">ParamÃ¨tres</span>
-</a>
-</nav>
-<div class="px-6 py-4 mt-auto">
-<div class="flex items-center gap-3 p-3 rounded-xl bg-surface-container-lowest shadow-sm">
-<div class="w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold text-xs">JD</div>
-<div class="overflow-hidden">
-<p class="text-xs font-bold truncate">Jean Dupont</p>
-<p class="text-[10px] text-slate-500 truncate">Administrateur</p>
-</div>
-</div>
-</div>
-</aside>
-<!-- TopAppBar (Authority: Shared Components JSON) -->
-<header class="sticky top-0 z-50 w-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-md no-border bg-surface-container-low shadow-sm dark:shadow-none md:pl-64">
-<div class="flex items-center justify-between px-6 py-3 w-full">
-<div class="flex items-center gap-4">
-<span class="text-xl font-bold tracking-tighter text-blue-800 dark:text-blue-400 font-sans antialiased tracking-tight">Portail AcadÃ©mique</span>
-</div>
-<div class="flex items-center gap-4">
-<div class="relative hidden sm:block">
-<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">search</span>
-<input class="pl-10 pr-4 py-2 bg-surface-container text-sm rounded-full border-none focus:ring-2 focus:ring-primary w-64" placeholder="Rechercher un Ã©tudiant..." type="text"/>
-</div>
-<div class="flex items-center gap-2">
-<button class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors scale-95 active:scale-90 duration-200">
-<span class="material-symbols-outlined text-slate-600 dark:text-slate-400" data-icon="notifications">notifications</span>
-</button>
-<button class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors scale-95 active:scale-90 duration-200">
-<span class="material-symbols-outlined text-slate-600 dark:text-slate-400" data-icon="account_circle">account_circle</span>
-</button>
-</div>
-</div>
-</div>
-</header>
-<!-- Main Content Canvas -->
-<main class="md:pl-64 min-h-screen pb-20">
-<div class="max-w-7xl mx-auto px-6 py-8">
-<!-- Breadcrumbs & Title -->
 <div class="mb-8">
-<nav class="flex items-center gap-2 text-xs font-medium text-slate-500 mb-2 uppercase tracking-wider">
-<span>Configurations</span>
-<span class="material-symbols-outlined text-[14px]">chevron_right</span>
-<span class="text-primary-container">Saisie des Notes</span>
-</nav>
-<h1 class="text-3xl font-extrabold tracking-tight text-on-surface">Saisie des Notes par EC</h1>
+    <h1 class="text-3xl font-extrabold text-on-surface tracking-tighter">Saisie Détaillée des Notes</h1>
+    <p class="text-slate-500 mt-2">Gestion des notes par Élément Constitutif (EC). Sélectionnez la session et la date de l'examen.</p>
 </div>
-<div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
-<!-- Left Section: Filters and Table -->
-<div class="lg:col-span-3 space-y-6">
-<!-- Filter Bento Grid -->
-<section class="bg-surface-container-low p-6 rounded-xl space-y-6">
-<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-<div class="space-y-2">
-<label class="text-xs font-bold text-on-surface-variant uppercase tracking-wide">FiliÃ¨re</label>
-<select class="w-full bg-surface-container-lowest border-none rounded-lg text-sm p-3 focus:ring-2 focus:ring-primary shadow-sm">
-<option>GÃ©nie Logiciel L3</option>
-<option>Cyber-sÃ©curitÃ© L2</option>
-<option>SystÃ¨mes &amp; RÃ©seaux L3</option>
-</select>
+
+<?php if ($message): ?>
+    <div class="mb-6 p-4 rounded-lg <?= $type_message === 'success' ? 'bg-green-50 text-green-800 border-l-4 border-green-500' : 'bg-red-50 text-red-800 border-l-4 border-red-500' ?> shadow-sm">
+        <?= $message ?>
+    </div>
+<?php endif; ?>
+
+<!-- Step 1: Selection Filters -->
+<div class="bg-white p-6 rounded-xl border border-outline-variant/20 mb-8 shadow-sm">
+    <form method="GET" action="" id="ec-notes-filter-form" class="space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div>
+                <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Filière</label>
+                <select name="filiere" class="w-full bg-slate-50 border-none rounded-lg py-2.5 px-4 focus:ring-2 focus:ring-primary font-medium text-slate-700" onchange="window.location.href='?filiere='+this.value">
+                    <option value="0">Sélectionner une filière</option>
+                    <?php foreach ($filieres as $f): ?>
+                        <option value="<?= $f['id_filiere'] ?>" <?= ($f['id_filiere'] == $id_filiere) ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($f['nom_filiere']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Unité d'Enseignement (UE)</label>
+                <select name="ue" class="w-full bg-slate-50 border-none rounded-lg py-2.5 px-4 focus:ring-2 focus:ring-primary font-medium text-slate-700" onchange="window.location.href='?filiere=<?= $id_filiere ?>&ue='+this.value">
+                    <option value="0">Sélectionner une UE...</option>
+                    <?php foreach ($unites as $u): ?>
+                        <option value="<?= $u['id_ue'] ?>" <?= ($u['id_ue'] == $id_ue) ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($u['code_ue'] . ' - ' . $u['libelle_ue']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Élément Constitutif (EC)</label>
+                <select name="ec" class="w-full bg-slate-50 border-none rounded-lg py-2.5 px-4 focus:ring-2 focus:ring-primary font-medium text-slate-700" onchange="document.getElementById('ec-notes-filter-form').submit();">
+                    <option value="0">Sélectionner une EC...</option>
+                    <?php foreach ($elements as $e): ?>
+                        <option value="<?= $e['id_ec'] ?>" <?= ($e['id_ec'] == $id_ec) ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($e['code_ec'] . ' - ' . $e['nom_ec']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-slate-100">
+            <div>
+                <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Type de Session</label>
+                <div class="flex gap-2">
+                    <label class="flex-1 flex items-center justify-center gap-2 py-2 border rounded-lg cursor-pointer transition-all <?= $session === 'Normale' ? 'bg-primary/10 border-primary text-primary font-bold' : 'bg-slate-50 border-slate-200 text-slate-400 font-medium' ?>">
+                        <input type="radio" name="session" value="Normale" class="hidden" <?= $session === 'Normale' ? 'checked' : '' ?> onchange="document.getElementById('ec-notes-filter-form').submit();"> Normale
+                    </label>
+                    <label class="flex-1 flex items-center justify-center gap-2 py-2 border rounded-lg cursor-pointer transition-all <?= $session === 'Rattrapage' ? 'bg-amber-50 border-amber-500 text-amber-700 font-bold' : 'bg-slate-50 border-slate-200 text-slate-400 font-medium' ?>">
+                        <input type="radio" name="session" value="Rattrapage" class="hidden" <?= $session === 'Rattrapage' ? 'checked' : '' ?> onchange="document.getElementById('ec-notes-filter-form').submit();"> Rattrapage
+                    </label>
+                </div>
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Date de l'Examen</label>
+                <input name="date_examen" type="date" value="<?= $date_examen ?>" class="w-full bg-slate-50 border-none rounded-lg py-2.5 px-4 focus:ring-2 focus:ring-primary font-medium text-slate-700" onchange="document.getElementById('ec-notes-filter-form').submit();"/>
+            </div>
+        </div>
+    </form>
 </div>
-<div class="space-y-2">
-<label class="text-xs font-bold text-on-surface-variant uppercase tracking-wide">UnitÃ© d'Enseignement (UE)</label>
-<select class="w-full bg-surface-container-lowest border-none rounded-lg text-sm p-3 focus:ring-2 focus:ring-primary shadow-sm">
-<option>INF101 - Algorithmique Fondamentale</option>
-<option>INF102 - Architecture des Ordinateurs</option>
-</select>
-</div>
-<div class="space-y-2">
-<label class="text-xs font-bold text-on-surface-variant uppercase tracking-wide">Ã‰lÃ©ment Constitutif (EC)</label>
-<select class="w-full bg-surface-container-lowest border-none rounded-lg text-sm p-3 focus:ring-2 focus:ring-primary shadow-sm">
-<option>INF101.1 - Algorithme</option>
-<option>INF101.2 - Structures de DonnÃ©es</option>
-</select>
-</div>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-<div class="space-y-2">
-<label class="text-xs font-bold text-on-surface-variant uppercase tracking-wide">Type de Session</label>
-<div class="flex gap-2 p-1 bg-surface-container rounded-lg">
-<button class="flex-1 py-2 text-sm font-semibold rounded-md bg-white text-primary shadow-sm">Normale</button>
-<button class="flex-1 py-2 text-sm font-medium text-slate-500 hover:bg-white/50 transition-colors">Rattrapage</button>
-</div>
-</div>
-<div class="space-y-2">
-<label class="text-xs font-bold text-on-surface-variant uppercase tracking-wide">Date de l'Examen</label>
-<input class="w-full bg-surface-container-lowest border-none rounded-lg text-sm p-3 focus:ring-2 focus:ring-primary shadow-sm" type="date" value="2023-10-25"/>
-</div>
-</div>
-</section>
-<!-- Data Grid Section -->
-<section class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm">
-<div class="overflow-x-auto">
-<table class="w-full text-left border-collapse">
-<thead>
-<tr class="bg-surface-container-low">
-<th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider">Matricule</th>
-<th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider">Nom &amp; PrÃ©nom</th>
-<th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider text-right">Note (/20)</th>
-<th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider text-center">Statut</th>
-<th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider">Observations</th>
-</tr>
-</thead>
-<tbody class="divide-y divide-surface-container">
-<!-- Row 1 -->
-<tr class="hover:bg-surface-container-low transition-colors group">
-<td class="px-6 py-4 text-sm font-medium text-slate-500">23G00124</td>
-<td class="px-6 py-4 text-sm font-bold">ABENA Marie-ThÃ©rÃ¨se</td>
-<td class="px-6 py-4 text-right">
-<input class="w-20 text-right bg-surface-container-low border-none rounded-md text-sm font-bold focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary" max="20" min="0" step="0.25" type="number" value="14.50"/>
-</td>
-<td class="px-6 py-4 text-center">
-<span class="px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container text-[10px] font-bold uppercase tracking-wider">ValidÃ©</span>
-</td>
-<td class="px-6 py-4">
-<input class="w-full bg-transparent border-none text-xs text-slate-500 focus:ring-0 italic" placeholder="Note..." type="text" value="TrÃ¨s bonne participation"/>
-</td>
-</tr>
-<!-- Row 2 -->
-<tr class="hover:bg-surface-container-low transition-colors group">
-<td class="px-6 py-4 text-sm font-medium text-slate-500">23G00456</td>
-<td class="px-6 py-4 text-sm font-bold">BEKONO Jean-Paul</td>
-<td class="px-6 py-4 text-right">
-<input class="w-20 text-right bg-surface-container-low border-none rounded-md text-sm font-bold focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary" max="20" min="0" step="0.25" type="number" value="08.75"/>
-</td>
-<td class="px-6 py-4 text-center">
-<span class="px-3 py-1 rounded-full bg-tertiary-container text-on-tertiary-container text-[10px] font-bold uppercase tracking-wider">Rattrapage</span>
-</td>
-<td class="px-6 py-4">
-<input class="w-full bg-transparent border-none text-xs text-slate-500 focus:ring-0 italic" placeholder="Note..." type="text" value="DifficultÃ©s en logique"/>
-</td>
-</tr>
-<!-- Row 3 -->
-<tr class="hover:bg-surface-container-low transition-colors group">
-<td class="px-6 py-4 text-sm font-medium text-slate-500">23G00089</td>
-<td class="px-6 py-4 text-sm font-bold">DIOP Mouhamadou</td>
-<td class="px-6 py-4 text-right">
-<input class="w-20 text-right bg-surface-container-low border-none rounded-md text-sm font-bold focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary" max="20" min="0" step="0.25" type="number" value="12.00"/>
-</td>
-<td class="px-6 py-4 text-center">
-<span class="px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container text-[10px] font-bold uppercase tracking-wider">ValidÃ©</span>
-</td>
-<td class="px-6 py-4">
-<input class="w-full bg-transparent border-none text-xs text-slate-500 focus:ring-0 italic" placeholder="Note..." type="text"/>
-</td>
-</tr>
-<!-- Row 4 -->
-<tr class="hover:bg-surface-container-low transition-colors group">
-<td class="px-6 py-4 text-sm font-medium text-slate-500">23G01022</td>
-<td class="px-6 py-4 text-sm font-bold">EBOA Samuel</td>
-<td class="px-6 py-4 text-right">
-<input class="w-20 text-right bg-surface-container-low border-none rounded-md text-sm font-bold focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary" max="20" min="0" step="0.25" type="number" value="16.25"/>
-</td>
-<td class="px-6 py-4 text-center">
-<span class="px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container text-[10px] font-bold uppercase tracking-wider">ValidÃ©</span>
-</td>
-<td class="px-6 py-4">
-<input class="w-full bg-transparent border-none text-xs text-slate-500 focus:ring-0 italic" placeholder="Note..." type="text" value="Excellent travail"/>
-</td>
-</tr>
-<!-- Row 5 -->
-<tr class="hover:bg-surface-container-low transition-colors group">
-<td class="px-6 py-4 text-sm font-medium text-slate-500">23G00761</td>
-<td class="px-6 py-4 text-sm font-bold">FOTSO Karelle</td>
-<td class="px-6 py-4 text-right">
-<input class="w-20 text-right bg-surface-container-low border-none rounded-md text-sm font-bold focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary" max="20" min="0" step="0.25" type="number" value="09.50"/>
-</td>
-<td class="px-6 py-4 text-center">
-<span class="px-3 py-1 rounded-full bg-tertiary-container text-on-tertiary-container text-[10px] font-bold uppercase tracking-wider">Rattrapage</span>
-</td>
-<td class="px-6 py-4">
-<input class="w-full bg-transparent border-none text-xs text-slate-500 focus:ring-0 italic" placeholder="Note..." type="text" value="Proche de la moyenne"/>
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
-</div>
-<!-- Right Section: Sidebar / UE Summary -->
-<aside class="space-y-6">
-<!-- UE Summary Card -->
-<div class="bg-primary text-on-primary p-6 rounded-xl shadow-lg relative overflow-hidden">
-<div class="absolute -right-4 -top-4 opacity-10">
-<span class="material-symbols-outlined text-[120px]" data-icon="auto_stories">auto_stories</span>
-</div>
-<div class="relative z-10">
-<h3 class="text-xs font-bold uppercase tracking-widest opacity-80 mb-4">DÃ©tails de l'UE</h3>
-<div class="space-y-4">
-<div class="flex justify-between items-end border-b border-white/20 pb-2">
-<span class="text-sm">Coefficient EC</span>
-<span class="text-2xl font-black">2.0</span>
-</div>
-<div class="flex justify-between items-end border-b border-white/20 pb-2">
-<span class="text-sm">CrÃ©dits ECTS UE</span>
-<span class="text-2xl font-black">6.0</span>
-</div>
-<div class="pt-2">
-<span class="text-sm block opacity-80 mb-1">Moyenne de classe actuelle</span>
-<div class="flex items-center gap-3">
-<span class="text-3xl font-black tracking-tighter">12.20</span>
-<span class="px-2 py-0.5 rounded bg-white/20 text-[10px] font-bold">+1.2 vs N-1</span>
-</div>
-</div>
-</div>
-</div>
-</div>
-<!-- Action Panel -->
-<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm space-y-3">
-<h4 class="text-xs font-bold uppercase text-slate-400 mb-4">Actions de session</h4>
-<button class="w-full flex items-center justify-center gap-2 py-3 bg-primary text-white text-sm font-bold rounded-lg hover:bg-primary-container transition-all shadow-md active:scale-95">
-<span class="material-symbols-outlined text-[18px]">save</span>
-                            Enregistrer les notes
-                        </button>
-<button class="w-full flex items-center justify-center gap-2 py-3 bg-surface-container text-on-surface-variant text-sm font-bold rounded-lg hover:bg-surface-container-highest transition-all active:scale-95">
-<span class="material-symbols-outlined text-[18px]">download</span>
-                            Exporter (Excel)
-                        </button>
-<button class="w-full flex items-center justify-center gap-2 py-3 text-error text-sm font-bold rounded-lg hover:bg-error-container/20 transition-all">
-<span class="material-symbols-outlined text-[18px]">restart_alt</span>
-                            RÃ©initialiser
-                        </button>
-</div>
-<!-- Statistics Card -->
-<div class="bg-surface-container-low p-6 rounded-xl">
-<h4 class="text-xs font-bold uppercase text-on-surface-variant mb-4">Statistiques de Saisie</h4>
-<div class="space-y-4">
-<div>
-<div class="flex justify-between text-[11px] font-bold mb-1">
-<span>Taux de RÃ©ussite</span>
-<span>60%</span>
-</div>
-<div class="w-full bg-surface-container-highest h-1.5 rounded-full">
-<div class="bg-secondary w-[60%] h-full rounded-full"></div>
-</div>
-</div>
-<div class="flex items-center justify-between text-xs">
-<span class="text-slate-500">Ã‰tudiants saisis</span>
-<span class="font-bold">5 / 35</span>
-</div>
-</div>
-</div>
-</aside>
-</div>
-</div>
-</main>
-<!-- Mobile Navigation (Authority: Shared Components JSON - Bottom Bar Pattern for Mobile) -->
-<div class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-100 px-6 py-3 flex justify-between items-center z-50">
-<button class="flex flex-col items-center gap-1 text-slate-400">
-<span class="material-symbols-outlined">dashboard</span>
-<span class="text-[10px] font-medium">Tableau</span>
-</button>
-<button class="flex flex-col items-center gap-1 text-primary">
-<span class="material-symbols-outlined">account_tree</span>
-<span class="text-[10px] font-bold">FiliÃ¨res</span>
-</button>
-<button class="flex flex-col items-center gap-1 text-slate-400">
-<span class="material-symbols-outlined">grading</span>
-<span class="text-[10px] font-medium">Notes</span>
-</button>
-<button class="flex flex-col items-center gap-1 text-slate-400">
-<span class="material-symbols-outlined">settings</span>
-<span class="text-[10px] font-medium">RÃ©glages</span>
-</button>
-</div>
-</body></html>
+
+<!-- Step 2: Saisie Tabulaire -->
+<?php if ($id_filiere && $id_ue && $id_ec): ?>
+    <div class="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
+        <div class="px-6 py-4 bg-slate-50 border-b border-slate-100 flex justify-between items-center">
+            <h3 class="font-bold text-slate-800">Grille de saisie - <?= $session ?></h3>
+            <span class="text-xs font-bold text-primary bg-primary/10 px-2 py-1 rounded">Date: <?= date('d/m/Y', strtotime($date_examen)) ?></span>
+        </div>
+        
+        <form method="POST" action="<?= $base_url . $backend_url ?>saisie_notes_par_ec_backend.php?filiere=<?= $id_filiere ?>&ue=<?= $id_ue ?>&ec=<?= $id_ec ?>&session=<?= $session ?>&date_examen=<?= $date_examen ?>">
+            <input type="hidden" name="action" value="save_notes_ec">
+            <input type="hidden" name="id_ec" value="<?= $id_ec ?>">
+            <input type="hidden" name="session" value="<?= $session ?>">
+            <input type="hidden" name="date_examen" value="<?= $date_examen ?>">
+            
+            <table class="w-full text-left">
+                <thead class="bg-slate-50/50 text-xs font-bold text-slate-500 uppercase border-b border-slate-100">
+                    <tr>
+                        <th class="px-6 py-4">Étudiant</th>
+                        <th class="px-6 py-4 text-center">Matricule</th>
+                        <th class="px-6 py-4 text-right w-40">Note (/20)</th>
+                        <th class="px-6 py-4 text-right w-64">Observations</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    <?php if (empty($etudiants)): ?>
+                        <tr>
+                            <td colspan="4" class="px-6 py-12 text-center text-slate-400 italic">Aucun étudiant éligible trouvé pour ces paramètres.</td>
+                        </tr>
+                    <?php else: ?>
+                        <?php foreach ($etudiants as $et): ?>
+                            <tr class="hover:bg-slate-50/50 transition-colors">
+                                <td class="px-6 py-4">
+                                    <div class="text-sm font-bold text-slate-800"><?= htmlspecialchars($et['nom'] . ' ' . $et['prenom']) ?></div>
+                                </td>
+                                <td class="px-6 py-4 text-center">
+                                    <span class="text-xs font-mono bg-slate-50 text-slate-500 px-2 py-1 rounded"><?= htmlspecialchars($et['matricule']) ?></span>
+                                </td>
+                                <td class="px-6 py-4 text-right">
+                                    <?php 
+                                        $valeur = isset($notes_saisies[$et['id_etudiant']]) ? $notes_saisies[$et['id_etudiant']]['valeur_note'] : '';
+                                    ?>
+                                    <input type="number" step="0.01" min="0" max="20" 
+                                           name="notes[<?= $et['id_etudiant'] ?>]" 
+                                           value="<?= $valeur ?>"
+                                           placeholder="0.00"
+                                           class="w-24 text-right bg-slate-50 border-none rounded py-2 text-sm focus:ring-2 focus:ring-primary font-black text-primary">
+                                </td>
+                                <td class="px-6 py-4 text-right">
+                                    <input type="text" name="notes[<?= $et['id_etudiant'] ?>][observation]" 
+                                           value="<?= isset($et['observation']) ? htmlspecialchars($et['observation']) : '' ?>"
+                                           placeholder="Observation..."
+                                           class="w-full text-xs italic bg-transparent border-none text-slate-400 focus:ring-0">
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+            
+            <div class="px-6 py-8 bg-slate-50 border-t border-slate-100 flex justify-end gap-3">
+                <button type="submit" class="bg-primary text-white px-12 py-3.5 rounded-lg font-bold text-sm shadow-lg shadow-primary/20 hover:opacity-95 active:scale-[0.98] transition-all flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[20px]">save</span> ENREGISTRER LES RÉSULTATS
+                </button>
+            </div>
+        </form>
+    </div>
+<?php else: ?>
+    <div class="text-center py-32 bg-white rounded-xl border border-dashed border-slate-300">
+        <span class="material-symbols-outlined text-6xl text-slate-200 mb-6 block">edit_document</span>
+        <h3 class="text-lg font-bold text-slate-700">Sélection du module cible</h3>
+        <p class="text-slate-500 mt-2">Veuillez sélectionner les critères ci-dessus pour lancer la saisie des notes.</p>
+    </div>
+<?php endif; ?>
+
+<?php include __DIR__ . '/../../../../backend/includes/footer.php'; ?>

@@ -155,151 +155,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     }
 }
 
+
+
+$page_title = 'Saisie des Notes par EC';
+$current_page = 'notes';
+
+// Préparer les données pour la vue
+$notes_data = [
+    'filieres' => $filieres,
+    'id_filiere' => $id_filiere,
+    'id_ue' => $id_ue,
+    'id_ec' => $id_ec,
+    'session' => $session,
+    'date_examen' => $date_examen,
+    'unites' => $unites,
+    'elements' => $elements,
+    'etudiants' => $etudiants,
+    'notes_saisies' => $notes_saisies,
+    'message' => $message,
+    'type_message' => $type_message,
+    'page_title' => $page_title,
+    'current_page' => $current_page
+];
+
+extract($notes_data);
+
+// Inclure le fichier frontend
+if (!defined('FRONTEND_LOADED')) {
+    include __DIR__ . '/../Maquettes_de_gestion_acad_mique_lmd/Maquettes_de_gestion_acad_mique_lmd/Maquettes_de_gestion_acad_mique_lmd/saisie_des_notes_par_ec/saisie_des_notes_par_ec.php';
+}
 ?>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Saisie des Notes par EC - Gestion Académique</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
-</head>
-<body class="bg-surface text-on-surface">
-
-<!-- SideNavBar -->
-<aside class="flex flex-col fixed left-0 top-0 h-full py-6 bg-slate-50 w-64 z-50">
-    <div class="px-6 mb-8">
-        <h1 class="text-lg font-bold text-primary">Portail Académique</h1>
-        <p class="text-xs text-slate-500">Gestion LMD</p>
-    </div>
-    <nav class="flex-1 space-y-1 px-4">
-        <a href="../../index.php" class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-100 rounded-lg">
-            <span class="material-symbols-outlined">dashboard</span>
-            <span class="text-sm">Dashboard</span>
-        </a>
-        <a href="saisie_notes_par_ec_backend.php" class="flex items-center gap-3 px-3 py-2 bg-white text-primary shadow-sm rounded-lg">
-            <span class="material-symbols-outlined">grading</span>
-            <span class="text-sm">Notes par EC</span>
-        </a>
-    </nav>
-</aside>
-
-<!-- TopAppBar -->
-<header class="fixed top-0 right-0 w-[calc(100%-16rem)] h-16 bg-white/80 backdrop-blur-md z-40 flex items-center px-8 shadow-sm">
-    <h2 class="text-xl font-bold text-primary">Saisie des Notes par EC</h2>
-</header>
-
-<!-- Main Content -->
-<main class="ml-64 pt-24 pb-12 px-8 min-h-screen">
-    <div class="max-w-7xl mx-auto">
-        
-        <?php if ($message): ?>
-        <div class="mb-6 p-4 rounded-lg <?php echo $type_message === 'success' ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-800'; ?>">
-            <?php echo htmlspecialchars($message); ?>
-        </div>
-        <?php endif; ?>
-
-        <h1 class="text-3xl font-bold mb-8">Saisie des Notes par EC</h1>
-
-        <!-- Filters -->
-        <div class="bg-surface-container-low p-6 rounded-xl shadow-sm mb-8">
-            <form method="GET" class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div>
-                    <label class="block text-xs font-bold uppercase mb-2">Filière</label>
-                    <select name="filiere" onchange="this.form.submit()" class="w-full border rounded px-3 py-2">
-                        <option value="">-- Sélectionner --</option>
-                        <?php foreach ($filieres as $fil): ?>
-                        <option value="<?php echo $fil['id_filiere']; ?>" <?php echo $id_filiere == $fil['id_filiere'] ? 'selected' : ''; ?>>
-                            <?php echo htmlspecialchars($fil['nom_filiere']); ?>
-                        </option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-
-                <div>
-                    <label class="block text-xs font-bold uppercase mb-2">Unité (UE)</label>
-                    <select name="ue" onchange="this.form.submit()" class="w-full border rounded px-3 py-2" <?php echo empty($unites) ? 'disabled' : ''; ?>>
-                        <option value="">-- Sélectionner --</option>
-                        <?php foreach ($unites as $u): ?>
-                        <option value="<?php echo $u['id_ue']; ?>" <?php echo $id_ue == $u['id_ue'] ? 'selected' : ''; ?>>
-                            <?php echo htmlspecialchars($u['code_ue']); ?>
-                        </option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-
-                <div>
-                    <label class="block text-xs font-bold uppercase mb-2">Élément (EC)</label>
-                    <select name="ec" onchange="this.form.submit()" class="w-full border rounded px-3 py-2" <?php echo empty($elements) ? 'disabled' : ''; ?>>
-                        <option value="">-- Sélectionner --</option>
-                        <?php foreach ($elements as $elem): ?>
-                        <option value="<?php echo $elem['id_ec']; ?>" <?php echo $id_ec == $elem['id_ec'] ? 'selected' : ''; ?>>
-                            <?php echo htmlspecialchars($elem['code_ec']); ?>
-                        </option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-            </form>
-        </div>
-
-        <!-- Notes Table -->
-        <?php if ($id_ec && count($etudiants) > 0): ?>
-        <form method="POST" class="bg-white rounded-xl overflow-hidden shadow-sm">
-            <input type="hidden" name="action" value="save_notes">
-            
-            <div class="overflow-x-auto">
-                <table class="w-full">
-                    <thead class="bg-slate-50 border-b">
-                        <tr>
-                            <th class="px-6 py-4 text-left text-xs font-bold">Matricule</th>
-                            <th class="px-6 py-4 text-left text-xs font-bold">Nom & Prénom</th>
-                            <th class="px-6 py-4 text-center text-xs font-bold">Note (/20)</th>
-                            <th class="px-6 py-4 text-center text-xs font-bold">Statut</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y">
-                        <?php foreach ($etudiants as $etudiant): 
-                            $note = $notes_saisies[$etudiant['id_etudiant']] ?? null;
-                            $valeur = $note ? $note['valeur_note'] : '';
-                        ?>
-                        <tr class="hover:bg-slate-50">
-                            <td class="px-6 py-4 text-sm font-mono"><?php echo htmlspecialchars($etudiant['matricule']); ?></td>
-                            <td class="px-6 py-4 text-sm"><?php echo htmlspecialchars($etudiant['nom'] . ' ' . $etudiant['prenom']); ?></td>
-                            <td class="px-6 py-4">
-                                <input type="number" 
-                                       name="notes[<?php echo $etudiant['id_etudiant']; ?>]"
-                                       value="<?php echo $valeur; ?>"
-                                       min="0" max="20" step="0.5"
-                                       class="w-24 border rounded px-2 py-1 text-center">
-                            </td>
-                            <td class="px-6 py-4 text-center text-sm">
-                                <?php 
-                                    if ($valeur) {
-                                        echo $valeur >= 10 ? '<span class="text-green-600">Réussi</span>' : '<span class="text-red-600">Échoué</span>';
-                                    } else {
-                                        echo '<span class="text-slate-400">-</span>';
-                                    }
-                                ?>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="bg-slate-50 px-6 py-4 flex justify-end gap-3">
-                <button type="reset" class="px-4 py-2 border rounded hover:bg-slate-100">Annuler</button>
-                <button type="submit" class="px-4 py-2 bg-primary text-white rounded hover:bg-primary-container">
-                    Enregistrer
-                </button>
-            </div>
-        </form>
-        <?php endif; ?>
-
-    </div>
-</main>
-
-</body>
-</html>

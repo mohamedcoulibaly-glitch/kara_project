@@ -87,6 +87,7 @@ if (isset($_GET['format']) && $_GET['format'] === 'json') {
     exit;
 }
 
+extract($attestation_data);
 // Inclure le fichier frontend
 include __DIR__ . '/../Maquettes_de_gestion_acad_mique_lmd/Maquettes_de_gestion_acad_mique_lmd/Maquettes_de_gestion_acad_mique_lmd/attestation_de_r_ussite_pdf/attestaion_de_reussite.php';
 

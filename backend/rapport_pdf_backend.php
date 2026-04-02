@@ -253,6 +253,7 @@ if (isset($_GET['format']) && $_GET['format'] === 'json') {
 }
 
 // Sinon inclure le fichier frontend
+extract($rapport_data);
 include __DIR__ . '/../Maquettes_de_gestion_acad_mique_lmd/Maquettes_de_gestion_acad_mique_lmd/Maquettes_de_gestion_acad_mique_lmd/rapport_pdf_de_synth_se_par_d_partement/rapport_pdf.php';
 
 ?>

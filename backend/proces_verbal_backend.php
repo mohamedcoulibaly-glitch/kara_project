@@ -92,23 +92,30 @@ $stats = $stmt->get_result()->fetch_assoc();
 
 // Traiter la mises à jour du PV
 $message = '';
+$type_message = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'update_pv') {
-    $id_pv = (int)postParam('id_pv');
-    $heure_debut = postParam('heure_debut');
-    $heure_fin = postParam('heure_fin');
-    $membres_jury = postParam('membres_jury');
-    $resume_pv = postParam('resume_pv');
-    $decisions = postParam('decisions');
+    $id_pv = (int)($_POST['id_pv'] ?? 0);
+    $lieu = $_POST['lieu_reunion'] ?? '';
+    $pres = $_POST['president_jury'] ?? '';
+    $membres = $_POST['membres_jury'] ?? '';
+    $resume = $_POST['resume_pv'] ?? '';
+    $decisions = $_POST['decisions'] ?? '';
     
-    $query = "UPDATE proces_verbal 
-              SET heure_debut = ?, heure_fin = ?, membres_jury = ?, resume_pv = ?, decisions = ?
-              WHERE id_pv = ?";
+    $query_up = "UPDATE proces_verbal SET lieu_reunion = ?, president_jury = ?, membres_jury = ?, resume_pv = ?, decisions = ? WHERE id_pv = ?";
+    $stmt_up = $db->prepare($query_up);
+    $stmt_up->bind_param("sssssi", $lieu, $pres, $membres, $resume, $decisions, $id_pv);
     
-    $stmt = $db->prepare($query);
-    $stmt->bind_param("sssssi", $heure_debut, $heure_fin, $membres_jury, $resume_pv, $decisions, $id_pv);
-    
-    $message = $stmt->execute() ? showSuccess('PV mis à jour') : showError('Erreur');
+    if ($stmt_up->execute()) {
+        $message = "Le procès-verbal a été mis à jour avec succès.";
+        $type_message = "success";
+    } else {
+        $message = "Erreur lors de la mise à jour.";
+        $type_message = "error";
+    }
 }
+
+$page_title = 'Procès-Verbal de Délibération';
+$current_page = 'pv';
 
 // Préparer les données
 $pv_data = [
@@ -119,7 +126,10 @@ $pv_data = [
     'deliberation_detail' => $deliberation_detail,
     'pv' => $pv,
     'stats' => $stats,
-    'message' => $message
+    'message' => $message,
+    'type_message' => $type_message,
+    'page_title' => $page_title,
+    'current_page' => $current_page
 ];
 
 // Si AJAX, retourner JSON
@@ -129,7 +139,9 @@ if (isset($_GET['format']) && $_GET['format'] === 'json') {
     exit;
 }
 
+extract($pv_data);
 // Inclure le fichier frontend
-include __DIR__ . '/../Maquettes_de_gestion_acad_mique_lmd/Maquettes_de_gestion_acad_mique_lmd/Maquettes_de_gestion_acad_mique_lmd/proc_s_verbal_de_d_lib_ration_pdf/proces_verbal_de_deliberation.php';
-
+if (!defined('FRONTEND_LOADED')) {
+    include __DIR__ . '/../Maquettes_de_gestion_acad_mique_lmd/Maquettes_de_gestion_acad_mique_lmd/Maquettes_de_gestion_acad_mique_lmd/proc_s_verbal_de_d_lib_ration_pdf/proces_verbal_de_deliberation.php';
+}
 ?>

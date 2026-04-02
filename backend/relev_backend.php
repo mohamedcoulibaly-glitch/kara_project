@@ -250,6 +250,7 @@ if (isset($_GET['format']) && $_GET['format'] === 'json') {
 }
 
 // Sinon inclure le fichier frontend
+extract($releve_data);
 include __DIR__ . '/../Maquettes_de_gestion_acad_mique_lmd/Maquettes_de_gestion_acad_mique_lmd/Maquettes_de_gestion_acad_mique_lmd/relev_de_notes_individuel/relev.php';
 
 ?>

@@ -3,7 +3,7 @@
 <html class="light" lang="fr"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>LMD AcadÃ©mique - Tableau de Bord</title>
+<title>LMD Académique - Tableau de Bord</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
@@ -87,36 +87,36 @@
 <!-- SideNavBar Shell -->
 <aside class="fixed left-0 top-0 h-full w-64 bg-slate-50 dark:bg-slate-950 flex flex-col py-6 px-4 gap-2 z-50">
 <div class="mb-8 px-2">
-<h1 class="font-black text-blue-800 dark:text-blue-300 text-xl tracking-tight">Portail AcadÃ©mique</h1>
+<h1 class="font-black text-blue-800 dark:text-blue-300 text-xl tracking-tight">Portail Académique</h1>
 <p class="text-xs text-slate-500 font-medium">Gestion LMD v2.0</p>
 </div>
 <nav class="flex-1 space-y-1">
 <!-- Active State: Dashboard -->
-<a class="flex items-center gap-3 px-3 py-2.5 bg-white dark:bg-slate-800 text-blue-700 dark:text-blue-300 shadow-sm rounded-lg group transition-all" href="#">
+<a class="flex items-center gap-3 px-3 py-2.5 bg-white dark:bg-slate-800 text-blue-700 dark:text-blue-300 shadow-sm rounded-lg group transition-all" href="index.php">
 <span class="material-symbols-outlined text-[22px]">dashboard</span>
 <span class="text-sm font-medium Inter group-hover:translate-x-1 duration-200">Dashboard</span>
 </a>
-<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-lg group transition-all" href="#">
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-lg group transition-all" href="index.php">
 <span class="material-symbols-outlined text-[22px]">account_tree</span>
-<span class="text-sm font-medium Inter group-hover:translate-x-1 duration-200">FiliÃ¨res</span>
+<span class="text-sm font-medium Inter group-hover:translate-x-1 duration-200">Filières</span>
 </a>
-<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-lg group transition-all" href="#">
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-lg group transition-all" href="index.php">
 <span class="material-symbols-outlined text-[22px]">group</span>
-<span class="text-sm font-medium Inter group-hover:translate-x-1 duration-200">Ã‰tudiants</span>
+<span class="text-sm font-medium Inter group-hover:translate-x-1 duration-200">Étudiants</span>
 </a>
-<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-lg group transition-all" href="#">
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-lg group transition-all" href="index.php">
 <span class="material-symbols-outlined text-[22px]">edit_note</span>
 <span class="text-sm font-medium Inter group-hover:translate-x-1 duration-200">Notes</span>
 </a>
-<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-lg group transition-all" href="#">
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-lg group transition-all" href="index.php">
 <span class="material-symbols-outlined text-[22px]">settings</span>
-<span class="text-sm font-medium Inter group-hover:translate-x-1 duration-200">ParamÃ¨tres</span>
+<span class="text-sm font-medium Inter group-hover:translate-x-1 duration-200">Paramètres</span>
 </a>
 </nav>
 <div class="mt-auto pt-6 border-t border-slate-200 dark:border-slate-800 space-y-1">
-<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-error dark:hover:text-error rounded-lg group transition-all" href="#">
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-error dark:hover:text-error rounded-lg group transition-all" href="index.php">
 <span class="material-symbols-outlined text-[22px]">logout</span>
-<span class="text-sm font-medium Inter group-hover:translate-x-1 duration-200">DÃ©connexion</span>
+<span class="text-sm font-medium Inter group-hover:translate-x-1 duration-200">Déconnexion</span>
 </a>
 </div>
 </aside>
@@ -125,7 +125,7 @@
 <div class="flex items-center gap-4 flex-1">
 <div class="relative w-full max-w-md">
 <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xl">search</span>
-<input class="w-full bg-surface-container-low border-none rounded-full py-2 pl-10 pr-4 text-sm focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Rechercher un Ã©tudiant, une UE..." type="text"/>
+<input class="w-full bg-surface-container-low border-none rounded-full py-2 pl-10 pr-4 text-sm focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Rechercher un étudiant, une UE..." type="text"/>
 </div>
 </div>
 <div class="flex items-center gap-6">
@@ -139,8 +139,8 @@
 <div class="h-8 w-[1px] bg-slate-200"></div>
 <div class="flex items-center gap-3 cursor-pointer group">
 <div class="text-right">
-<p class="text-sm font-bold text-slate-900 leading-none">Admin AcadÃ©mique</p>
-<p class="text-xs text-slate-500">Direction des Ã©tudes</p>
+<p class="text-sm font-bold text-slate-900 leading-none">Admin Académique</p>
+<p class="text-xs text-slate-500">Direction des études</p>
 </div>
 <img class="w-9 h-9 rounded-full object-cover ring-2 ring-primary/10 group-hover:ring-primary/30 transition-all" data-alt="Photo de profil de l'administrateur" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDi9zIyfvuLhLL9A5A5v3bC3rZiqhJmyDory4-5v8cNz8pCyHhHH6oro-lZLNDd6QfMAqKYpn67Eke6YVGrIhEB2PbuTiCYJ9fyEAcIuF0FFiZ8rPteezeK0pjPQz2M6wFgKeBVTG7EzFYqNyRB8dRmrWGHhTzMQGiG9ynzeAiJjRpnpZXz04ExQ0_awb7GjKTkcWNiuSG3yIxJQeNGxkrK7GNeGSduGxvU4zcAb2zww9FLwiMCEDtiA4GMVww7ebxaxmFeDAPZeCs"/>
 </div>
@@ -153,7 +153,7 @@
 <div class="flex justify-between items-end">
 <div>
 <h2 class="text-3xl font-extrabold tracking-tight text-slate-900">Tableau de Bord</h2>
-<p class="text-slate-500 mt-1">AperÃ§u analytique de la performance acadÃ©mique LMD.</p>
+<p class="text-slate-500 mt-1">Aperçu analytique de la performance académique LMD.</p>
 </div>
 <div class="flex gap-3">
 <button class="bg-surface-container-low text-on-surface px-4 py-2 rounded-md text-sm font-semibold hover:bg-surface-container-high transition-colors flex items-center gap-2">
@@ -178,7 +178,7 @@
 </div>
 <div>
 <p class="text-3xl font-extrabold tracking-tighter">540</p>
-<p class="text-sm font-medium text-slate-500">Ã‰tudiants inscrits</p>
+<p class="text-sm font-medium text-slate-500">Étudiants inscrits</p>
 </div>
 </div>
 <!-- Widget: Success Rate -->
@@ -191,7 +191,7 @@
 </div>
 <div>
 <p class="text-3xl font-extrabold tracking-tighter">78%</p>
-<p class="text-sm font-medium text-slate-500">Taux de rÃ©ussite global</p>
+<p class="text-sm font-medium text-slate-500">Taux de réussite global</p>
 </div>
 </div>
 <!-- Widget: Branches -->
@@ -203,7 +203,7 @@
 </div>
 <div>
 <p class="text-3xl font-extrabold tracking-tighter">8</p>
-<p class="text-sm font-medium text-slate-500">FiliÃ¨res actives</p>
+<p class="text-sm font-medium text-slate-500">Filières actives</p>
 </div>
 </div>
 <!-- Widget: Difficult UE -->
@@ -227,7 +227,7 @@
 <!-- Performance Graph Area -->
 <div class="lg:col-span-2 bg-surface-container-lowest rounded-xl p-8 shadow-[0_12px_32px_rgba(25,28,30,0.04)]">
 <div class="flex justify-between items-center mb-10">
-<h3 class="text-lg font-bold">Ã‰volution des Moyennes</h3>
+<h3 class="text-lg font-bold">Évolution des Moyennes</h3>
 <select class="bg-surface-container-low border-none text-xs font-bold rounded-md px-3 py-1.5 focus:ring-0">
 <option>Semestre 1 - 2023</option>
 <option>Semestre 2 - 2023</option>
@@ -260,17 +260,17 @@
 <div class="flex justify-between mt-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
 <span>Octobre</span>
 <span>Novembre</span>
-<span>DÃ©cembre</span>
+<span>Décembre</span>
 <span>Janvier</span>
-<span>FÃ©vrier</span>
+<span>Février</span>
 </div>
 </div>
 </div>
 <!-- Side Activity: Recent Grades -->
 <div class="bg-surface-container-lowest rounded-xl p-6 shadow-[0_12px_32px_rgba(25,28,30,0.04)]">
 <div class="flex justify-between items-center mb-6">
-<h3 class="text-lg font-bold">DerniÃ¨res Notes</h3>
-<a class="text-xs font-bold text-primary hover:underline" href="#">Voir tout</a>
+<h3 class="text-lg font-bold">Dernières Notes</h3>
+<a class="text-xs font-bold text-primary hover:underline" href="index.php">Voir tout</a>
 </div>
 <div class="space-y-4">
 <!-- Grade Row -->
@@ -281,7 +281,7 @@
                                 </div>
 <div>
 <p class="text-sm font-bold text-slate-900">Alassane M.</p>
-<p class="text-[11px] text-slate-500 font-medium">MathÃ©matiques I</p>
+<p class="text-[11px] text-slate-500 font-medium">Mathématiques I</p>
 </div>
 </div>
 <div class="text-right">
@@ -328,8 +328,8 @@
                                     CL
                                 </div>
 <div>
-<p class="text-sm font-bold text-slate-900">CÃ©cile L.</p>
-<p class="text-[11px] text-slate-500 font-medium">Bases de DonnÃ©es</p>
+<p class="text-sm font-bold text-slate-900">Cécile L.</p>
+<p class="text-[11px] text-slate-500 font-medium">Bases de Données</p>
 </div>
 </div>
 <div class="text-right">
@@ -342,7 +342,7 @@
 <div class="bg-surface-container-low p-4 rounded-lg">
 <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Statut Saisie</p>
 <div class="flex justify-between items-center text-sm font-medium">
-<span class="text-slate-600">ProgrÃ¨s Saisie S1</span>
+<span class="text-slate-600">Progrès Saisie S1</span>
 <span class="text-primary font-bold">92%</span>
 </div>
 <div class="w-full bg-white h-1.5 rounded-full mt-2">
@@ -360,7 +360,7 @@
 </div>
 <div>
 <h4 class="font-bold text-slate-900">Validation des Semestres</h4>
-<p class="text-sm text-slate-500">65% des Ã©tudiants ont dÃ©jÃ  validÃ© l'intÃ©gralitÃ© de leurs UE du semestre en cours.</p>
+<p class="text-sm text-slate-500">65% des étudiants ont déjô  validé l'intégralité de leurs UE du semestre en cours.</p>
 </div>
 </div>
 <div class="bg-surface-container-low rounded-xl p-6 flex items-center gap-6">
@@ -368,8 +368,8 @@
 <span class="material-symbols-outlined text-secondary text-3xl">history_edu</span>
 </div>
 <div>
-<h4 class="font-bold text-slate-900">Rattrapages PrÃ©visionnels</h4>
-<p class="text-sm text-slate-500">Une baisse de 12% des passages en rattrapage est observÃ©e par rapport Ã  l'annÃ©e N-1.</p>
+<h4 class="font-bold text-slate-900">Rattrapages Prévisionnels</h4>
+<p class="text-sm text-slate-500">Une baisse de 12% des passages en rattrapage est observée par rapport ô  l'année N-1.</p>
 </div>
 </div>
 </div>

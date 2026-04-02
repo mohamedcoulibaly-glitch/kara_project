@@ -98,6 +98,7 @@ if (isset($_GET['format']) && $_GET['format'] === 'json') {
     exit;
 }
 
+extract($parcours_data);
 // Inclure le fichier frontend
 include __DIR__ . '/../Maquettes_de_gestion_acad_mique_lmd/Maquettes_de_gestion_acad_mique_lmd/Maquettes_de_gestion_acad_mique_lmd/parcours_acad_mique_complet_s1_s6/parcours_academique_complet_s1_s6.php';
 

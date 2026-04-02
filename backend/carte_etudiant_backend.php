@@ -91,7 +91,10 @@ if (isset($_GET['format']) && $_GET['format'] === 'json') {
     exit;
 }
 
+extract($carte_data);
 // Inclure le fichier frontend
-include __DIR__ . '/../Maquettes_de_gestion_acad_mique_lmd/Maquettes_de_gestion_acad_mique_lmd/Maquettes_de_gestion_acad_mique_lmd/carte_d_tudiant_pdf/carte_etudiant.php';
+if (!defined('FRONTEND_LOADED')) {
+    include __DIR__ . '/../Maquettes_de_gestion_acad_mique_lmd/Maquettes_de_gestion_acad_mique_lmd/Maquettes_de_gestion_acad_mique_lmd/carte_d_tudiant_pdf/carte_etudiant.php';
+}
 
 ?>

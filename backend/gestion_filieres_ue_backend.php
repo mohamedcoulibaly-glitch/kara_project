@@ -60,7 +60,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $message = $stmt->execute() ? showSuccess('UE mise à jour') : showError('Erreur');
 }
 
+// Action de suppression de l'UE de la filière
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'delete_ue') {
+    $id_ue_del = (int)($_POST['id_ue'] ?? 0);
+    $id_filiere_ctx = (int)($id_filiere ?? $_GET['id'] ?? 0);
+    
+    if ($id_ue_del && $id_filiere_ctx) {
+        $query_del = "DELETE FROM programme WHERE id_ue = ? AND id_filiere = ?";
+        $stmt_del = $db->prepare($query_del);
+        $stmt_del->bind_param("ii", $id_ue_del, $id_filiere_ctx);
+        $stmt_del->execute();
+        $message = "L'unité a été retirée du programme.";
+    }
+}
+
 // Préparer les données
+$page_title = 'Gestion des Filières et UE/EC';
+$current_page = 'ue_ec';
+
 $filiere_data = [
     'filieres' => $filieres,
     'id_filiere' => $id_filiere,
@@ -77,7 +94,10 @@ if (isset($_GET['format']) && $_GET['format'] === 'json') {
     exit;
 }
 
+extract($filiere_data);
 // Inclure le fichier frontend
-include __DIR__ . '/../Maquettes_de_gestion_acad_mique_lmd/Maquettes_de_gestion_acad_mique_lmd/Maquettes_de_gestion_acad_mique_lmd/gestion_fili_res_ue/gestion_filiere_res_ue.php';
+if (!defined('FRONTEND_LOADED')) {
+    include __DIR__ . '/../Maquettes_de_gestion_acad_mique_lmd/Maquettes_de_gestion_acad_mique_lmd/Maquettes_de_gestion_acad_mique_lmd/gestion_fili_res_ue/gestion_filiere_res_ue.php';
+}
 
 ?>
