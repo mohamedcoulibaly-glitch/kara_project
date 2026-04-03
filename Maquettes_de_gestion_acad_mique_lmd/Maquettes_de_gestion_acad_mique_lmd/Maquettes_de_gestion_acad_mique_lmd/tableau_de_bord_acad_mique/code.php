@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html class="light" lang="fr"><head>
 <meta charset="utf-8"/>
@@ -92,29 +92,29 @@
 </div>
 <nav class="flex-1 space-y-1">
 <!-- Active State: Dashboard -->
-<a class="flex items-center gap-3 px-3 py-2.5 bg-white dark:bg-slate-800 text-blue-700 dark:text-blue-300 shadow-sm rounded-lg group transition-all" href="index.php">
+<a class="flex items-center gap-3 px-3 py-2.5 bg-white dark:bg-slate-800 text-blue-700 dark:text-blue-300 shadow-sm rounded-lg group transition-all" href="/kara_project/index.php">
 <span class="material-symbols-outlined text-[22px]">dashboard</span>
 <span class="text-sm font-medium Inter group-hover:translate-x-1 duration-200">Dashboard</span>
 </a>
-<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-lg group transition-all" href="index.php">
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-lg group transition-all" href="/kara_project/backend/saisie_deprtement_backend.php">
 <span class="material-symbols-outlined text-[22px]">account_tree</span>
 <span class="text-sm font-medium Inter group-hover:translate-x-1 duration-200">Filières</span>
 </a>
-<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-lg group transition-all" href="index.php">
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-lg group transition-all" href="/kara_project/repertoire_etudiants.php">
 <span class="material-symbols-outlined text-[22px]">group</span>
 <span class="text-sm font-medium Inter group-hover:translate-x-1 duration-200">Étudiants</span>
 </a>
-<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-lg group transition-all" href="index.php">
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-lg group transition-all" href="/kara_project/saisie_notes.php">
 <span class="material-symbols-outlined text-[22px]">edit_note</span>
 <span class="text-sm font-medium Inter group-hover:translate-x-1 duration-200">Notes</span>
 </a>
-<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-lg group transition-all" href="index.php">
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-lg group transition-all" href="/kara_project/backend/parametres_systeme_backend.php">
 <span class="material-symbols-outlined text-[22px]">settings</span>
 <span class="text-sm font-medium Inter group-hover:translate-x-1 duration-200">Paramètres</span>
 </a>
 </nav>
 <div class="mt-auto pt-6 border-t border-slate-200 dark:border-slate-800 space-y-1">
-<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-error dark:hover:text-error rounded-lg group transition-all" href="index.php">
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-error dark:hover:text-error rounded-lg group transition-all" href="/kara_project/backend/logout.php">
 <span class="material-symbols-outlined text-[22px]">logout</span>
 <span class="text-sm font-medium Inter group-hover:translate-x-1 duration-200">Déconnexion</span>
 </a>
@@ -156,11 +156,11 @@
 <p class="text-slate-500 mt-1">Aperçu analytique de la performance académique LMD.</p>
 </div>
 <div class="flex gap-3">
-<button class="bg-surface-container-low text-on-surface px-4 py-2 rounded-md text-sm font-semibold hover:bg-surface-container-high transition-colors flex items-center gap-2">
+<button onclick="window.location.href='/kara_project/backend/rapport_pdf_backend.php'" class="bg-surface-container-low text-on-surface px-4 py-2 rounded-md text-sm font-semibold hover:bg-surface-container-high transition-colors flex items-center gap-2">
 <span class="material-symbols-outlined text-lg">download</span>
                         Exporter le rapport
                     </button>
-<button class="bg-primary text-white px-4 py-2 rounded-md text-sm font-semibold hover:opacity-90 transition-opacity flex items-center gap-2 shadow-lg shadow-primary/20">
+<button onclick="window.location.href='/kara_project/backend/saisie_notes_moyennes_backend.php'" class="bg-primary text-white px-4 py-2 rounded-md text-sm font-semibold hover:opacity-90 transition-opacity flex items-center gap-2 shadow-lg shadow-primary/20">
 <span class="material-symbols-outlined text-lg">add</span>
                         Nouvelle saisie
                     </button>
@@ -270,7 +270,7 @@
 <div class="bg-surface-container-lowest rounded-xl p-6 shadow-[0_12px_32px_rgba(25,28,30,0.04)]">
 <div class="flex justify-between items-center mb-6">
 <h3 class="text-lg font-bold">Dernières Notes</h3>
-<a class="text-xs font-bold text-primary hover:underline" href="index.php">Voir tout</a>
+<a class="text-xs font-bold text-primary hover:underline" href="/kara_project/backend/saisie_notes_par_ec_backend.php">Voir tout</a>
 </div>
 <div class="space-y-4">
 <!-- Grade Row -->

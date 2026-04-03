@@ -159,3 +159,5 @@
               FROM utilisateur WHERE 
 [2026-04-02 21:28:19] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
               FROM utilisateur WHERE 
+[2026-04-02 23:57:20] [ERROR] Exception lors de l'exécution: Unknown column 'id_utilisateur' in 'field list'
+[2026-04-02 23:57:20] [ERROR] Exception lors de l'exécution: Unknown column 'id_utilisateur' in 'where clause'

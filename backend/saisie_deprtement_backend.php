@@ -233,12 +233,22 @@ $niveaux = ['Licence', 'Master', 'Doctorat', 'DUT'];
 // ========================================
 // PRÉPARER LES DONNÉES
 // ========================================
+
+// Récupérer aussi une liste plates des filières pour les select
+$query_all_filieres = "SELECT id_filiere, nom_filiere, id_dept FROM filiere ORDER BY nom_filiere";
+$stmt = $db->prepare($query_all_filieres);
+$stmt->execute();
+$all_filieres = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
 $saisie_data = [
     'departements' => $departements_avec_filieres,
+    'filieres' => $all_filieres,
     'stats' => $stats,
     'niveaux' => $niveaux,
     'message' => $message,
-    'type_message' => $type_message
+    'type_message' => $type_message,
+    'base_url' => '/kara_project/',
+    'backend_url' => 'backend/'
 ];
 
 // ========================================

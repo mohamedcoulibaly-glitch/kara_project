@@ -63,13 +63,14 @@ include __DIR__ . '/backend/includes/sidebar.php';
             établissement.</p>
     </div>
     <div class="flex items-center gap-2">
-        <button
-            class="px-5 py-2.5 bg-white border border-outline-variant/30 text-slate-700 font-semibold text-sm rounded-md shadow-sm hover:bg-slate-50 transition-all">
+        <button onclick="exportDashboard()"
+            class="px-5 py-2.5 bg-white border border-outline-variant/30 text-slate-700 font-semibold text-sm rounded-md shadow-sm hover:bg-slate-50 transition-all flex items-center gap-2">
+            <span class="material-symbols-outlined text-lg">picture_as_pdf</span>
             Exporter les données
         </button>
-        <button
+        <button onclick="location.reload()"
             class="px-5 py-2.5 bg-primary text-white font-semibold text-sm rounded-md shadow-sm hover:bg-primary-container transition-all flex items-center gap-2">
-            <span class="material-symbols-outlined text-sm" data-icon="refresh">refresh</span>
+            <span class="material-symbols-outlined text-sm">refresh</span>
             Actualiser
         </button>
     </div>
@@ -274,3 +275,20 @@ include __DIR__ . '/backend/includes/sidebar.php';
             </div>
         </section>
         <?php include __DIR__ . '/backend/includes/footer.php'; ?>
+</main>
+
+<script>
+function exportDashboard() {
+    // Crée un lien temporaire pour télécharger l'export
+    const link = document.createElement('a');
+    link.href = '/kara_project/backend/export_etudiants.php?format=pdf';
+    link.download = 'dashboard_' + new Date().toISOString().split('T')[0] + '.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+function exportReport() {
+    window.location.href = '/kara_project/backend/rapport_pdf_backend.php';
+}
+</script>

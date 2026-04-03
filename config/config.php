@@ -297,18 +297,33 @@ function safeQuery($query, $bindParams = [])
         }
 
         if (!empty($bindParams)) {
-            if (!$stmt->execute($bindParams)) {
-                logError("Erreur d'exécution de requête: " . $stmt->error);
-                return false;
+            // Construire les types et les références pour bind_param
+            $types = '';
+            $values = [];
+            foreach ($bindParams as $param) {
+                if (is_int($param)) {
+                    $types .= 'i';
+                } elseif (is_float($param)) {
+                    $types .= 'd';
+                } else {
+                    $types .= 's';
+                }
+                $values[] = $param;
             }
-        } else {
-            if (!$stmt->execute()) {
-                logError("Erreur d'exécution de requête: " . $stmt->error);
+            
+            if (!$stmt->bind_param($types, ...$values)) {
+                logError("Erreur de binding: " . $stmt->error);
                 return false;
             }
         }
 
-        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        if (!$stmt->execute()) {
+            logError("Erreur d'exécution de requête: " . $stmt->error);
+            return false;
+        }
+
+        $result = $stmt->get_result();
+        return $result ? $result->fetch_all(MYSQLI_ASSOC) : false;
     } catch (Exception $e) {
         logError("Exception lors de l'exécution: " . $e->getMessage());
         return false;
@@ -334,18 +349,33 @@ function safeQuerySingle($query, $bindParams = [])
         }
 
         if (!empty($bindParams)) {
-            if (!$stmt->execute($bindParams)) {
-                logError("Erreur d'exécution de requête: " . $stmt->error);
-                return false;
+            // Construire les types et les références pour bind_param
+            $types = '';
+            $values = [];
+            foreach ($bindParams as $param) {
+                if (is_int($param)) {
+                    $types .= 'i';
+                } elseif (is_float($param)) {
+                    $types .= 'd';
+                } else {
+                    $types .= 's';
+                }
+                $values[] = $param;
             }
-        } else {
-            if (!$stmt->execute()) {
-                logError("Erreur d'exécution de requête: " . $stmt->error);
+            
+            if (!$stmt->bind_param($types, ...$values)) {
+                logError("Erreur de binding: " . $stmt->error);
                 return false;
             }
         }
 
-        return $stmt->get_result()->fetch_assoc();
+        if (!$stmt->execute()) {
+            logError("Erreur d'exécution de requête: " . $stmt->error);
+            return false;
+        }
+
+        $result = $stmt->get_result();
+        return $result ? $result->fetch_assoc() : false;
     } catch (Exception $e) {
         logError("Exception lors de l'exécution: " . $e->getMessage());
         return false;
@@ -371,15 +401,29 @@ function safeExecute($query, $bindParams = [])
         }
 
         if (!empty($bindParams)) {
-            if (!$stmt->execute($bindParams)) {
-                logError("Erreur d'exécution de requête: " . $stmt->error);
+            // Construire les types et les références pour bind_param
+            $types = '';
+            $values = [];
+            foreach ($bindParams as $param) {
+                if (is_int($param)) {
+                    $types .= 'i';
+                } elseif (is_float($param)) {
+                    $types .= 'd';
+                } else {
+                    $types .= 's';
+                }
+                $values[] = $param;
+            }
+            
+            if (!$stmt->bind_param($types, ...$values)) {
+                logError("Erreur de binding: " . $stmt->error);
                 return false;
             }
-        } else {
-            if (!$stmt->execute()) {
-                logError("Erreur d'exécution de requête: " . $stmt->error);
-                return false;
-            }
+        }
+
+        if (!$stmt->execute()) {
+            logError("Erreur d'exécution de requête: " . $stmt->error);
+            return false;
         }
 
         return true;

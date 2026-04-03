@@ -47,6 +47,11 @@ $nav_items = [
     ['id' => 'deliberations', 'label' => 'Délibérations', 'icon' => 'gavel', 'href' => $base_url . $backend_url . 'deliberation_backend.php'],
     ['id' => 'pv', 'label' => 'Procès-Verbaux', 'icon' => 'description', 'href' => $base_url . $backend_url . 'proces_verbal_backend.php'],
     ['id' => 'rattrapage', 'label' => 'Rattrapage', 'icon' => 'autorenew', 'href' => $base_url . $backend_url . 'gestion_sessions_rattrapage_backend.php'],
+    ['id' => 'releve', 'label' => 'Relevé de notes', 'icon' => 'article', 'href' => $base_url . $backend_url . 'relev_backend.php'],
+    ['id' => 'rapport_pdf', 'label' => 'Rapport PDF', 'icon' => 'file_download', 'href' => $base_url . $backend_url . 'rapport_pdf_backend.php'],
+    ['id' => 'carte_etudiant', 'label' => 'Carte Étudiant', 'icon' => 'badge', 'href' => $base_url . $backend_url . 'carte_etudiant_backend.php'],
+    ['id' => 'attestation', 'label' => 'Attestation', 'icon' => 'verified', 'href' => $base_url . $backend_url . 'attestation_backend.php'],
+    ['id' => 'parcours', 'label' => 'Parcours Académique', 'icon' => 'timeline', 'href' => $base_url . $backend_url . 'parcours_academique_backend.php'],
     ['id' => 'statistiques', 'label' => 'Statistiques', 'icon' => 'bar_chart', 'href' => $base_url . $backend_url . 'statistiques_reussites_backend.php'],
 ];
 ?>

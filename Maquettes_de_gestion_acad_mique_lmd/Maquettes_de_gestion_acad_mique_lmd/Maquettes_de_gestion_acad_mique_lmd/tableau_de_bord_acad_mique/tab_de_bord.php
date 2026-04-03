@@ -38,11 +38,11 @@ include __DIR__ . '/../../../../backend/includes/sidebar.php';
 <p class="text-slate-500 mt-1">Aperçu analytique de la performance académique LMD.</p>
 </div>
 <div class="flex gap-3">
-<button class="bg-surface-container-low text-on-surface px-4 py-2 rounded-md text-sm font-semibold hover:bg-surface-container-high transition-colors flex items-center gap-2">
+<button onclick="exportReport()" class="bg-surface-container-low text-on-surface px-4 py-2 rounded-md text-sm font-semibold hover:bg-surface-container-high transition-colors flex items-center gap-2">
 <span class="material-symbols-outlined text-lg">download</span>
                         Exporter le rapport
                     </button>
-<button class="bg-primary text-white px-4 py-2 rounded-md text-sm font-semibold hover:opacity-90 transition-opacity flex items-center gap-2 shadow-lg shadow-primary/20">
+<button onclick="window.location.href='/kara_project/backend/saisie_notes_moyennes_backend.php'" class="bg-primary text-white px-4 py-2 rounded-md text-sm font-semibold hover:opacity-90 transition-opacity flex items-center gap-2 shadow-lg shadow-primary/20">
 <span class="material-symbols-outlined text-lg">add</span>
                         Nouvelle saisie
                     </button>
@@ -152,7 +152,7 @@ include __DIR__ . '/../../../../backend/includes/sidebar.php';
 <div class="bg-surface-container-lowest rounded-xl p-6 shadow-[0_12px_32px_rgba(25,28,30,0.04)]">
 <div class="flex justify-between items-center mb-6">
 <h3 class="text-lg font-bold">Dernières Notes</h3>
-<a class="text-xs font-bold text-primary hover:underline" href="index.php">Voir tout</a>
+<a class="text-xs font-bold text-primary hover:underline" href="/kara_project/saisie_notes.php">Voir tout</a>
 </div>
 <div class="space-y-4">
 <!-- Grade Row -->
@@ -258,4 +258,12 @@ include __DIR__ . '/../../../../backend/includes/sidebar.php';
 </div>
 </main>
 <!-- Contextual FAB (Suppressed based on layout rules for dashboard context focus, but kept empty for spacing if needed) -->
-</body></html>
+</body>
+
+<script>
+function exportReport() {
+    window.location.href = '../../../../backend/rapport_pdf_backend.php';
+}
+</script>
+
+</html>
