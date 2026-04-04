@@ -6,7 +6,6 @@ $page_title = 'Statistiques de Réussite';
 $current_page = 'statistiques';
 include __DIR__ . '/../../../../backend/includes/sidebar.php';
 ?>
-<main class="ml-64 pt-24 pb-12 px-8 min-h-screen">
 <!-- Section 1: Header & Filters -->
 <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-4">
 <div>
@@ -83,53 +82,26 @@ include __DIR__ . '/../../../../backend/includes/sidebar.php';
 </div>
 </div>
 </div>
-<div class="flex flex-col gap-6">
+<div class="flex flex-col gap-6" id="stats-dept-bars">
+<?php foreach ($stats_departements as $sid => $st): ?>
+<?php $tx = min(100, max(0, (float)($st['taux_reussite'] ?? 0))); ?>
 <div class="space-y-2">
 <div class="flex justify-between text-xs font-bold uppercase text-on-surface-variant tracking-widest">
-<span>Informatique</span>
-<span>82%</span>
+<span><?= htmlspecialchars($st['nom'] ?? '') ?></span>
+<span><?= htmlspecialchars((string)$tx) ?>%</span>
 </div>
 <div class="w-full h-3 bg-surface-container rounded-full overflow-hidden">
-<div class="h-full bg-primary rounded-full" style="width: 82%"></div>
+<div class="h-full bg-primary rounded-full transition-all" style="width: <?= $tx ?>%"></div>
 </div>
 </div>
-<div class="space-y-2">
-<div class="flex justify-between text-xs font-bold uppercase text-on-surface-variant tracking-widest">
-<span>Gestion</span>
-<span>74%</span>
-</div>
-<div class="w-full h-3 bg-surface-container rounded-full overflow-hidden">
-<div class="h-full bg-primary/70 rounded-full" style="width: 74%"></div>
+<?php endforeach; ?>
+<?php if (empty($stats_departements)): ?>
+<p class="text-sm text-on-surface-variant">Aucun département à afficher.</p>
+<?php endif; ?>
+<canvas id="chartDeptCanvas" class="mt-10 w-full max-h-56"></canvas>
 </div>
 </div>
-<div class="space-y-2">
-<div class="flex justify-between text-xs font-bold uppercase text-on-surface-variant tracking-widest">
-<span>Sciences de la Vie</span>
-<span>68%</span>
-</div>
-<div class="w-full h-3 bg-surface-container rounded-full overflow-hidden">
-<div class="h-full bg-primary/50 rounded-full" style="width: 68%"></div>
-</div>
-</div>
-<div class="space-y-2">
-<div class="flex justify-between text-xs font-bold uppercase text-on-surface-variant tracking-widest">
-<span>Droit &amp; Sciences Po</span>
-<span>89%</span>
-</div>
-<div class="w-full h-3 bg-surface-container rounded-full overflow-hidden">
-<div class="h-full bg-primary rounded-full" style="width: 89%"></div>
-</div>
-</div>
-<div class="space-y-2">
-<div class="flex justify-between text-xs font-bold uppercase text-on-surface-variant tracking-widest">
-<span>Lettres &amp; Langues</span>
-<span>79%</span>
-</div>
-<div class="w-full h-3 bg-surface-container rounded-full overflow-hidden">
-<div class="h-full bg-primary/60 rounded-full" style="width: 79%"></div>
-</div>
-</div>
-</div>
+<div class="lg:col-span-1 hidden lg:block"></div>
 </div>
 <!-- Section 5: Distribution Chart (Mentions) -->
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
@@ -199,6 +171,29 @@ include __DIR__ . '/../../../../backend/includes/sidebar.php';
         </table>
     </div>
 </div>
-</main>
+
 <?php include __DIR__ . '/../../../../backend/includes/footer.php'; ?>
-</body></html>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+(function () {
+    const el = document.getElementById('chartDeptCanvas');
+    if (!el || typeof Chart === 'undefined') return;
+    const raw = <?= json_encode(array_values($stats_departements), JSON_UNESCAPED_UNICODE) ?>;
+    if (!raw.length) return;
+    const labels = raw.map(r => r.nom || '');
+    const data = raw.map(r => parseFloat(r.taux_reussite) || 0);
+    new Chart(el, {
+        type: 'bar',
+        data: {
+            labels,
+            datasets: [{ label: 'Taux de réussite (%)', data, backgroundColor: 'rgba(26, 86, 219, 0.65)' }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: { y: { beginAtZero: true, max: 100 } }
+        }
+    });
+})();
+</script>

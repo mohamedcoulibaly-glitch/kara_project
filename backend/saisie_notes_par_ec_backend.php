@@ -98,17 +98,32 @@ if ($id_ec) {
     }
 }
 
-// Traiter l'enregistrement des notes
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'save_notes') {
+// Traiter l'enregistrement des notes (formulaire envoie action=save_notes_ec)
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])
+    && in_array($_POST['action'], ['save_notes', 'save_notes_ec'], true)) {
     $enregistrements = 0;
     $erreurs = 0;
-    
+
+    $id_ec_save = isset($_POST['id_ec']) ? (int)$_POST['id_ec'] : $id_ec;
+    $session_save = isset($_POST['session']) ? $_POST['session'] : $session;
+    $date_examen_save = isset($_POST['date_examen']) ? $_POST['date_examen'] : $date_examen;
+    if ($id_ec_save) {
+        $id_ec = $id_ec_save;
+    }
+    if ($session_save !== '') {
+        $session = $session_save;
+    }
+    if ($date_examen_save !== '') {
+        $date_examen = $date_examen_save;
+    }
+
     if (isset($_POST['notes']) && is_array($_POST['notes'])) {
-        foreach ($_POST['notes'] as $etudiant_id => $valeur_note) {
-            if ($valeur_note !== '' && $valeur_note >= 0 && $valeur_note <= 20) {
-                $etudiant_id = (int)$etudiant_id;
-                $valeur_note = (float)$valeur_note;
-                $id_ec = (int)$id_ec;
+        foreach ($_POST['notes'] as $etudiant_id => $data) {
+            if (isset($data['valeur_note']) && $data['valeur_note'] !== '') {
+                $valeur_note = (float)$data['valeur_note'];
+                if ($valeur_note >= 0 && $valeur_note <= 20) {
+                    $etudiant_id = (int)$etudiant_id;
+                    $id_ec = (int)$id_ec;
                 
                 // Vérifier si la note existe
                 $check_query = "SELECT id_note FROM note WHERE id_etudiant = ? AND id_ec = ? AND session = ?";
@@ -139,6 +154,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                             $enregistrements++;
                         } else {
                             $erreurs++;
+                        }
                         }
                     }
                 }

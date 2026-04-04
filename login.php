@@ -48,12 +48,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             $_SESSION['user_role'] = $user['role'];
                             $_SESSION['login_time'] = time();
 
-                            // Mettre à jour last_login
-                            $updateQuery = "UPDATE utilisateur SET last_login = NOW() WHERE id_user = ?";
-                            $updateStmt = getDB()->prepare($updateQuery);
-                            if ($updateStmt) {
-                                $updateStmt->bind_param("i", $user['id_user']);
-                                $updateStmt->execute();
+                            // Mettre à jour last_login si la colonne existe (schéma de base sans cette colonne)
+                            $db = getDB();
+                            $colRes = $db->query("SHOW COLUMNS FROM utilisateur LIKE 'last_login'");
+                            if ($colRes && $colRes->num_rows > 0) {
+                                $updateStmt = $db->prepare("UPDATE utilisateur SET last_login = NOW() WHERE id_user = ?");
+                                if ($updateStmt) {
+                                    $updateStmt->bind_param("i", $user['id_user']);
+                                    $updateStmt->execute();
+                                }
                             }
 
                             // Si "Rester connecté" est coché, créer un cookie

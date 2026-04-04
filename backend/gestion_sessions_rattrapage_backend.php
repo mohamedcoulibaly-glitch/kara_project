@@ -29,9 +29,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $id_fil = (int)($_POST['id_filiere'] ?? $id_filiere);
     $desc = $_POST['description'] ?? 'Session de rattrapage';
     
-    $query = "INSERT INTO session_rattrapage (date_debut, date_fin, id_filiere, statut, description) VALUES (?, ?, ?, 'Ouverte', ?)";
+    $code_session = 'RATT-' . date('YmdHis') . '-' . mt_rand(100, 999);
+    $query = "INSERT INTO session_rattrapage (code_session, date_debut, date_fin, id_filiere, statut, description) VALUES (?, ?, ?, ?, 'Programmée', ?)";
     $stmt_ins = $db->prepare($query);
-    $stmt_ins->bind_param("ssis", $date_debut, $date_fin, $id_fil, $desc);
+    $stmt_ins->bind_param("sssis", $code_session, $date_debut, $date_fin, $id_fil, $desc);
     
     if ($stmt_ins->execute()) {
         $message = "Session de rattrapage créée avec succès.";

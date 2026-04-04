@@ -26,17 +26,19 @@ $stats_departements = [];
 foreach ($departements as $dept) {
     $id_dept = $dept['id_dept'];
     
-    // Récupérer les stats pour ce département
+    // Taux de réussite = part d'étudiants actifs avec moyenne générale (session Normale) ≥ 10
     $query = "SELECT 
               COUNT(DISTINCT e.id_etudiant) as nombre_etudiants,
-              COUNT(CASE WHEN n.valeur_note >= 10 THEN 1 END) as reussis,
+              SUM(CASE WHEN agg.moy >= 10 THEN 1 ELSE 0 END) as etudiants_reussis,
               COUNT(n.id_note) as total_notes,
               AVG(n.valeur_note) as moyenne
               FROM etudiant e
               JOIN filiere f ON e.id_filiere = f.id_filiere
-              LEFT JOIN note n ON e.id_etudiant = n.id_etudiant
-              WHERE f.id_dept = ? AND e.statut = 'Actif'
-              AND (n.session = 'Normale' OR n.session IS NULL)";
+              LEFT JOIN note n ON e.id_etudiant = n.id_etudiant AND n.session = 'Normale'
+              LEFT JOIN (
+                  SELECT id_etudiant, AVG(valeur_note) as moy FROM note WHERE session = 'Normale' GROUP BY id_etudiant
+              ) agg ON agg.id_etudiant = e.id_etudiant
+              WHERE f.id_dept = ? AND e.statut = 'Actif'";
     
     $stmt = $db->prepare($query);
     $stmt->bind_param("i", $id_dept);
@@ -45,29 +47,34 @@ foreach ($departements as $dept) {
         $result = $stmt->get_result();
         if ($result) {
             $row = $result->fetch_assoc();
+            $nb = (int)($row['nombre_etudiants'] ?? 0);
+            $ok = (int)($row['etudiants_reussis'] ?? 0);
             $stats_departements[$id_dept] = [
                 'nom' => $dept['nom_dept'],
-                'nombre_etudiants' => $row['nombre_etudiants'] ?? 0,
-                'reussis' => $row['reussis'] ?? 0,
-                'total_notes' => $row['total_notes'] ?? 0,
+                'nombre_etudiants' => $nb,
+                'reussis' => $ok,
+                'total_notes' => (int)($row['total_notes'] ?? 0),
                 'moyenne' => $row['moyenne'] ? round($row['moyenne'], 2) : 0,
-                'taux_reussite' => ($row['total_notes'] > 0) ? round(($row['reussis'] / $row['total_notes']) * 100, 1) : 0
+                'taux_reussite' => $nb > 0 ? round(($ok / $nb) * 100, 1) : 0
             ];
         }
     }
 }
 
-// Statistiques globales
+// Statistiques globales (même logique : étudiants avec moyenne ≥ 10)
 $query = "SELECT 
           COUNT(DISTINCT e.id_etudiant) as total_etudiants,
-          COUNT(CASE WHEN n.valeur_note >= 10 THEN 1 END) as total_reussis,
+          SUM(CASE WHEN agg.moy >= 10 THEN 1 ELSE 0 END) as total_reussis,
           COUNT(n.id_note) as total_notes,
           AVG(n.valeur_note) as moyenne_globale,
           MIN(n.valeur_note) as note_min,
           MAX(n.valeur_note) as note_max
           FROM etudiant e
-          LEFT JOIN note n ON e.id_etudiant = n.id_etudiant
-          WHERE e.statut = 'Actif' AND (n.session = 'Normale' OR n.session IS NULL)";
+          LEFT JOIN note n ON e.id_etudiant = n.id_etudiant AND n.session = 'Normale'
+          LEFT JOIN (
+              SELECT id_etudiant, AVG(valeur_note) as moy FROM note WHERE session = 'Normale' GROUP BY id_etudiant
+          ) agg ON agg.id_etudiant = e.id_etudiant
+          WHERE e.statut = 'Actif'";
 
 $stmt = $db->prepare($query);
 $stats_globales = [];
@@ -75,14 +82,16 @@ if ($stmt->execute()) {
     $result = $stmt->get_result();
     if ($result) {
         $row = $result->fetch_assoc();
+        $te = (int)($row['total_etudiants'] ?? 0);
+        $tr = (int)($row['total_reussis'] ?? 0);
         $stats_globales = [
-            'total_etudiants' => $row['total_etudiants'] ?? 0,
-            'total_reussis' => $row['total_reussis'] ?? 0,
-            'total_notes' => $row['total_notes'] ?? 0,
+            'total_etudiants' => $te,
+            'total_reussis' => $tr,
+            'total_notes' => (int)($row['total_notes'] ?? 0),
             'moyenne_globale' => $row['moyenne_globale'] ? round($row['moyenne_globale'], 2) : 0,
             'note_min' => $row['note_min'] ?? 0,
             'note_max' => $row['note_max'] ?? 0,
-            'taux_global' => ($row['total_notes'] > 0) ? round(($row['total_reussis'] / $row['total_notes']) * 100, 1) : 0
+            'taux_global' => $te > 0 ? round(($tr / $te) * 100, 1) : 0
         ];
     }
 }

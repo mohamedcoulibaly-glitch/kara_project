@@ -6,6 +6,8 @@
 require_once __DIR__ . '/../config/config.php';
 require_once __DIR__ . '/classes/DataManager.php';
 
+checkAuth();
+
 $db = getDB();
 
 $search = isset($_GET['search']) ? trim($_GET['search']) : '';

@@ -306,6 +306,24 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ========================================
+-- 16. TABLE AUDIT_LOG (journal d’actions — utilisée par config.php)
+-- ========================================
+CREATE TABLE IF NOT EXISTS `audit_log` (
+  `id_audit` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `action` varchar(20) NOT NULL,
+  `table_name` varchar(64) DEFAULT NULL,
+  `record_id` varchar(64) DEFAULT NULL,
+  `old_values` text,
+  `new_values` text,
+  `ip_address` varchar(45) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id_audit`),
+  KEY `idx_audit_user` (`user_id`),
+  KEY `idx_audit_created` (`created_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- ========================================
 -- INSERT DONNÉES DE TEST
 -- ========================================
 

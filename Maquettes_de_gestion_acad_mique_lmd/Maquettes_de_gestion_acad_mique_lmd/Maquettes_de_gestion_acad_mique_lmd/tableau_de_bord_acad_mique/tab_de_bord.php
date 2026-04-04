@@ -4,48 +4,25 @@ $page_title = 'Tableau de Bord';
 $current_page = 'dashboard';
 include __DIR__ . '/../../../../backend/includes/sidebar.php';
 ?>
-<div class="flex items-center gap-4 flex-1">
-<div class="relative w-full max-w-md">
-<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xl">search</span>
-<input class="w-full bg-surface-container-low border-none rounded-full py-2 pl-10 pr-4 text-sm focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Rechercher un étudiant, une UE..." type="text"/>
-</div>
-</div>
-<div class="flex items-center gap-6">
-<button class="relative p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors">
-<span class="material-symbols-outlined">notifications</span>
-<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border-2 border-white"></span>
-</button>
-<button class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors">
-<span class="material-symbols-outlined">settings</span>
-</button>
-<div class="h-8 w-[1px] bg-slate-200"></div>
-<div class="flex items-center gap-3 cursor-pointer group">
-<div class="text-right">
-<p class="text-sm font-bold text-slate-900 leading-none">Admin Académique</p>
-<p class="text-xs text-slate-500">Direction des études</p>
-</div>
-<img class="w-9 h-9 rounded-full object-cover ring-2 ring-primary/10 group-hover:ring-primary/30 transition-all" data-alt="Photo de profil de l'administrateur" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDi9zIyfvuLhLL9A5A5v3bC3rZiqhJmyDory4-5v8cNz8pCyHhHH6oro-lZLNDd6QfMAqKYpn67Eke6YVGrIhEB2PbuTiCYJ9fyEAcIuF0FFiZ8rPteezeK0pjPQz2M6wFgKeBVTG7EzFYqNyRB8dRmrWGHhTzMQGiG9ynzeAiJjRpnpZXz04ExQ0_awb7GjKTkcWNiuSG3yIxJQeNGxkrK7GNeGSduGxvU4zcAb2zww9FLwiMCEDtiA4GMVww7ebxaxmFeDAPZeCs"/>
-</div>
-</div>
-</header>
-<!-- Main Content Canvas -->
-<main class="pl-64 pt-16 min-h-screen">
-<div class="p-8 max-w-7xl mx-auto space-y-8">
 <!-- Page Header -->
-<div class="flex justify-between items-end">
+<div class="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4 mb-8">
 <div>
 <h2 class="text-3xl font-extrabold tracking-tight text-slate-900">Tableau de Bord</h2>
 <p class="text-slate-500 mt-1">Aperçu analytique de la performance académique LMD.</p>
 </div>
-<div class="flex gap-3">
-<button onclick="exportReport()" class="bg-surface-container-low text-on-surface px-4 py-2 rounded-md text-sm font-semibold hover:bg-surface-container-high transition-colors flex items-center gap-2">
-<span class="material-symbols-outlined text-lg">download</span>
-                        Exporter le rapport
-                    </button>
-<button onclick="window.location.href='/kara_project/backend/saisie_notes_moyennes_backend.php'" class="bg-primary text-white px-4 py-2 rounded-md text-sm font-semibold hover:opacity-90 transition-opacity flex items-center gap-2 shadow-lg shadow-primary/20">
-<span class="material-symbols-outlined text-lg">add</span>
-                        Nouvelle saisie
-                    </button>
+<div class="flex flex-wrap gap-2">
+<button type="button" onclick="location.reload()" class="bg-slate-700 text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-slate-800 transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">refresh</span> Actualiser
+</button>
+<a href="<?= htmlspecialchars($base_url . $backend_url) ?>export_etudiants.php?format=csv" class="bg-surface-container-low text-on-surface px-4 py-2 rounded-md text-sm font-semibold hover:bg-surface-container-high transition-colors flex items-center gap-2 border border-outline-variant/20">
+<span class="material-symbols-outlined text-lg">table_rows</span> Exporter les données
+</a>
+<button type="button" onclick="location.href='<?= htmlspecialchars($base_url . $backend_url) ?>rapport_pdf_backend.php?download=1'" class="bg-surface-container-low text-on-surface px-4 py-2 rounded-md text-sm font-semibold hover:bg-surface-container-high transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">picture_as_pdf</span> Exporter le rapport
+</button>
+<a href="<?= htmlspecialchars($base_url . $backend_url) ?>saisie_notes_par_ec_backend.php" class="bg-primary text-white px-4 py-2 rounded-md text-sm font-semibold hover:opacity-90 transition-opacity flex items-center gap-2 shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-lg">add</span> Nouvelle saisie
+</a>
 </div>
 </div>
 <!-- Bento Grid Widgets -->
@@ -152,7 +129,7 @@ include __DIR__ . '/../../../../backend/includes/sidebar.php';
 <div class="bg-surface-container-lowest rounded-xl p-6 shadow-[0_12px_32px_rgba(25,28,30,0.04)]">
 <div class="flex justify-between items-center mb-6">
 <h3 class="text-lg font-bold">Dernières Notes</h3>
-<a class="text-xs font-bold text-primary hover:underline" href="/kara_project/saisie_notes.php">Voir tout</a>
+<a class="text-xs font-bold text-primary hover:underline" href="<?= htmlspecialchars($base_url . $backend_url) ?>saisie_notes_par_ec_backend.php">Voir tout</a>
 </div>
 <div class="space-y-4">
 <!-- Grade Row -->
@@ -255,15 +232,5 @@ include __DIR__ . '/../../../../backend/includes/sidebar.php';
 </div>
 </div>
 </div>
-</div>
-</main>
-<!-- Contextual FAB (Suppressed based on layout rules for dashboard context focus, but kept empty for spacing if needed) -->
-</body>
 
-<script>
-function exportReport() {
-    window.location.href = '../../../../backend/rapport_pdf_backend.php';
-}
-</script>
-
-</html>
+<?php include __DIR__ . '/../../../../backend/includes/footer.php'; ?>

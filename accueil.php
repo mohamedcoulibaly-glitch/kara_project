@@ -86,14 +86,6 @@ $modules = [
         'description' => 'Analyse des réussites par département',
         'color' => 'bg-cyan-50 border-cyan-200',
         'icon_color' => 'text-cyan-600 bg-cyan-100'
-    ],
-    [
-        'title' => 'Migration BD',
-        'icon' => 'storage',
-        'url' => 'migration.php',
-        'description' => 'Import des données SQL vers MySQL',
-        'color' => 'bg-indigo-50 border-indigo-200',
-        'icon_color' => 'text-indigo-600 bg-indigo-100'
     ]
 ];
 
@@ -207,60 +199,6 @@ $modules = [
         <?php endforeach; ?>
     </div>
 
-    <!-- Documentation Section -->
-    <div class="bg-white rounded-xl shadow-sm p-8 border-t-4 border-indigo-500">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div>
-                <h3 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-                    <span class="material-symbols-outlined text-indigo-600">info</span>
-                    Documentation
-                </h3>
-                <div class="space-y-3">
-                    <a href="PROJET_TERMINE.md" class="block p-3 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition">
-                        <p class="font-semibold text-indigo-900">📋 Projet Terminé</p>
-                        <p class="text-sm text-indigo-700">Vue d'ensemble et récapitulatif</p>
-                    </a>
-                    <a href="README.md" class="block p-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition">
-                        <p class="font-semibold text-blue-900">📖 README</p>
-                        <p class="text-sm text-blue-700">Guide d'installation et configuration</p>
-                    </a>
-                    <a href="DEMARRAGE_RAPIDE.md" class="block p-3 bg-green-50 rounded-lg hover:bg-green-100 transition">
-                        <p class="font-semibold text-green-900">🚀 Démarrage Rapide</p>
-                        <p class="text-sm text-green-700">Premiers pas et instructions rapides</p>
-                    </a>
-                </div>
-            </div>
-
-            <div>
-                <h3 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-                    <span class="material-symbols-outlined text-indigo-600">check_circle</span>
-                    Checklist
-                </h3>
-                <div class="space-y-2">
-                    <label class="flex items-center gap-3 p-2 hover:bg-slate-50 rounded">
-                        <input type="checkbox" checked disabled class="w-5 h-5 accent-green-600">
-                        <span class="text-sm font-medium text-slate-700">✅ Fichiers PHP backend créés</span>
-                    </label>
-                    <label class="flex items-center gap-3 p-2 hover:bg-slate-50 rounded">
-                        <input type="checkbox" checked disabled class="w-5 h-5 accent-green-600">
-                        <span class="text-sm font-medium text-slate-700">✅ SafeStatement wrapper intégré</span>
-                    </label>
-                    <label class="flex items-center gap-3 p-2 hover:bg-slate-50 rounded">
-                        <input type="checkbox" checked disabled class="w-5 h-5 accent-green-600">
-                        <span class="text-sm font-medium text-slate-700">✅ Gestion erreurs configurée</span>
-                    </label>
-                    <label class="flex items-center gap-3 p-2 hover:bg-slate-50 rounded">
-                        <input type="checkbox" checked disabled class="w-5 h-5 accent-green-600">
-                        <span class="text-sm font-medium text-slate-700">✅ Migration SQL disponible</span>
-                    </label>
-                    <label class="flex items-center gap-3 p-2 hover:bg-slate-50 rounded">
-                        <input type="checkbox" checked disabled class="w-5 h-5 accent-green-600">
-                        <span class="text-sm font-medium text-slate-700">✅ Documentation complète</span>
-                    </label>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Footer -->
     <div class="mt-12 text-center text-slate-600 text-sm">

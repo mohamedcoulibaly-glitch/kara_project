@@ -13,8 +13,8 @@ require_once __DIR__ . '/classes/DataManager.php';
 $etudiantManager = new EtudiantManager();
 $noteManager = new NoteManager();
 
-// Récupérer l'ID de l'étudiant
-$id_etudiant = isset($_GET['id']) ? (int)$_GET['id'] : 1; // Par défaut l'étudiant 1
+// Récupérer l'ID de l'étudiant (?etudiant_id= ou ?id=)
+$id_etudiant = (int)($_GET['etudiant_id'] ?? $_GET['id'] ?? 1);
 
 // Récupérer les informations de l'étudiant
 $etudiant = $etudiantManager->getById($id_etudiant);
@@ -88,7 +88,8 @@ if (isset($_GET['format']) && $_GET['format'] === 'json') {
 }
 
 extract($attestation_data);
-// Inclure le fichier frontend
-include __DIR__ . '/../Maquettes_de_gestion_acad_mique_lmd/Maquettes_de_gestion_acad_mique_lmd/Maquettes_de_gestion_acad_mique_lmd/attestation_de_r_ussite_pdf/attestaion_de_reussite.php';
+if (!defined('FRONTEND_LOADED')) {
+    include __DIR__ . '/../Maquettes_de_gestion_acad_mique_lmd/Maquettes_de_gestion_acad_mique_lmd/Maquettes_de_gestion_acad_mique_lmd/attestation_de_r_ussite_pdf/attestaion_de_reussite.php';
+}
 
 ?>

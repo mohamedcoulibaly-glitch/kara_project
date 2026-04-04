@@ -23,56 +23,60 @@ $table_filter = $_GET['table'] ?? '';
 // Construire la clause WHERE
 $where = [];
 $params = [];
-$types = '';
 
 if ($date_start) {
     $where[] = "DATE(al.created_at) >= ?";
     $params[] = $date_start;
-    $types .= 's';
 }
 
 if ($date_end) {
     $where[] = "DATE(al.created_at) <= ?";
     $params[] = $date_end;
-    $types .= 's';
 }
 
 if ($user_filter) {
     $where[] = "al.user_id = ?";
-    $params[] = $user_filter;
-    $types .= 'i';
+    $params[] = (int) $user_filter;
 }
 
 if ($action_filter) {
     $where[] = "al.action = ?";
     $params[] = $action_filter;
-    $types .= 's';
 }
 
 if ($table_filter) {
     $where[] = "al.table_name = ?";
     $params[] = $table_filter;
-    $types .= 's';
 }
 
 $where_clause = empty($where) ? '' : 'WHERE ' . implode(' AND ', $where);
 
 // Compter le total
 $count_query = "SELECT COUNT(*) as total FROM audit_log al $where_clause";
-$total = safeQuerySingle($count_query, !empty($params) ? [$types, ...$params] : []);
+$total = safeQuerySingle($count_query, $params);
 $total_pages = ceil($total['total'] / $per_page);
 
 // Récupérer les logs
 $query = "SELECT al.*, u.nom, u.prenom, u.email 
           FROM audit_log al 
-          LEFT JOIN utilisateur u ON al.user_id = u.id_utilisateur 
+          LEFT JOIN utilisateur u ON al.user_id = u.id_user 
           $where_clause 
           ORDER BY al.created_at DESC 
           LIMIT $per_page OFFSET $offset";
-$logs = safeQuery($query, !empty($params) ? [$types, ...$params] : []);
+$logs = safeQuery($query, $params);
+$logs = is_array($logs) ? $logs : [];
+$count_insert_logs = count(array_filter($logs, function ($l) {
+    return ($l['action'] ?? '') === 'INSERT';
+}));
+$count_update_logs = count(array_filter($logs, function ($l) {
+    return ($l['action'] ?? '') === 'UPDATE';
+}));
+$count_delete_logs = count(array_filter($logs, function ($l) {
+    return ($l['action'] ?? '') === 'DELETE';
+}));
 
 // Récupérer la liste des utilisateurs pour le filtre
-$users = safeQuery("SELECT id_utilisateur, nom, prenom FROM utilisateur ORDER BY nom, prenom");
+$users = safeQuery("SELECT id_user, nom, prenom FROM utilisateur ORDER BY nom, prenom");
 
 // Récupérer les tables uniques
 $tables = safeQuery("SELECT DISTINCT table_name FROM audit_log WHERE table_name IS NOT NULL ORDER BY table_name");
@@ -109,7 +113,7 @@ include __DIR__ . '/includes/sidebar.php';
                 class="w-full bg-surface-container-low border-none rounded-lg py-2 px-3 text-sm focus:ring-2 focus:ring-primary">
                 <option value="">Tous</option>
                 <?php foreach ($users as $u): ?>
-                    <option value="<?= $u['id_utilisateur'] ?>" <?= $user_filter == $u['id_utilisateur'] ? 'selected' : '' ?>>
+                    <option value="<?= (int) $u['id_user'] ?>" <?= (string) $user_filter === (string) $u['id_user'] ? 'selected' : '' ?>>
                         <?= htmlspecialchars($u['nom'] . ' ' . $u['prenom']) ?>
                     </option>
                 <?php endforeach; ?>
@@ -164,15 +168,15 @@ include __DIR__ . '/includes/sidebar.php';
     </div>
     <div class="bg-white p-4 rounded-xl border border-outline-variant/20">
         <p class="text-xs font-bold text-slate-500 uppercase">INSERT</p>
-        <p class="text-2xl font-bold text-green-600"><?= array_sum(array_column($logs, 'action') == 'INSERT') ?></p>
+        <p class="text-2xl font-bold text-green-600"><?= $count_insert_logs ?></p>
     </div>
     <div class="bg-white p-4 rounded-xl border border-outline-variant/20">
         <p class="text-xs font-bold text-slate-500 uppercase">UPDATE</p>
-        <p class="text-2xl font-bold text-blue-600"><?= array_sum(array_column($logs, 'action') == 'UPDATE') ?></p>
+        <p class="text-2xl font-bold text-blue-600"><?= $count_update_logs ?></p>
     </div>
     <div class="bg-white p-4 rounded-xl border border-outline-variant/20">
         <p class="text-xs font-bold text-slate-500 uppercase">DELETE</p>
-        <p class="text-2xl font-bold text-error"><?= array_sum(array_column($logs, 'action') == 'DELETE') ?></p>
+        <p class="text-2xl font-bold text-error"><?= $count_delete_logs ?></p>
     </div>
 </div>
 

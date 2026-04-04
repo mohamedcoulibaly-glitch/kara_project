@@ -216,6 +216,23 @@ $nav_items = [
                     class="material-symbols-outlined absolute left-3 text-slate-400 group-focus-within:text-primary transition-colors text-[20px]">search</span>
                 <input id="global-search-input" type="text" placeholder="Rechercher..."
                     class="pl-10 pr-4 py-2 bg-slate-50 border-none rounded-xl text-sm w-64 focus:ring-2 focus:ring-primary focus:bg-white transition-all outline-none">
+                <script>
+                    document.addEventListener('DOMContentLoaded', () => {
+                        const searchInput = document.getElementById('global-search-input');
+                        const sidebarLinks = document.querySelectorAll('aside nav.flex-1 a, aside .mt-auto.pt-4 a');
+                        searchInput.addEventListener('input', (e) => {
+                            const term = (e.target.value || '').trim().toLowerCase();
+                            sidebarLinks.forEach(link => {
+                                const text = link.textContent.toLowerCase();
+                                if (term === '' || text.includes(term)) {
+                                    link.style.display = '';
+                                } else {
+                                    link.style.display = 'none';
+                                }
+                            });
+                        });
+                    });
+                </script>
             </div>
         </div>
 

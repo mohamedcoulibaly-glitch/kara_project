@@ -56,7 +56,7 @@ include __DIR__ . '/../../../../backend/includes/sidebar.php';
 <span class="material-symbols-outlined text-lg">picture_as_pdf</span>
                         Exporter PDF
                     </button>
-<a href="/kara_project/backend/saisie_etudiants_backend.php" class="flex items-center gap-2 px-6 py-2.5 rounded-md bg-gradient-to-r from-primary to-primary-container text-white font-bold text-sm shadow-sm hover:opacity-90 active:scale-95 transition-all">
+<a href="<?= defined('BASE_URL') ? BASE_URL : '/kara_project' ?>/backend/saisie_etudiants_backend.php" class="flex items-center gap-2 px-6 py-2.5 rounded-md bg-gradient-to-r from-primary to-primary-container text-white font-bold text-sm shadow-sm hover:opacity-90 active:scale-95 transition-all">
 <span class="material-symbols-outlined text-lg">add</span>
                         Ajouter Étudiant</a>
 </div>

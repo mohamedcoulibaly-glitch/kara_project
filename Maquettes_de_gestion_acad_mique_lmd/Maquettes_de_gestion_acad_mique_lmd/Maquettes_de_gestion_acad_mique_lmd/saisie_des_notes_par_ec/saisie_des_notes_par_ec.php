@@ -119,7 +119,7 @@ include __DIR__ . '/../../../../backend/includes/sidebar.php';
                                         $valeur = isset($notes_saisies[$et['id_etudiant']]) ? $notes_saisies[$et['id_etudiant']]['valeur_note'] : '';
                                     ?>
                                     <input type="number" step="0.01" min="0" max="20" 
-                                           name="notes[<?= $et['id_etudiant'] ?>]" 
+                                           name="notes[<?= $et['id_etudiant'] ?>][valeur_note]" 
                                            value="<?= $valeur ?>"
                                            placeholder="0.00"
                                            class="w-24 text-right bg-slate-50 border-none rounded py-2 text-sm focus:ring-2 focus:ring-primary font-black text-primary">

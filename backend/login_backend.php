@@ -1,5 +1,5 @@
 <?php
-require_once "../config/config.php";
+require_once __DIR__ . "/../config/config.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = trim($_POST["email"]);
@@ -20,17 +20,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user = $result->fetch_assoc();
     
     if ($user && $user["statut"] == "Actif" && password_verify($password, $user["password"])) {
-        // Connexion réussie
-        session_start();
         $_SESSION["user_id"] = $user["id_user"];
         $_SESSION["user_role"] = $user["role"];
         $_SESSION["user_email"] = $user["email"];
-        
-        // Mise à jour du dernier login
-        $stmt = $db->prepare("UPDATE utilisateur SET last_login = NOW() WHERE id_user = ?");
-        $stmt->bind_param("i", $user["id_user"]);
-        $stmt->execute();
-        
+
+        $colRes = $db->query("SHOW COLUMNS FROM utilisateur LIKE 'last_login'");
+        if ($colRes && $colRes->num_rows > 0) {
+            $stmt = $db->prepare("UPDATE utilisateur SET last_login = NOW() WHERE id_user = ?");
+            if ($stmt) {
+                $stmt->bind_param("i", $user["id_user"]);
+                $stmt->execute();
+            }
+        }
+
         echo json_encode(["success" => true, "redirect" => "../index.php"]);
     } else {
         echo json_encode(["success" => false, "message" => "Email ou mot de passe incorrect"]);

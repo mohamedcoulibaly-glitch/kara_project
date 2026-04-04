@@ -55,12 +55,13 @@ if ($id_deliberation) {
     // Si pas de PV, en créer un
     if (!$pv && $deliberation_detail) {
         $code_pv = 'PV-' . date('YmdHis');
+        $date_pv = date('Y-m-d');
         $query = "INSERT INTO proces_verbal 
-                  (id_deliberation, code_pv, date_pv, lieu_reunion, president_jury, statut)
-                  VALUES (?, ?, NOW(), 'Salle de Réunion', 'Admin Académique', 'Programmé')";
+                  (id_deliberation, code_pv, date_pv, lieu_reunion, president_jury)
+                  VALUES (?, ?, ?, 'Salle de Réunion', 'Admin Académique')";
         
         $stmt = $db->prepare($query);
-        $stmt->bind_param("is", $id_deliberation, $code_pv);
+        $stmt->bind_param("iss", $id_deliberation, $code_pv, $date_pv);
         $stmt->execute();
         
         $pv = [

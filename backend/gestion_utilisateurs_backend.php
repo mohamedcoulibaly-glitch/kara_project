@@ -51,7 +51,6 @@ function handleListUsers()
     // Requête de base
     $where = [];
     $params = [];
-    $types = '';
 
     if ($search) {
         $where[] = "(nom LIKE ? OR prenom LIKE ? OR email LIKE ?)";
@@ -59,31 +58,28 @@ function handleListUsers()
         $params[] = $search_term;
         $params[] = $search_term;
         $params[] = $search_term;
-        $types .= 'sss';
     }
 
     if ($role_filter) {
         $where[] = "role = ?";
         $params[] = $role_filter;
-        $types .= 's';
     }
 
     if ($statut_filter) {
         $where[] = "statut = ?";
         $params[] = $statut_filter;
-        $types .= 's';
     }
 
     $where_clause = empty($where) ? '' : 'WHERE ' . implode(' AND ', $where);
 
     // Compter le total
     $count_query = "SELECT COUNT(*) as total FROM utilisateur $where_clause";
-    $total = safeQuerySingle($count_query, !empty($params) ? [$types, ...$params] : []);
+    $total = safeQuerySingle($count_query, $params);
     $total_pages = ceil($total['total'] / $per_page);
 
     // Récupérer les utilisateurs
-    $query = "SELECT * FROM utilisateur $where_clause ORDER BY created_at DESC LIMIT $per_page OFFSET $offset";
-    $users = safeQuery($query, !empty($params) ? [$types, ...$params] : []);
+    $query = "SELECT * FROM utilisateur $where_clause ORDER BY date_creation DESC LIMIT $per_page OFFSET $offset";
+    $users = safeQuery($query, $params);
 
     $page_title = 'Gestion des Utilisateurs';
     $current_page = 'utilisateurs';
@@ -109,7 +105,8 @@ function handleListUsers()
                     <option value="">Tous les rôles</option>
                     <option value="Admin" <?= $role_filter === 'Admin' ? 'selected' : '' ?>>Admin</option>
                     <option value="Enseignant" <?= $role_filter === 'Enseignant' ? 'selected' : '' ?>>Enseignant</option>
-                    <option value="Coordinateur" <?= $role_filter === 'Coordinateur' ? 'selected' : '' ?>>Coordinateur</option>
+                    <option value="Scolarite" <?= $role_filter === 'Scolarite' ? 'selected' : '' ?>>Scolarité</option>
+                    <option value="Directeur" <?= $role_filter === 'Directeur' ? 'selected' : '' ?>>Directeur</option>
                 </select>
             </div>
             <div class="w-40">
@@ -173,7 +170,7 @@ function handleListUsers()
                                             <p class="font-bold text-slate-800">
                                                 <?= htmlspecialchars($user['nom'] . ' ' . $user['prenom']) ?>
                                             </p>
-                                            <p class="text-xs text-slate-500">Créé le <?= formatDate($user['created_at']) ?></p>
+                                            <p class="text-xs text-slate-500">Créé le <?= !empty($user['date_creation']) ? formatDate($user['date_creation']) : '—' ?></p>
                                         </div>
                                     </div>
                                 </td>
@@ -182,7 +179,8 @@ function handleListUsers()
                                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold uppercase 
                                         <?= $user['role'] === 'Admin' ? 'bg-error/10 text-error' : '' ?>
                                         <?= $user['role'] === 'Enseignant' ? 'bg-primary/10 text-primary' : '' ?>
-                                        <?= $user['role'] === 'Coordinateur' ? 'bg-secondary/10 text-secondary' : '' ?>
+                                        <?= $user['role'] === 'Scolarite' ? 'bg-secondary/10 text-secondary' : '' ?>
+                                        <?= $user['role'] === 'Directeur' ? 'bg-amber-100 text-amber-800' : '' ?>
                                     ">
                                         <?= htmlspecialchars($user['role']) ?>
                                     </span>
@@ -197,22 +195,25 @@ function handleListUsers()
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 text-sm text-slate-600">
-                                    <?= $user['last_login'] ? formatDate($user['last_login']) . ' à ' . date('H:i', strtotime($user['last_login'])) : 'Jamais' ?>
+                                    <?php
+                                    $ll = $user['last_login'] ?? null;
+                                    echo ($ll && $ll !== '0000-00-00 00:00:00') ? formatDate($ll) . ' à ' . date('H:i', strtotime($ll)) : '—';
+                                    ?>
                                 </td>
                                 <td class="px-6 py-4 text-right">
                                     <div class="flex items-center justify-end gap-2">
-                                        <button onclick="openEditUserModal(<?= $user['id_utilisateur'] ?>)"
+                                        <button onclick="openEditUserModal(<?= (int)($user['id_user'] ?? 0) ?>)"
                                             class="p-2 bg-slate-100 text-slate-600 rounded-lg hover:bg-primary hover:text-white transition-colors"
                                             title="Modifier">
                                             <span class="material-symbols-outlined text-[18px]">edit</span>
                                         </button>
-                                        <button onclick="resetPassword(<?= $user['id_utilisateur'] ?>)"
+                                        <button onclick="resetPassword(<?= (int)($user['id_user'] ?? 0) ?>)"
                                             class="p-2 bg-slate-100 text-slate-600 rounded-lg hover:bg-secondary hover:text-white transition-colors"
                                             title="Réinitialiser mot de passe">
                                             <span class="material-symbols-outlined text-[18px]">lock_reset</span>
                                         </button>
-                                        <?php if ($user['id_utilisateur'] != $_SESSION['user_id']): ?>
-                                            <button onclick="deleteUser(<?= $user['id_utilisateur'] ?>)"
+                                        <?php if (($user['id_user'] ?? 0) != $_SESSION['user_id']): ?>
+                                            <button onclick="deleteUser(<?= (int)($user['id_user'] ?? 0) ?>)"
                                                 class="p-2 bg-slate-100 text-slate-600 rounded-lg hover:bg-error hover:text-white transition-colors"
                                                 title="Supprimer">
                                                 <span class="material-symbols-outlined text-[18px]">delete</span>
@@ -261,7 +262,7 @@ function handleListUsers()
             </div>
             <form id="user-form" method="POST" action="gestion_utilisateurs_backend.php" class="p-8 space-y-6">
                 <input type="hidden" name="action" value="save">
-                <input type="hidden" name="id_utilisateur" id="user_id">
+                <input type="hidden" name="id_user" id="user_id">
 
                 <div class="grid grid-cols-2 gap-4">
                     <div>
@@ -291,7 +292,8 @@ function handleListUsers()
                         <select name="role" id="user_role" required
                             class="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm font-bold focus:ring-2 focus:ring-primary">
                             <option value="Enseignant">Enseignant</option>
-                            <option value="Coordinateur">Coordinateur</option>
+                            <option value="Scolarite">Scolarité</option>
+                            <option value="Directeur">Directeur</option>
                             <option value="Admin">Admin</option>
                         </select>
                     </div>
@@ -345,7 +347,7 @@ function handleListUsers()
                 .then(data => {
                     if (data.success) {
                         document.getElementById('modal-title').textContent = 'Modifier l\'utilisateur';
-                        document.getElementById('user_id').value = data.user.id_utilisateur;
+                        document.getElementById('user_id').value = data.user.id_user;
                         document.getElementById('user_nom').value = data.user.nom;
                         document.getElementById('user_prenom').value = data.user.prenom;
                         document.getElementById('user_email').value = data.user.email;
@@ -368,7 +370,7 @@ function handleListUsers()
                 fetch('gestion_utilisateurs_backend.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: `action=reset_password&id_utilisateur=${userId}`
+                    body: `action=reset_password&id_user=${userId}`
                 })
                     .then(response => response.json())
                     .then(data => {
@@ -386,7 +388,7 @@ function handleListUsers()
                 fetch('gestion_utilisateurs_backend.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: `action=delete&id_utilisateur=${userId}`
+                    body: `action=delete&id_user=${userId}`
                 })
                     .then(response => response.json())
                     .then(data => {
@@ -436,7 +438,7 @@ function handleListUsers()
 function handleGetUser()
 {
     $id = intval($_GET['id'] ?? 0);
-    $user = safeQuerySingle("SELECT * FROM utilisateur WHERE id_utilisateur = ?", [$id]);
+    $user = safeQuerySingle("SELECT * FROM utilisateur WHERE id_user = ?", [$id]);
 
     if ($user) {
         echo json_encode(['success' => true, 'user' => $user]);
@@ -451,13 +453,18 @@ function handleGetUser()
  */
 function handleSaveUser()
 {
-    $id = intval($_POST['id_utilisateur'] ?? 0);
+    $id = intval($_POST['id_user'] ?? $_POST['id_utilisateur'] ?? 0);
     $nom = trim($_POST['nom'] ?? '');
     $prenom = trim($_POST['prenom'] ?? '');
     $email = trim($_POST['email'] ?? '');
     $role = $_POST['role'] ?? 'Enseignant';
     $statut = $_POST['statut'] ?? 'Actif';
     $password = $_POST['password'] ?? '';
+
+    $allowed_roles = ['Admin', 'Enseignant', 'Scolarite', 'Directeur'];
+    if (!in_array($role, $allowed_roles, true)) {
+        $role = 'Enseignant';
+    }
 
     if (empty($nom) || empty($prenom) || empty($email)) {
         echo json_encode(['success' => false, 'error' => 'Tous les champs sont obligatoires.']);
@@ -489,13 +496,18 @@ function handleAddUser()
     $statut = $_POST['statut'] ?? 'Actif';
     $password = $_POST['password'] ?? '';
 
+    $allowed_roles = ['Admin', 'Enseignant', 'Scolarite', 'Directeur'];
+    if (!in_array($role, $allowed_roles, true)) {
+        $role = 'Enseignant';
+    }
+
     if (empty($nom) || empty($prenom) || empty($email) || empty($password)) {
         echo json_encode(['success' => false, 'error' => 'Tous les champs sont obligatoires.']);
         exit;
     }
 
     // Vérifier si l'email existe déjà
-    $check = safeQuerySingle("SELECT id_utilisateur FROM utilisateur WHERE email = ?", [$email]);
+    $check = safeQuerySingle("SELECT id_user FROM utilisateur WHERE email = ?", [$email]);
     if ($check) {
         echo json_encode(['success' => false, 'error' => 'Cet email est déjà utilisé.']);
         exit;
@@ -520,7 +532,7 @@ function handleAddUser()
  */
 function handleEditUser()
 {
-    $id = intval($_POST['id_utilisateur'] ?? 0);
+    $id = intval($_POST['id_user'] ?? $_POST['id_utilisateur'] ?? 0);
     $nom = trim($_POST['nom'] ?? '');
     $prenom = trim($_POST['prenom'] ?? '');
     $email = trim($_POST['email'] ?? '');
@@ -528,13 +540,18 @@ function handleEditUser()
     $statut = $_POST['statut'] ?? 'Actif';
     $password = $_POST['password'] ?? '';
 
+    $allowed_roles = ['Admin', 'Enseignant', 'Scolarite', 'Directeur'];
+    if (!in_array($role, $allowed_roles, true)) {
+        $role = 'Enseignant';
+    }
+
     if (empty($nom) || empty($prenom) || empty($email)) {
         echo json_encode(['success' => false, 'error' => 'Tous les champs sont obligatoires.']);
         exit;
     }
 
     // Récupérer les anciennes valeurs
-    $old_user = safeQuerySingle("SELECT * FROM utilisateur WHERE id_utilisateur = ?", [$id]);
+    $old_user = safeQuerySingle("SELECT * FROM utilisateur WHERE id_user = ?", [$id]);
     if (!$old_user) {
         echo json_encode(['success' => false, 'error' => 'Utilisateur non trouvé.']);
         exit;
@@ -542,19 +559,16 @@ function handleEditUser()
 
     $query = "UPDATE utilisateur SET nom = ?, prenom = ?, email = ?, role = ?, statut = ?";
     $params = [$nom, $prenom, $email, $role, $statut];
-    $types = "sssss";
 
     if (!empty($password)) {
         $query .= ", password = ?";
         $params[] = password_hash($password, PASSWORD_DEFAULT);
-        $types .= "s";
     }
 
-    $query .= " WHERE id_utilisateur = ?";
+    $query .= " WHERE id_user = ?";
     $params[] = $id;
-    $types .= "i";
 
-    $result = safeExecute($query, [$types, ...$params]);
+    $result = safeExecute($query, $params);
 
     if ($result) {
         logUserAction('UPDATE', 'utilisateur', $id, $old_user, ['nom' => $nom, 'prenom' => $prenom, 'email' => $email, 'role' => $role, 'statut' => $statut]);
@@ -570,20 +584,20 @@ function handleEditUser()
  */
 function handleDeleteUser()
 {
-    $id = intval($_POST['id_utilisateur'] ?? 0);
+    $id = intval($_POST['id_user'] ?? $_POST['id_utilisateur'] ?? 0);
 
     if ($id == $_SESSION['user_id']) {
         echo json_encode(['success' => false, 'error' => 'Vous ne pouvez pas vous supprimer vous-même.']);
         exit;
     }
 
-    $old_user = safeQuerySingle("SELECT * FROM utilisateur WHERE id_utilisateur = ?", [$id]);
+    $old_user = safeQuerySingle("SELECT * FROM utilisateur WHERE id_user = ?", [$id]);
     if (!$old_user) {
         echo json_encode(['success' => false, 'error' => 'Utilisateur non trouvé.']);
         exit;
     }
 
-    $result = safeExecute("DELETE FROM utilisateur WHERE id_utilisateur = ?", [$id]);
+    $result = safeExecute("DELETE FROM utilisateur WHERE id_user = ?", [$id]);
 
     if ($result) {
         logUserAction('DELETE', 'utilisateur', $id, $old_user, null);
@@ -599,13 +613,13 @@ function handleDeleteUser()
  */
 function handleResetPassword()
 {
-    $id = intval($_POST['id_utilisateur'] ?? $_GET['id'] ?? 0);
+    $id = intval($_POST['id_user'] ?? $_POST['id_utilisateur'] ?? $_GET['id'] ?? 0);
 
     // Générer un mot de passe aléatoire
     $new_password = bin2hex(random_bytes(4)); // 8 caractères
     $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
 
-    $result = safeExecute("UPDATE utilisateur SET password = ? WHERE id_utilisateur = ?", [$hashed_password, $id]);
+    $result = safeExecute("UPDATE utilisateur SET password = ? WHERE id_user = ?", [$hashed_password, $id]);
 
     if ($result) {
         logUserAction('UPDATE', 'utilisateur', $id, null, ['action' => 'reset_password']);

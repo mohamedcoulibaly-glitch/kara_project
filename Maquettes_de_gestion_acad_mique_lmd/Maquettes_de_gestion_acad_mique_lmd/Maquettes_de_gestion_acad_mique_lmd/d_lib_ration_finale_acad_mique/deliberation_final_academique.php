@@ -1,14 +1,16 @@
 <?php
+define('FRONTEND_LOADED', true);
+require_once __DIR__ . '/../../../../backend/deliberation_backend.php';
 $page_title = 'Délibération Finale Académique';
 $current_page = 'deliberations';
 include __DIR__ . '/../../../../backend/includes/sidebar.php';
 
-// Variables from backend
 $id_filiere = $id_filiere ?? 0;
 $semestre = $semestre ?? 1;
 $filieres = $filieres ?? [];
 $etudiants_stats = $etudiants_stats ?? [];
 $message = $message ?? '';
+$message_type = $message_type ?? '';
 ?>
 
 <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
@@ -118,7 +120,13 @@ $message = $message ?? '';
 <div class="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
     <div class="px-6 py-4 bg-slate-50 border-b border-slate-100 flex justify-between items-center">
         <h3 class="font-bold text-slate-800">Registre de délibération</h3>
-        <button class="bg-primary text-white px-4 py-2 rounded-lg text-xs font-bold shadow-sm hover:opacity-90">Valider toutes les décisions</button>
+        <form method="POST" action="<?= $base_url . $backend_url ?>deliberation_backend.php?filiere=<?= $id_filiere ?>&semestre=<?= $semestre ?>">
+            <input type="hidden" name="action" value="create_deliberations">
+            <?php foreach ($etudiants_stats as $et): ?>
+                <input type="hidden" name="ids_etudiant[]" value="<?= $et['id_etudiant'] ?>">
+            <?php endforeach; ?>
+            <button type="submit" class="bg-primary text-white px-4 py-2 rounded-lg text-xs font-bold shadow-sm hover:opacity-90">Valider toutes les décisions</button>
+        </form>
     </div>
     <table class="w-full text-left">
         <thead class="bg-slate-50/50 text-xs font-bold text-slate-500 uppercase">

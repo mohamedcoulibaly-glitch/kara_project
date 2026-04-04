@@ -1,6 +1,8 @@
 <?php
+define('FRONTEND_LOADED', true);
+require_once __DIR__ . '/../../../../backend/parcours_academique_backend.php';
 $page_title = 'Parcours Académique S1-S6';
-$current_page = 'dashboard';
+$current_page = 'parcours';
 include __DIR__ . '/../../../../backend/includes/sidebar.php';
 ?>
 

@@ -245,6 +245,59 @@ $rapport_data = [
 // RETOURNER LES DONNÉES
 // ========================================
 
+// Export téléchargeable (HTML imprimable en PDF depuis le navigateur — pas de lib mPDF/TCPDF dans le dépôt)
+if (!empty($_GET['download']) && (string)$_GET['download'] === '1') {
+    header('Content-Type: text/html; charset=UTF-8');
+    header('Content-Disposition: attachment; filename="rapport_synthese_' . date('Y-m-d') . '.html"');
+    extract($rapport_data);
+    $nom_dept = '';
+    foreach ($departements as $d) {
+        if ((int)$d['id_dept'] === (int)$id_dept) {
+            $nom_dept = $d['nom_dept'] ?? '';
+            break;
+        }
+    }
+    ?>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Rapport synthèse — <?= htmlspecialchars($nom_dept) ?></title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 24px; color: #222; }
+        h1 { color: #003fb1; }
+        table { border-collapse: collapse; width: 100%; margin-top: 16px; }
+        th, td { border: 1px solid #ccc; padding: 8px; font-size: 12px; text-align: left; }
+        th { background: #f0f4f8; }
+        .meta { color: #666; font-size: 13px; margin-bottom: 24px; }
+    </style>
+</head>
+<body>
+    <h1>Rapport académique par département</h1>
+    <p class="meta">Département : <strong><?= htmlspecialchars($nom_dept) ?></strong> — Année : <?= htmlspecialchars($annee_academique) ?> — Session : <?= htmlspecialchars($session) ?> — Généré le <?= htmlspecialchars($date_generation) ?></p>
+    <p>Taux de réussite global (indicateur synthétique) : <strong><?= (int)$taux_reussite ?> %</strong></p>
+    <h2>Effectifs et moyennes par filière</h2>
+    <table>
+        <thead><tr><th>Filière</th><th>Effectif</th><th>Réussis</th><th>Moyenne</th><th>Taux validation</th></tr></thead>
+        <tbody>
+        <?php foreach ($filieres_stats as $f): ?>
+            <tr>
+                <td><?= htmlspecialchars($f['nom_filiere'] ?? '') ?></td>
+                <td><?= (int)($f['effectif'] ?? 0) ?></td>
+                <td><?= (int)($f['reussis'] ?? 0) ?></td>
+                <td><?= htmlspecialchars((string)round($f['moyenne_filiere'] ?? 0, 2)) ?></td>
+                <td><?= (int)($f['taux_validation'] ?? 0) ?> %</td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+    <p style="margin-top:32px;font-size:11px;color:#888;">Document généré par le portail LMD — pour obtenir un PDF, ouvrez ce fichier et utilisez « Imprimer » puis « Enregistrer au format PDF ».</p>
+</body>
+</html>
+    <?php
+    exit;
+}
+
 // Si AJAX appelé au format JSON
 if (isset($_GET['format']) && $_GET['format'] === 'json') {
     header('Content-Type: application/json');

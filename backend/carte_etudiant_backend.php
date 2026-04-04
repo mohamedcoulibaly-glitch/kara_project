@@ -12,8 +12,8 @@ require_once __DIR__ . '/classes/DataManager.php';
 $etudiantManager = new EtudiantManager();
 $db = getDB();
 
-// Récupérer l'ID de l'étudiant
-$id_etudiant = isset($_GET['id']) ? (int)$_GET['id'] : 1;
+// Récupérer l'ID de l'étudiant (?etudiant_id= ou ?id=)
+$id_etudiant = (int)($_GET['etudiant_id'] ?? $_GET['id'] ?? 1);
 
 // Récupérer les informations de l'étudiant
 $etudiant = $etudiantManager->getById($id_etudiant);

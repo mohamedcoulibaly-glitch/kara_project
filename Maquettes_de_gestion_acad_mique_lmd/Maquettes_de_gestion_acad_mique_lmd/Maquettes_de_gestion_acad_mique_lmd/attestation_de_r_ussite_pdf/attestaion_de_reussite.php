@@ -1,6 +1,8 @@
 <?php
+define('FRONTEND_LOADED', true);
+require_once __DIR__ . '/../../../../backend/attestation_backend.php';
 $page_title = 'Attestation de Réussite';
-$current_page = 'dashboard';
+$current_page = 'attestation';
 include __DIR__ . '/../../../../backend/includes/sidebar.php';
 ?>
 

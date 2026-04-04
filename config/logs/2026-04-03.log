@@ -1,0 +1,138 @@
+[2026-04-03 22:49:24] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 22:49:51] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 22:49:58] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 22:50:11] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 22:50:25] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 22:50:32] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 22:50:36] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 22:50:45] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 22:51:07] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 22:51:26] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 22:51:30] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 22:51:39] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 22:52:59] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 22:53:09] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 22:53:12] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 22:53:17] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 22:53:25] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 22:53:29] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 22:53:58] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 23:01:51] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 23:02:05] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 23:02:18] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 23:02:32] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 23:03:01] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 23:03:05] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 23:03:16] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 23:03:30] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 23:16:46] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 23:17:07] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 23:17:12] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 23:17:15] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 23:17:24] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 23:17:31] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 23:17:33] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 23:18:27] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 23:18:36] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 23:18:43] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 23:18:46] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 23:19:54] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 23:20:02] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 23:20:32] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 23:20:43] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 23:21:52] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 23:22:06] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 23:22:21] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 23:22:27] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 23:22:49] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 23:23:07] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 23:23:17] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 23:24:53] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 23:25:01] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 23:25:01] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 23:25:02] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 23:25:04] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 23:25:05] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 23:25:06] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 23:25:07] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 23:25:09] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 23:25:10] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 23:25:11] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 23:25:12] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 23:25:12] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 23:25:12] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 23:25:15] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 23:25:32] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 23:25:37] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 23:25:42] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 23:25:46] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 
+[2026-04-03 23:25:50] [ERROR] Erreur de préparation: Unknown column 'last_login' in 'field list' | Query: SELECT id_user, email, nom, prenom, role, statut, last_login 
+              FROM utilisateur WHERE 

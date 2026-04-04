@@ -62,17 +62,27 @@ include __DIR__ . '/backend/includes/sidebar.php';
         <p class="text-slate-500 mt-1 max-w-2xl">Visualisez les statistiques clés et les dernières activités de votre
             établissement.</p>
     </div>
-    <div class="flex items-center gap-2">
-        <button onclick="exportDashboard()"
+    <div class="flex flex-wrap items-center gap-2">
+        <button onclick="exportDashboardCsv()"
             class="px-5 py-2.5 bg-white border border-outline-variant/30 text-slate-700 font-semibold text-sm rounded-md shadow-sm hover:bg-slate-50 transition-all flex items-center gap-2">
-            <span class="material-symbols-outlined text-lg">picture_as_pdf</span>
+            <span class="material-symbols-outlined text-lg">table_rows</span>
             Exporter les données
         </button>
+        <button onclick="exportDashboardPdf()"
+            class="px-5 py-2.5 bg-white border border-outline-variant/30 text-slate-700 font-semibold text-sm rounded-md shadow-sm hover:bg-slate-50 transition-all flex items-center gap-2">
+            <span class="material-symbols-outlined text-lg">picture_as_pdf</span>
+            Exporter le rapport
+        </button>
         <button onclick="location.reload()"
-            class="px-5 py-2.5 bg-primary text-white font-semibold text-sm rounded-md shadow-sm hover:bg-primary-container transition-all flex items-center gap-2">
+            class="px-5 py-2.5 bg-slate-700 text-white font-semibold text-sm rounded-md shadow-sm hover:bg-slate-800 transition-all flex items-center gap-2">
             <span class="material-symbols-outlined text-sm">refresh</span>
             Actualiser
         </button>
+        <a href="<?php echo htmlspecialchars(rtrim(BASE_URL, '/') . '/backend/saisie_notes_par_ec_backend.php'); ?>"
+            class="px-5 py-2.5 bg-primary text-white font-semibold text-sm rounded-md shadow-sm hover:bg-primary-container transition-all flex items-center gap-2">
+            <span class="material-symbols-outlined text-sm">add</span>
+            Nouvelle saisie
+        </a>
     </div>
 </div>
 
@@ -278,17 +288,16 @@ include __DIR__ . '/backend/includes/sidebar.php';
 </main>
 
 <script>
-function exportDashboard() {
-    // Crée un lien temporaire pour télécharger l'export
+const BASE_URL_JS = <?php echo json_encode(rtrim(BASE_URL, '/')); ?>;
+function exportDashboardCsv() {
     const link = document.createElement('a');
-    link.href = '/kara_project/backend/export_etudiants.php?format=pdf';
-    link.download = 'dashboard_' + new Date().toISOString().split('T')[0] + '.pdf';
+    link.href = BASE_URL_JS + '/backend/export_etudiants.php?format=csv';
+    link.download = 'dashboard_' + new Date().toISOString().split('T')[0] + '.csv';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
 }
-
-function exportReport() {
-    window.location.href = '/kara_project/backend/rapport_pdf_backend.php';
+function exportDashboardPdf() {
+    window.location.href = BASE_URL_JS + '/backend/rapport_pdf_backend.php?download=1';
 }
 </script>

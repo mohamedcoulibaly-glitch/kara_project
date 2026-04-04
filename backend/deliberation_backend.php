@@ -14,6 +14,22 @@ $noteManager = new NoteManager();
 $deliberationManager = new DeliberationManager();
 $db = getDB();
 
+/** Table deliberation.statut : enum Admis, Redoublant, Ajourné, En attente */
+function normalizeDeliberationStatut(string $statut): string
+{
+    $allowed = ['Admis', 'Redoublant', 'Ajourné', 'En attente'];
+    if (in_array($statut, $allowed, true)) {
+        return $statut;
+    }
+    if (stripos($statut, 'Admis') !== false) {
+        return 'Admis';
+    }
+    if ($statut === 'Non Admis' || $statut === 'Exclu') {
+        return 'Ajourné';
+    }
+    return 'En attente';
+}
+
 // Récupérer les paramètres
 $id_filiere = isset($_GET['filiere']) ? (int)$_GET['filiere'] : 0;
 $semestre = isset($_GET['semestre']) ? (int)$_GET['semestre'] : 1;
@@ -92,7 +108,7 @@ $message_type = '';
 // Traiter la sauvegarde d'une délibération unique (depuis la table)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'save_deliberation') {
     $id_etudiant = (int)($_POST['id_etudiant'] ?? 0);
-    $statut = clean($_POST['statut'] ?? 'En attente');
+    $statut = normalizeDeliberationStatut(clean($_POST['statut'] ?? 'En attente'));
     $moyenne_semestre = (float)($_POST['moyenne_semestre'] ?? 0);
     $code_deliberation = clean($_POST['code_deliberation'] ?? '');
     
@@ -141,7 +157,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
             $et = array_values($et_stat)[0];
             $data = [
                 'moyenne_semestre' => $et['moyenne_semestre'],
-                'statut' => $et['statut_deliberation'],
+                'statut' => normalizeDeliberationStatut((string) ($et['statut_deliberation'] ?? 'En attente')),
                 'mention' => $et['mention'],
                 'credits_obtenus' => $et['ues_validees'] * 6, // Approximation
                 'responsable_deliberation' => $responsable,
@@ -171,8 +187,10 @@ $deliberation_data = [
     'semestre' => $semestre,
     'session' => $session,
     'etudiants' => $etudiants_stats,
+    'etudiants_stats' => $etudiants_stats,
     'stats' => $stats,
-    'message' => $message
+    'message' => $message,
+    'message_type' => $message_type ?? ''
 ];
 
 // Si AJAX, retourner JSON
@@ -185,6 +203,8 @@ if (isset($_GET['format']) && $_GET['format'] === 'json') {
 $etudiants = $etudiants_stats;
 extract($deliberation_data);
 // Inclure le fichier frontend
-include __DIR__ . '/../Maquettes_de_gestion_acad_mique_lmd/Maquettes_de_gestion_acad_mique_lmd/Maquettes_de_gestion_acad_mique_lmd/d_lib_ration_finale_acad_mique/deliberation_final_academique.php';
+if (!defined('FRONTEND_LOADED')) {
+    include __DIR__ . '/../Maquettes_de_gestion_acad_mique_lmd/Maquettes_de_gestion_acad_mique_lmd/Maquettes_de_gestion_acad_mique_lmd/d_lib_ration_finale_acad_mique/deliberation_final_academique.php';
+}
 
 ?>

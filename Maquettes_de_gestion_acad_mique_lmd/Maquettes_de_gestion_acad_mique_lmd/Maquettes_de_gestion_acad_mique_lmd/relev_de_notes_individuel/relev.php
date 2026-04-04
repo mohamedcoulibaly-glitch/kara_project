@@ -1,7 +1,10 @@
 <?php
-$page_title = 'Relevé de Notes Individuel';
-$current_page = 'dashboard';
+define('FRONTEND_LOADED', true);
+require_once __DIR__ . '/../../../../backend/relev_backend.php';
+$page_title = $page_title ?? 'Relevé de Notes Individuel';
+$current_page = $current_page ?? 'releve';
 include __DIR__ . '/../../../../backend/includes/sidebar.php';
+$erreur_releve = $erreur_releve ?? '';
 ?>
 
 <!-- Header Options -->
@@ -10,11 +13,24 @@ include __DIR__ . '/../../../../backend/includes/sidebar.php';
         <nav class="flex items-center text-[10px] font-bold text-slate-500 mb-1 gap-1 uppercase tracking-widest">
             <a href="<?= $base_url . $backend_url ?>repertoire_etudiants_backend.php" class="hover:text-primary">Répertoire</a>
             <span class="material-symbols-outlined text-[10px]">chevron_right</span>
-            <a href="<?= $base_url . $backend_url ?>parcours_academique_backend.php?id=<?= $etudiant['id_etudiant'] ?>" class="hover:text-primary">Parcours</a>
+            <?php if (!empty($etudiant['id_etudiant'])): ?>
+            <a href="<?= $base_url . $backend_url ?>parcours_academique_backend.php?id=<?= (int)$etudiant['id_etudiant'] ?>" class="hover:text-primary">Parcours</a>
+            <?php endif; ?>
         </nav>
         <h1 class="text-2xl font-bold flex items-center gap-2">
             <span class="material-symbols-outlined">receipt_long</span> Relevé de Notes
         </h1>
+        <?php if (!empty($etudiant['id_etudiant'])): ?>
+        <form method="get" action="<?= $base_url . $backend_url ?>relev_backend.php" class="mt-3 flex flex-wrap items-center gap-2 text-sm">
+            <input type="hidden" name="etudiant_id" value="<?= (int)$etudiant['id_etudiant'] ?>">
+            <label class="text-slate-500 font-medium">Semestre</label>
+            <select name="semestre" class="bg-slate-50 border-none rounded-lg px-3 py-1.5 font-semibold text-primary" onchange="this.form.submit()">
+                <?php for ($s = 1; $s <= 6; $s++): ?>
+                    <option value="<?= $s ?>" <?= ($semestre ?? 1) === $s ? 'selected' : '' ?>>S<?= $s ?></option>
+                <?php endfor; ?>
+            </select>
+        </form>
+        <?php endif; ?>
     </div>
     <div class="flex gap-2">
         <button class="bg-primary text-white px-4 py-2 rounded-lg shadow-sm font-bold text-sm flex items-center gap-2 hover:bg-primary-container transition-colors" onclick="window.print()">
@@ -26,7 +42,12 @@ include __DIR__ . '/../../../../backend/includes/sidebar.php';
     </div>
 </div>
 
-<?php if (empty($parcours)): ?>
+<?php if (!empty($erreur_releve)): ?>
+<div class="bg-amber-50 text-amber-800 p-8 border border-amber-200 rounded-lg mb-4 max-w-4xl print:hidden">
+    <span class="material-symbols-outlined text-4xl mb-2 block">info</span>
+    <p class="font-medium"><?= $erreur_releve ?></p>
+</div>
+<?php elseif (empty($parcours) || empty($parcours['ues'])): ?>
 <div class="bg-amber-50 text-amber-600 p-8 border border-amber-200 rounded-lg mb-4 text-center max-w-4xl print:hidden">
     <span class="material-symbols-outlined text-4xl mb-2">info</span>
     <h3 class="font-bold">Aucune donnée trouvée</h3>

@@ -12,6 +12,12 @@ require_once __DIR__ . '/../config/config.php';
 checkAuth();
 
 $user = getCurrentUser();
+if (!$user) {
+    header('Location: ' . BASE_URL . '/login.php?error=profil_indisponible');
+    exit;
+}
+
+$user_id = (int)$user['id_user'];
 $message = '';
 $error = '';
 
@@ -28,15 +34,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $error = 'Tous les champs sont obligatoires.';
         } else {
             // Vérifier si l'email est déjà utilisé par un autre utilisateur
-            $check = safeQuerySingle("SELECT id_utilisateur FROM utilisateur WHERE email = ? AND id_utilisateur != ?", [$email, $user['id_utilisateur']]);
+            $check = safeQuerySingle("SELECT id_user FROM utilisateur WHERE email = ? AND id_user != ?", [$email, $user_id]);
             if ($check) {
                 $error = 'Cet email is déjà utilisé par un autre utilisateur.';
             } else {
-                $result = safeExecute("UPDATE utilisateur SET nom = ?, prenom = ?, email = ? WHERE id_utilisateur = ?", [$nom, $prenom, $email, $user['id_utilisateur']]);
+                $result = safeExecute("UPDATE utilisateur SET nom = ?, prenom = ?, email = ? WHERE id_user = ?", [$nom, $prenom, $email, $user_id]);
                 if ($result) {
-                    logUserAction('UPDATE', 'utilisateur', $user['id_utilisateur'], ['nom' => $user['nom'], 'prenom' => $user['prenom'], 'email' => $user['email']], ['nom' => $nom, 'prenom' => $prenom, 'email' => $email]);
+                    logUserAction('UPDATE', 'utilisateur', $user_id, ['nom' => $user['nom'], 'prenom' => $user['prenom'], 'email' => $user['email']], ['nom' => $nom, 'prenom' => $prenom, 'email' => $email]);
                     $message = 'Profil mis à jour avec succès.';
-                    $user = getCurrentUser(); // Refresh user data
+                    $refreshed = getCurrentUser();
+                    if ($refreshed) {
+                        $user = $refreshed;
+                        $user_id = (int)$user['id_user'];
+                    } else {
+                        $user['nom'] = $nom;
+                        $user['prenom'] = $prenom;
+                        $user['email'] = $email;
+                    }
                 } else {
                     $error = 'Erreur lors de la mise à jour.';
                 }
@@ -55,12 +69,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $error = 'Le mot de passe doit contenir au moins 6 caractères.';
         } else {
             // Vérifier le mot de passe actuel
-            $check = safeQuerySingle("SELECT password FROM utilisateur WHERE id_utilisateur = ?", [$user['id_utilisateur']]);
-            if (password_verify($current_password, $check['password'])) {
+            $check = safeQuerySingle("SELECT password FROM utilisateur WHERE id_user = ?", [$user_id]);
+            if ($check && password_verify($current_password, $check['password'])) {
                 $hashed = password_hash($new_password, PASSWORD_DEFAULT);
-                $result = safeExecute("UPDATE utilisateur SET password = ? WHERE id_utilisateur = ?", [$hashed, $user['id_utilisateur']]);
+                $result = safeExecute("UPDATE utilisateur SET password = ? WHERE id_user = ?", [$hashed, $user_id]);
                 if ($result) {
-                    logUserAction('UPDATE', 'utilisateur', $user['id_utilisateur'], null, ['action' => 'change_password']);
+                    logUserAction('UPDATE', 'utilisateur', $user_id, null, ['action' => 'change_password']);
                     $message = 'Mot de passe modifié avec succès.';
                 } else {
                     $error = 'Erreur lors de la modification.';
@@ -73,7 +87,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Récupérer les dernières activités
-$recent_activity = safeQuery("SELECT * FROM audit_log WHERE user_id = ? ORDER BY created_at DESC LIMIT 10", [$user['id_utilisateur']]);
+$recent_activity = safeQuery("SELECT * FROM audit_log WHERE user_id = ? ORDER BY created_at DESC LIMIT 10", [$user_id]);
+if (!is_array($recent_activity)) {
+    $recent_activity = [];
+}
 
 $page_title = 'Mon Profil';
 $current_page = 'profil';
@@ -108,20 +125,30 @@ include __DIR__ . '/includes/sidebar.php';
                     <span class="material-symbols-outlined text-5xl text-primary">person</span>
                 </div>
                 <h2 class="text-xl font-bold text-on-surface">
-                    <?= htmlspecialchars($user['nom'] . ' ' . $user['prenom']) ?></h2>
-                <p class="text-sm text-slate-500 mt-1"><?= htmlspecialchars($user['email']) ?></p>
+                    <?= htmlspecialchars(($user['nom'] ?? '') . ' ' . ($user['prenom'] ?? '')) ?></h2>
+                <p class="text-sm text-slate-500 mt-1"><?= htmlspecialchars($user['email'] ?? '') ?></p>
+                <?php $role = $user['role'] ?? ''; ?>
                 <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase mt-3
-                    <?= $user['role'] === 'Admin' ? 'bg-error/10 text-error' : '' ?>
-                    <?= $user['role'] === 'Enseignant' ? 'bg-primary/10 text-primary' : '' ?>
-                    <?= $user['role'] === 'Coordinateur' ? 'bg-secondary/10 text-secondary' : '' ?>
+                    <?= $role === 'Admin' ? 'bg-error/10 text-error' : '' ?>
+                    <?= $role === 'Enseignant' ? 'bg-primary/10 text-primary' : '' ?>
+                    <?= $role === 'Coordinateur' ? 'bg-secondary/10 text-secondary' : '' ?>
                 ">
-                    <?= htmlspecialchars($user['role']) ?>
+                    <?= htmlspecialchars($role) ?>
                 </span>
                 <div class="mt-6 pt-6 border-t border-outline-variant/20">
                     <div class="text-xs text-slate-500">
                         <p class="mb-1">Dernière connexion:</p>
                         <p class="font-medium text-slate-700">
-                            <?= $user['last_login'] ? formatDate($user['last_login']) . ' à ' . date('H:i', strtotime($user['last_login'])) : 'Jamais' ?>
+                            <?php
+                            $ll = $user['last_login'] ?? null;
+                            if ($ll) {
+                                echo htmlspecialchars(formatDate($ll) . ' à ' . date('H:i', strtotime($ll)));
+                            } elseif (!empty($_SESSION['login_time'])) {
+                                echo htmlspecialchars(date('d/m/Y à H:i', (int)$_SESSION['login_time']));
+                            } else {
+                                echo 'Jamais';
+                            }
+                            ?>
                         </p>
                     </div>
                 </div>
@@ -138,18 +165,18 @@ include __DIR__ . '/includes/sidebar.php';
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Nom</label>
-                            <input type="text" name="nom" value="<?= htmlspecialchars($user['nom']) ?>" required
+                            <input type="text" name="nom" value="<?= htmlspecialchars($user['nom'] ?? '') ?>" required
                                 class="w-full bg-surface-container-low border-none rounded-lg py-2.5 px-4 focus:ring-2 focus:ring-primary font-medium text-slate-700">
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Prénom</label>
-                            <input type="text" name="prenom" value="<?= htmlspecialchars($user['prenom']) ?>" required
+                            <input type="text" name="prenom" value="<?= htmlspecialchars($user['prenom'] ?? '') ?>" required
                                 class="w-full bg-surface-container-low border-none rounded-lg py-2.5 px-4 focus:ring-2 focus:ring-primary font-medium text-slate-700">
                         </div>
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Email</label>
-                        <input type="email" name="email" value="<?= htmlspecialchars($user['email']) ?>" required
+                        <input type="email" name="email" value="<?= htmlspecialchars($user['email'] ?? '') ?>" required
                             class="w-full bg-surface-container-low border-none rounded-lg py-2.5 px-4 focus:ring-2 focus:ring-primary font-medium text-slate-700">
                     </div>
                     <div class="pt-2">
