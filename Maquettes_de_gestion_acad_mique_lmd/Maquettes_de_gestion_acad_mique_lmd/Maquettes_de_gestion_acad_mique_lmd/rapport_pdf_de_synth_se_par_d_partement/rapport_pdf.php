@@ -8,7 +8,7 @@ include __DIR__ . '/../../../../backend/includes/sidebar.php';
 <div class="mb-6 flex flex-col md:flex-row md:justify-between md:items-center gap-4 print:hidden">
     <div>
         <nav class="flex items-center text-[10px] font-bold text-slate-500 mb-1 gap-1 uppercase tracking-widest">
-            <a href="../../index.php" class="hover:text-primary">Dashboard</a>
+            <a href="<?= $base_url ?>index.php" class="hover:text-primary">Dashboard</a>
             <span class="material-symbols-outlined text-[10px]">chevron_right</span>
             <span class="text-primary">Rapport Départemental</span>
         </nav>

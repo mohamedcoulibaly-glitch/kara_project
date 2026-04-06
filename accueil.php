@@ -181,7 +181,7 @@ $modules = [
     <!-- Modules Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
         <?php foreach ($modules as $module): ?>
-        <a href="<?php echo $module['url']; ?>" class="module-card">
+        <a href="<?= BASE_URL ?>/<?php echo $module['url']; ?>" class="module-card">
             <div class="h-full bg-white rounded-xl shadow-sm border <?php echo $module['color']; ?> p-6 hover:shadow-lg">
                 <div class="flex items-start mb-4">
                     <div class="p-3 rounded-lg <?php echo $module['icon_color']; ?>">
