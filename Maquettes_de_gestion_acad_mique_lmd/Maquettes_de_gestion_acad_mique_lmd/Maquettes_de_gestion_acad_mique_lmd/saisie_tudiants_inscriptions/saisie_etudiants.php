@@ -26,7 +26,7 @@ $type_message = $type_message ?? '';
                 <h4 class="text-lg font-bold">Informations Personnelles</h4>
             </div>
             
-            <form method="POST" action="<?= $base_url . $backend_url ?>saisie_etudiants_backend.php" class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8">
+            <form method="POST" action="<?= $base_url . $backend_url ?>saisie_etudiants_backend.php" class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8" enctype="multipart/form-data">
                 <input type="hidden" name="action" value="save_student">
                 
                 <!-- Matricule -->
@@ -94,9 +94,11 @@ $type_message = $type_message ?? '';
     <aside class="lg:col-span-4 space-y-6">
         <div class="bg-surface-container-lowest p-6 rounded-xl shadow-[0_12px_32px_rgba(25,28,30,0.04)] text-center">
             <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-6 text-left">Photo d'identité</h4>
-            <div class="relative group cursor-pointer border-2 border-dashed border-slate-200 rounded-xl p-8 hover:border-primary/50 hover:bg-primary/5 transition-all">
-                <span class="material-symbols-outlined text-5xl text-slate-300 mb-4 block">add_a_photo</span>
-                <p class="text-sm font-medium text-slate-600">Sélectionner une photo</p>
+            <div class="relative group cursor-pointer border-2 border-dashed border-slate-200 rounded-xl p-8 hover:border-primary/50 hover:bg-primary/5 transition-all" onclick="document.getElementById('photo-input').click()">
+                <input type="file" name="photo" id="photo-input" accept="image/jpeg,image/png,image/gif" class="hidden" onchange="previewPhoto(event)">
+                <span class="material-symbols-outlined text-5xl text-slate-300 mb-4 block" id="photo-icon">add_a_photo</span>
+                <img id="photo-preview" class="hidden w-32 h-40 object-cover rounded-lg mx-auto mb-4" alt="Aperçu photo">
+                <p class="text-sm font-medium text-slate-600" id="photo-text">Sélectionner une photo</p>
                 <p class="text-[10px] text-slate-400 mt-1">PNG, JPG ou JPEG (Max. 2 Mo)</p>
             </div>
             <div class="mt-6 p-4 bg-slate-50 rounded-lg text-left">

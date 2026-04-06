@@ -26,6 +26,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $telephone = trim($_POST['telephone'] ?? '');
     $id_filiere = !empty($_POST['filiere']) ? (int)$_POST['filiere'] : null;
     
+    // Gérer le téléchargement de la photo
+    $photo_path = null;
+    if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
+        $upload_dir = __DIR__ . '/../uploads/photos/';
+        if (!is_dir($upload_dir)) {
+            mkdir($upload_dir, 0755, true);
+        }
+        
+        $file_extension = strtolower(pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION));
+        $allowed_extensions = ['jpg', 'jpeg', 'png', 'gif'];
+        
+        if (in_array($file_extension, $allowed_extensions)) {
+            if ($_FILES['photo']['size'] <= 2 * 1024 * 1024) { // Max 2MB
+                $new_filename = 'photo_' . $matricule . '_' . time() . '.' . $file_extension;
+                $destination = $upload_dir . $new_filename;
+                
+                if (move_uploaded_file($_FILES['photo']['tmp_name'], $destination)) {
+                    $photo_path = 'uploads/photos/' . $new_filename;
+                }
+            } else {
+                $message = "Erreur : La photo ne doit pas dépasser 2 Mo.";
+                $type_message = "error";
+            }
+        } else {
+            $message = "Erreur : Format de photo non valide (JPG, PNG uniquement).";
+            $type_message = "error";
+        }
+    }
+    
     // Vérifier si le matricule existe déjà
     $query = "SELECT id_etudiant FROM etudiant WHERE matricule = ?";
     $stmt = $db->prepare($query);
@@ -46,6 +75,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
             'statut' => 'Actif',
             'date_inscription' => date('Y-m-d H:i:s')
         ];
+        
+        // Ajouter la photo si elle existe
+        if ($photo_path) {
+            $data['photo'] = $photo_path;
+        }
         
         if ($etudiantManager->create($data)) {
             $message = "L'étudiant $nom $prenom a été inscrit avec succès.";

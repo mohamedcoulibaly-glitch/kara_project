@@ -76,8 +76,7 @@ function getCurrentUser()
     if (!isset($_SESSION['user_id']))
         return null;
 
-    // last_login : optionnel (ajouter la colonne si besoin : ALTER TABLE utilisateur ADD COLUMN last_login DATETIME NULL)
-    $query = "SELECT id_user, email, nom, prenom, role, statut 
+    $query = "SELECT id_user, email, nom, prenom, role, statut, last_login 
               FROM utilisateur WHERE id_user = ?";
     $stmt = Database::getInstance()->prepare($query);
     if ($stmt) {

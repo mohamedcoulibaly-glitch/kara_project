@@ -33,10 +33,10 @@ include __DIR__ . '/../../../../backend/includes/sidebar.php';
                 <span class="text-xs font-bold uppercase tracking-[0.2em] opacity-80">Rapport Annuel</span>
             </div>
             <h1 class="text-4xl font-black uppercase tracking-tight leading-none mb-2">
-                <?= htmlspecialchars($departement['nom_dept']) ?>
+                <?= htmlspecialchars($departement_info['nom_dept'] ?? 'Département') ?>
             </h1>
             <p class="text-sm font-mono opacity-70">
-                Code: <?= htmlspecialchars($departement['code_dept']) ?> | Chef de Dpt: <?= htmlspecialchars($departement['chef_dept'] ?? 'Non assigné') ?>
+                Code: <?= htmlspecialchars($departement_info['code_dept'] ?? 'N/A') ?> | Chef de Dpt: <?= htmlspecialchars($departement_info['chef_dept'] ?? 'Non assigné') ?>
             </p>
         </div>
         <div class="text-right">
@@ -185,23 +185,31 @@ include __DIR__ . '/../../../../backend/includes/sidebar.php';
                         </thead>
                         <tbody class="divide-y divide-slate-100">
                             <?php $rang = 1; foreach ($top_etudiants as $top): ?>
+                                <?php 
+                                    $moyenne = $top['moyenne_etudiant'] ?? 0;
+                                    $mention = 'Non Admis';
+                                    if ($moyenne >= 16) $mention = 'Très Bien';
+                                    elseif ($moyenne >= 14) $mention = 'Bien';
+                                    elseif ($moyenne >= 12) $mention = 'Assez Bien';
+                                    elseif ($moyenne >= 10) $mention = 'Passable';
+                                ?>
                                 <tr class="<?= $rang <= 3 ? 'bg-[#1A56DB]/5 print:bg-transparent' : 'bg-white' ?>">
                                     <td class="py-3 px-4 text-center font-black <?= $rang == 1 ? 'text-[#FFD700]' : ($rang == 2 ? 'text-[#C0C0C0]' : ($rang == 3 ? 'text-[#CD7F32]' : 'text-slate-400')) ?>">
                                         <?= $rang++ ?>
                                     </td>
                                     <td class="py-3 px-4">
-                                        <div class="font-bold text-slate-800"><?= htmlspecialchars($top['nom'] . ' ' . $top['prenom']) ?></div>
-                                        <div class="text-[10px] font-mono text-slate-500"><?= htmlspecialchars($top['matricule']) ?></div>
+                                        <div class="font-bold text-slate-800"><?= htmlspecialchars(($top['nom'] ?? '') . ' ' . ($top['prenom'] ?? '')) ?></div>
+                                        <div class="text-[10px] font-mono text-slate-500"><?= htmlspecialchars($top['matricule'] ?? '') ?></div>
                                     </td>
-                                    <td class="py-3 px-4 text-xs font-medium text-slate-600 truncate max-w-[200px]" title="<?= htmlspecialchars($top['nom_filiere']) ?>">
-                                        <?= htmlspecialchars($top['nom_filiere']) ?>
+                                    <td class="py-3 px-4 text-xs font-medium text-slate-600 truncate max-w-[200px]" title="<?= htmlspecialchars($top['nom_filiere'] ?? '') ?>">
+                                        <?= htmlspecialchars($top['nom_filiere'] ?? '') ?>
                                     </td>
-                                    <td class="py-3 px-4 text-center font-mono font-bold <?= $top['moyenne_semestre'] >= 14 ? 'text-primary' : 'text-slate-700' ?>">
-                                        <?= number_format($top['moyenne_semestre'], 2, ',', ' ') ?>
+                                    <td class="py-3 px-4 text-center font-mono font-bold <?= $moyenne >= 14 ? 'text-primary' : 'text-slate-700' ?>">
+                                        <?= number_format($moyenne, 2, ',', ' ') ?>
                                     </td>
                                     <td class="py-3 px-4 text-center">
                                         <span class="text-[10px] font-bold uppercase bg-slate-100 text-slate-600 px-2 py-1 rounded print:border print:border-slate-300">
-                                            <?= $top['mention'] ?>
+                                            <?= $mention ?>
                                         </span>
                                     </td>
                                 </tr>

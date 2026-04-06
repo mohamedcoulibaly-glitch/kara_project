@@ -94,23 +94,27 @@
 <!-- Active State: Dashboard -->
 <a class="flex items-center gap-3 px-3 py-2.5 bg-white dark:bg-slate-800 text-blue-700 dark:text-blue-300 shadow-sm rounded-lg group transition-all" href="/kara_project/index.php">
 <span class="material-symbols-outlined text-[22px]">dashboard</span>
-<span class="text-sm font-medium Inter group-hover:translate-x-1 duration-200">Dashboard</span>
-</a>
-<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-lg group transition-all" href="/kara_project/backend/gestion_filieres_ue_backend.php">
-<span class="material-symbols-outlined text-[22px]">account_tree</span>
-<span class="text-sm font-medium Inter group-hover:translate-x-1 duration-200">Filières</span>
+<span class="text-sm font-medium Inter group-hover:translate-x-1 duration-200">Tableau de bord</span>
 </a>
 <a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-lg group transition-all" href="/kara_project/backend/repertoire_etudiants_backend.php">
 <span class="material-symbols-outlined text-[22px]">group</span>
 <span class="text-sm font-medium Inter group-hover:translate-x-1 duration-200">Étudiants</span>
 </a>
-<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-lg group transition-all" href="/kara_project/backend/saisie_notes_par_ec_backend.php">
-<span class="material-symbols-outlined text-[22px]">edit_note</span>
-<span class="text-sm font-medium Inter group-hover:translate-x-1 duration-200">Notes</span>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-lg group transition-all" href="/kara_project/backend/saisie_etudiants_backend.php">
+<span class="material-symbols-outlined text-[22px]">person_add</span>
+<span class="text-sm font-medium Inter group-hover:translate-x-1 duration-200">Inscription</span>
 </a>
-<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-lg group transition-all" href="/kara_project/backend/parametres_systeme_backend.php">
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-lg group transition-all" href="/kara_project/backend/maquette_lmd_backend.php">
+<span class="material-symbols-outlined text-[22px]">library_books</span>
+<span class="text-sm font-medium Inter group-hover:translate-x-1 duration-200">Maquettes LMD</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-lg group transition-all" href="/kara_project/backend/saisie_notes_par_ec_backend.php">
+<span class="material-symbols-outlined text-[22px]">grade</span>
+<span class="text-sm font-medium Inter group-hover:translate-x-1 duration-200">Saisie Notes</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-lg group transition-all" href="/kara_project/backend/configuration_coefficients_backend.php">
 <span class="material-symbols-outlined text-[22px]">settings</span>
-<span class="text-sm font-medium Inter group-hover:translate-x-1 duration-200">Paramètres</span>
+<span class="text-sm font-medium Inter group-hover:translate-x-1 duration-200">Configuration</span>
 </a>
 </nav>
 <div class="mt-auto pt-6 border-t border-slate-200 dark:border-slate-800 space-y-1">
@@ -155,18 +159,12 @@
 <h2 class="text-3xl font-extrabold tracking-tight text-slate-900">Tableau de Bord</h2>
 <p class="text-slate-500 mt-1">Aperçu analytique de la performance académique LMD.</p>
 </div>
-<div class="flex flex-wrap gap-3">
-<button type="button" onclick="location.reload()" class="bg-slate-700 text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-slate-800 transition-colors flex items-center gap-2">
-<span class="material-symbols-outlined text-lg">refresh</span> Actualiser
-</button>
-<a href="/kara_project/backend/export_etudiants.php?format=csv" class="bg-surface-container-low text-on-surface px-4 py-2 rounded-md text-sm font-semibold hover:bg-surface-container-high transition-colors flex items-center gap-2 border border-slate-200">
-<span class="material-symbols-outlined text-lg">table_rows</span> Exporter les données
-</a>
-<button type="button" onclick="window.location.href='/kara_project/backend/rapport_pdf_backend.php?download=1'" class="bg-surface-container-low text-on-surface px-4 py-2 rounded-md text-sm font-semibold hover:bg-surface-container-high transition-colors flex items-center gap-2">
+<div class="flex gap-3">
+<button onclick="window.location.href='/kara_project/backend/rapport_pdf_backend.php'" class="bg-surface-container-low text-on-surface px-4 py-2 rounded-md text-sm font-semibold hover:bg-surface-container-high transition-colors flex items-center gap-2">
 <span class="material-symbols-outlined text-lg">download</span>
                         Exporter le rapport
                     </button>
-<button type="button" onclick="window.location.href='/kara_project/backend/saisie_notes_par_ec_backend.php'" class="bg-primary text-white px-4 py-2 rounded-md text-sm font-semibold hover:opacity-90 transition-opacity flex items-center gap-2 shadow-lg shadow-primary/20">
+<button onclick="window.location.href='/kara_project/backend/saisie_notes_moyennes_backend.php'" class="bg-primary text-white px-4 py-2 rounded-md text-sm font-semibold hover:opacity-90 transition-opacity flex items-center gap-2 shadow-lg shadow-primary/20">
 <span class="material-symbols-outlined text-lg">add</span>
                         Nouvelle saisie
                     </button>

@@ -16,7 +16,7 @@ include __DIR__ . '/../../../../backend/includes/sidebar.php';
         <p class="text-slate-500 mt-2 max-w-xl">Consultez l'organisation détaillée des Unités d'Enseignement et des Crédits ECTS pour chaque semestre.</p>
     </div>
     <div class="flex gap-3">
-        <button class="bg-white border text-slate-700 px-5 py-2.5 rounded-lg shadow-sm font-bold text-sm flex items-center gap-2 hover:bg-slate-50 transition-colors">
+        <button onclick="downloadMaquettePDF()" class="bg-white border text-slate-700 px-5 py-2.5 rounded-lg shadow-sm font-bold text-sm flex items-center gap-2 hover:bg-slate-50 transition-colors">
             <span class="material-symbols-outlined text-[18px]">download_for_offline</span> Télécharger PDF
         </button>
     </div>

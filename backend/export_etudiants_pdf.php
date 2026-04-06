@@ -8,6 +8,12 @@
 require_once __DIR__ . '/../config/config.php';
 require_once __DIR__ . '/classes/DataManager.php';
 
+// Vérifier l'authentification
+if (!isset($_SESSION['user_id'])) {
+    header("Location: " . BASE_URL . "/login.php?error=session_expiree");
+    exit;
+}
+
 // Fallback if FPDF is not installed: simple HTML print
 if (!file_exists(__DIR__ . '/libs/fpdf/fpdf.php')) {
     $db = getDB();

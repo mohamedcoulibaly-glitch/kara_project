@@ -131,7 +131,7 @@ $type_message = $type_message ?? '';
                                             <div class="flex items-center gap-3">
                                                 <span class="w-1.5 h-1.5 rounded-full bg-primary/40 group-hover:bg-primary transition-colors"></span>
                                                 <span class="text-sm font-medium text-slate-700"><?= htmlspecialchars($f['nom_filiere']) ?></span>
-                                                <span class="text-[9px] font-bold text-slate-400 border border-slate-100 px-1.5 rounded uppercase"><?= htmlspecialchars($f['niveau']) ?></span>
+                                                <span class="text-[9px] font-bold text-slate-400 border border-slate-100 px-1.5 rounded uppercase"><?= htmlspecialchars($f['niveau'] ?? 'N/A') ?></span>
                                             </div>
                                             <div class="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                                                 <button class="p-1 text-slate-300 hover:text-primary"><span class="material-symbols-outlined text-sm">edit</span></button>

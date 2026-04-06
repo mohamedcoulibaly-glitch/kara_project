@@ -10,6 +10,12 @@
 require_once __DIR__ . '/../config/config.php';
 require_once __DIR__ . '/classes/DataManager.php';
 
+// Vérifier l'authentification
+if (!isset($_SESSION['user_id'])) {
+    header("Location: " . BASE_URL . "/login.php?error=session_expiree");
+    exit;
+}
+
 $db = getDB();
 
 // Récupérer les paramètres
@@ -92,25 +98,32 @@ foreach ($filieres_stats as &$filiere) {
 // 3. DISTRIBUTION DES MENTIONS
 // ========================================
 $query_mentions = "SELECT 
-    CASE 
-        WHEN AVG(n.valeur_note) >= 16 THEN 'Très Bien'
-        WHEN AVG(n.valeur_note) >= 14 THEN 'Bien'
-        WHEN AVG(n.valeur_note) >= 12 THEN 'Assez Bien'
-        WHEN AVG(n.valeur_note) >= 10 THEN 'Passable'
-        ELSE 'Non Admis'
-    END as mention,
-    COUNT(DISTINCT e.id_etudiant) as nombre_etudiants,
-    ROUND(AVG(n.valeur_note), 2) as moyenne_mention
-FROM etudiant e
-LEFT JOIN filiere f ON e.id_filiere = f.id_filiere
-LEFT JOIN note n ON e.id_etudiant = n.id_etudiant AND n.session = ?
-WHERE e.statut = 'Actif' AND f.id_dept = ?
+    mention,
+    COUNT(*) as nombre_etudiants,
+    ROUND(AVG(moy_etudiant), 2) as moyenne_mention
+FROM (
+    SELECT 
+        e.id_etudiant,
+        ROUND(AVG(n.valeur_note), 2) as moy_etudiant,
+        CASE 
+            WHEN ROUND(AVG(n.valeur_note), 2) >= 16 THEN 'Très Bien'
+            WHEN ROUND(AVG(n.valeur_note), 2) >= 14 THEN 'Bien'
+            WHEN ROUND(AVG(n.valeur_note), 2) >= 12 THEN 'Assez Bien'
+            WHEN ROUND(AVG(n.valeur_note), 2) >= 10 THEN 'Passable'
+            ELSE 'Non Admis'
+        END as mention
+    FROM etudiant e
+    LEFT JOIN filiere f ON e.id_filiere = f.id_filiere
+    LEFT JOIN note n ON e.id_etudiant = n.id_etudiant AND n.session = ?
+    WHERE e.statut = 'Actif' AND f.id_dept = ?
+    GROUP BY e.id_etudiant
+) temp
 GROUP BY mention
-ORDER BY CASE 
-    WHEN mention = 'Très Bien' THEN 1
-    WHEN mention = 'Bien' THEN 2
-    WHEN mention = 'Assez Bien' THEN 3
-    WHEN mention = 'Passable' THEN 4
+ORDER BY CASE mention
+    WHEN 'Très Bien' THEN 1
+    WHEN 'Bien' THEN 2
+    WHEN 'Assez Bien' THEN 3
+    WHEN 'Passable' THEN 4
     ELSE 5
 END";
 
@@ -218,7 +231,7 @@ ORDER BY mois DESC
 LIMIT 12";
 
 $stmt = $db->prepare($query_evolution);
-$stmt->bind_param("iss", $id_dept, $session);
+$stmt->bind_param("is", $id_dept, $session);
 $stmt->execute();
 $evolution = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 
@@ -305,8 +318,171 @@ if (isset($_GET['format']) && $_GET['format'] === 'json') {
     exit;
 }
 
-// Sinon inclure le fichier frontend
-extract($rapport_data);
+// ========================================
+// GESTION MAQUETTE LMD PDF
+// ========================================
+if (isset($_GET['type']) && $_GET['type'] === 'maquette') {
+    $id_filiere = isset($_GET['filiere']) ? (int)$_GET['filiere'] : 0;
+    $semestre = isset($_GET['semestre']) ? (int)$_GET['semestre'] : 1;
+    
+    // Récupérer les infos de la filière
+    $query = "SELECT f.*, d.nom_dept FROM filiere f LEFT JOIN departement d ON f.id_dept = d.id_dept WHERE f.id_filiere = ?";
+    $stmt = $db->prepare($query);
+    $stmt->bind_param("i", $id_filiere);
+    $stmt->execute();
+    $filiere_info = $stmt->get_result()->fetch_assoc();
+    
+    // Récupérer la maquette
+    $query = "SELECT 
+                ue.id_ue,
+                ue.code_ue,
+                ue.libelle_ue,
+                ue.credits_ects,
+                ue.coefficient,
+                ue.volume_horaire,
+                (SELECT GROUP_CONCAT(ec.nom_ec SEPARATOR ', ') FROM ec WHERE ec.id_ue = ue.id_ue) as elements
+              FROM programme p
+              JOIN ue ON p.id_ue = ue.id_ue
+              WHERE p.id_filiere = ? AND p.semestre = ?
+              ORDER BY ue.code_ue";
+    
+    $stmt = $db->prepare($query);
+    $stmt->bind_param("ii", $id_filiere, $semestre);
+    $stmt->execute();
+    $maquette_items = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    
+    // Calculer les totaux
+    $total_credits = array_sum(array_column($maquette_items, 'credits_ects'));
+    $total_heures = array_sum(array_column($maquette_items, 'volume_horaire'));
+    
+    // Export HTML pour PDF
+    if (!empty($_GET['download']) && $_GET['download'] === '1') {
+        header('Content-Type: text/html; charset=UTF-8');
+        header('Content-Disposition: attachment; filename="maquette_' . ($filiere_info['nom_filiere'] ?? 'lmd') . '_s' . $semestre . '_' . date('Y-m-d') . '.html"');
+        ?>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Maquette LMD - <?= htmlspecialchars($filiere_info['nom_filiere'] ?? '') ?> - Semestre <?= $semestre ?></title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 24px; color: #222; }
+        h1 { color: #003fb1; font-size: 24px; }
+        h2 { color: #333; font-size: 18px; margin-top: 24px; }
+        table { border-collapse: collapse; width: 100%; margin-top: 16px; }
+        th, td { border: 1px solid #ccc; padding: 8px 12px; font-size: 12px; text-align: left; }
+        th { background: #f0f4f8; font-weight: bold; }
+        .meta { color: #666; font-size: 13px; margin-bottom: 24px; }
+        .total-row { background: #1e293b; color: white; font-weight: bold; }
+        .header-info { background: #f8fafc; padding: 16px; border-radius: 8px; margin-bottom: 24px; }
+    </style>
+</head>
+<body>
+    <div class="header-info">
+        <h1>Maquette Pédagogique LMD</h1>
+        <p class="meta">
+            <strong>Filière :</strong> <?= htmlspecialchars($filiere_info['nom_filiere'] ?? '') ?><br>
+            <strong>Département :</strong> <?= htmlspecialchars($filiere_info['nom_dept'] ?? 'N/A') ?><br>
+            <strong>Semestre :</strong> <?= $semestre ?><br>
+            <strong>Date de génération :</strong> <?= date('d/m/Y H:i') ?>
+        </p>
+    </div>
+
+    <h2>Unités d'Enseignement</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Code UE</th>
+                <th>Libellé</th>
+                <th>Crédits ECTS</th>
+                <th>Coefficient</th>
+                <th>Volume Horaire</th>
+                <th>Éléments Constitutifs</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($maquette_items as $ue): ?>
+            <tr>
+                <td><?= htmlspecialchars($ue['code_ue'] ?? '') ?></td>
+                <td><?= htmlspecialchars($ue['libelle_ue'] ?? '') ?></td>
+                <td style="text-align:center; font-weight:bold;"><?= (int)$ue['credits_ects'] ?></td>
+                <td style="text-align:center;"><?= number_format($ue['coefficient'] ?? 0, 1) ?></td>
+                <td style="text-align:center;"><?= (int)$ue['volume_horaire'] ?>h</td>
+                <td><?= htmlspecialchars($ue['elements'] ?? 'Aucun') ?></td>
+            </tr>
+            <?php endforeach; ?>
+        </tbody>
+        <tfoot>
+            <tr class="total-row">
+                <td colspan="2">TOTAL SEMESTRE <?= $semestre ?></td>
+                <td style="text-align:center;"><?= $total_credits ?> ECTS</td>
+                <td></td>
+                <td style="text-align:center;"><?= $total_heures ?>h</td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <p style="margin-top:32px;font-size:11px;color:#888;">
+        Document généré par le portail LMD — pour obtenir un PDF, ouvrez ce fichier et utilisez « Imprimer » puis « Enregistrer au format PDF ».
+    </p>
+</body>
+</html>
+        <?php
+        exit;
+    }
+    
+    // Rediriger vers le téléchargement
+    header('Location: rapport_pdf_backend.php?type=maquette&filiere=' . $id_filiere . '&semestre=' . $semestre . '&download=1');
+    exit;
+}
+
+// Récupérer les informations du département courant
+$departement_info = null;
+foreach ($departements as $d) {
+    if ((int)$d['id_dept'] === (int)$id_dept) {
+        $departement_info = $d;
+        break;
+    }
+}
+
+// Préparer les variables attendues par le frontend
+$stats_globales = [
+    'total_inscrits' => $resume['total_etudiants'] ?? 0,
+    'admis' => $resume['etudiants_reussis'] ?? 0,
+    'total_filieres' => $resume['nb_filieres'] ?? 0
+];
+
+$taux_reussite_filiere = [];
+foreach ($filieres_stats as $f) {
+    $taux_reussite_filiere[] = [
+        'filiere' => $f['nom_filiere'] ?? 'Inconnue',
+        'taux' => $f['taux_validation'] ?? 0,
+        'admis' => $f['reussis'] ?? 0,
+        'total' => $f['effectif'] ?? 0
+    ];
+}
+
+$repartition_statuts = [];
+foreach ($mentions as $m) {
+    $statut = 'ADMIS';
+    if ($m['mention'] === 'Non Admis') {
+        $statut = 'AJOURNE';
+    } elseif ($m['moyenne_mention'] >= 10 && $m['moyenne_mention'] < 12) {
+        $statut = 'ADMIS';
+    }
+    $repartition_statuts[] = [
+        'statut_deliberation' => $statut,
+        'total' => $m['nombre_etudiants'] ?? 0
+    ];
+}
+
+// Note: $top_etudiants is already in the correct format from the query
+// The frontend expects $top_etudiants with fields: nom, prenom, matricule, nom_filiere, moyenne_semestre, mention
+
+// Define date_generation for the frontend
+$date_generation = date('Y-m-d H:i:s');
+
 include __DIR__ . '/../Maquettes_de_gestion_acad_mique_lmd/Maquettes_de_gestion_acad_mique_lmd/Maquettes_de_gestion_acad_mique_lmd/rapport_pdf_de_synth_se_par_d_partement/rapport_pdf.php';
 
 ?>

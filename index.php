@@ -62,27 +62,17 @@ include __DIR__ . '/backend/includes/sidebar.php';
         <p class="text-slate-500 mt-1 max-w-2xl">Visualisez les statistiques clés et les dernières activités de votre
             établissement.</p>
     </div>
-    <div class="flex flex-wrap items-center gap-2">
-        <button onclick="exportDashboardCsv()"
-            class="px-5 py-2.5 bg-white border border-outline-variant/30 text-slate-700 font-semibold text-sm rounded-md shadow-sm hover:bg-slate-50 transition-all flex items-center gap-2">
-            <span class="material-symbols-outlined text-lg">table_rows</span>
-            Exporter les données
-        </button>
-        <button onclick="exportDashboardPdf()"
+    <div class="flex items-center gap-2">
+        <button onclick="exportDashboard()"
             class="px-5 py-2.5 bg-white border border-outline-variant/30 text-slate-700 font-semibold text-sm rounded-md shadow-sm hover:bg-slate-50 transition-all flex items-center gap-2">
             <span class="material-symbols-outlined text-lg">picture_as_pdf</span>
-            Exporter le rapport
+            Exporter les données
         </button>
         <button onclick="location.reload()"
-            class="px-5 py-2.5 bg-slate-700 text-white font-semibold text-sm rounded-md shadow-sm hover:bg-slate-800 transition-all flex items-center gap-2">
+            class="px-5 py-2.5 bg-primary text-white font-semibold text-sm rounded-md shadow-sm hover:bg-primary-container transition-all flex items-center gap-2">
             <span class="material-symbols-outlined text-sm">refresh</span>
             Actualiser
         </button>
-        <a href="<?php echo htmlspecialchars(rtrim(BASE_URL, '/') . '/backend/saisie_notes_par_ec_backend.php'); ?>"
-            class="px-5 py-2.5 bg-primary text-white font-semibold text-sm rounded-md shadow-sm hover:bg-primary-container transition-all flex items-center gap-2">
-            <span class="material-symbols-outlined text-sm">add</span>
-            Nouvelle saisie
-        </a>
     </div>
 </div>
 
@@ -151,53 +141,53 @@ include __DIR__ . '/backend/includes/sidebar.php';
                 <h4 class="text-lg font-bold text-on-surface">Modules d'application</h4>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
-                <a href="backend/repertoire_etudiants_backend.php"
+                <a href="<?= BASE_URL ?>/backend/repertoire_etudiants_backend.php"
                     class="group flex items-center gap-3 p-3 bg-surface-container-lowest rounded-lg border border-outline-variant/10 hover:border-primary hover:shadow-md transition-all">
                     <span class="material-symbols-outlined text-primary text-2xl">group</span>
                     <span class="text-sm font-medium text-slate-700 group-hover:text-primary">Répertoire
                         Étudiants</span>
                 </a>
-                <a href="backend/maquette_lmd_backend.php"
+                <a href="<?= BASE_URL ?>/backend/maquette_lmd_backend.php"
                     class="group flex items-center gap-3 p-3 bg-surface-container-lowest rounded-lg border border-outline-variant/10 hover:border-primary hover:shadow-md transition-all">
                     <span class="material-symbols-outlined text-primary text-2xl">library_books</span>
                     <span class="text-sm font-medium text-slate-700 group-hover:text-primary">Maquettes LMD</span>
                 </a>
-                <a href="backend/gestion_filieres_ue_backend.php"
+                <a href="<?= BASE_URL ?>/backend/gestion_filieres_ue_backend.php"
                     class="group flex items-center gap-3 p-3 bg-surface-container-lowest rounded-lg border border-outline-variant/10 hover:border-primary hover:shadow-md transition-all">
                     <span class="material-symbols-outlined text-primary text-2xl">account_tree</span>
                     <span class="text-sm font-medium text-slate-700 group-hover:text-primary">Gestion UE/EC</span>
                 </a>
-                <a href="backend/configuration_coefficients_backend.php"
+                <a href="<?= BASE_URL ?>/backend/configuration_coefficients_backend.php"
                     class="group flex items-center gap-3 p-3 bg-surface-container-lowest rounded-lg border border-outline-variant/10 hover:border-primary hover:shadow-md transition-all">
                     <span class="material-symbols-outlined text-primary text-2xl">settings</span>
                     <span class="text-sm font-medium text-slate-700 group-hover:text-primary">Configuration</span>
                 </a>
-                <a href="backend/parcours_academique_backend.php?id=1"
+                <a href="<?= BASE_URL ?>/backend/parcours_academique_backend.php?id=1"
                     class="group flex items-center gap-3 p-3 bg-surface-container-lowest rounded-lg border border-outline-variant/10 hover:border-primary hover:shadow-md transition-all">
                     <span class="material-symbols-outlined text-primary text-2xl">timeline</span>
                     <span class="text-sm font-medium text-slate-700 group-hover:text-primary">Parcours Étudiant</span>
                 </a>
-                <a href="backend/carte_etudiant_backend.php?id=1"
+                <a href="<?= BASE_URL ?>/backend/carte_etudiant_backend.php?id=1"
                     class="group flex items-center gap-3 p-3 bg-surface-container-lowest rounded-lg border border-outline-variant/10 hover:border-primary hover:shadow-md transition-all">
                     <span class="material-symbols-outlined text-primary text-2xl">badge</span>
                     <span class="text-sm font-medium text-slate-700 group-hover:text-primary">Carte Étudiant</span>
                 </a>
-                <a href="backend/attestation_backend.php?id=1"
+                <a href="<?= BASE_URL ?>/backend/attestation_backend.php?id=1"
                     class="group flex items-center gap-3 p-3 bg-surface-container-lowest rounded-lg border border-outline-variant/10 hover:border-primary hover:shadow-md transition-all">
                     <span class="material-symbols-outlined text-primary text-2xl">description</span>
                     <span class="text-sm font-medium text-slate-700 group-hover:text-primary">Attestation</span>
                 </a>
-                <a href="backend/gestion_sessions_rattrapage_backend.php"
+                <a href="<?= BASE_URL ?>/backend/gestion_sessions_rattrapage_backend.php"
                     class="group flex items-center gap-3 p-3 bg-surface-container-lowest rounded-lg border border-outline-variant/10 hover:border-primary hover:shadow-md transition-all">
                     <span class="material-symbols-outlined text-primary text-2xl">autorenew</span>
                     <span class="text-sm font-medium text-slate-700 group-hover:text-primary">Sessions Rattrapage</span>
                 </a>
-                <a href="backend/deliberation_backend.php"
+                <a href="<?= BASE_URL ?>/backend/deliberation_backend.php"
                     class="group flex items-center gap-3 p-3 bg-surface-container-lowest rounded-lg border border-outline-variant/10 hover:border-primary hover:shadow-md transition-all">
                     <span class="material-symbols-outlined text-primary text-2xl">gavel</span>
                     <span class="text-sm font-medium text-slate-700 group-hover:text-primary">Délibérations</span>
                 </a>
-                <a href="backend/proces_verbal_backend.php"
+                <a href="<?= BASE_URL ?>/backend/proces_verbal_backend.php"
                     class="group flex items-center gap-3 p-3 bg-surface-container-lowest rounded-lg border border-outline-variant/10 hover:border-primary hover:shadow-md transition-all">
                     <span class="material-symbols-outlined text-primary text-2xl">receipt_long</span>
                     <span class="text-sm font-medium text-slate-700 group-hover:text-primary">Procès-Verbaux</span>
@@ -277,7 +267,7 @@ include __DIR__ . '/backend/includes/sidebar.php';
             <?php endif; ?>
 
             <div class="mt-6 text-right">
-                <a href="backend/repertoire_etudiants_backend.php"
+                <a href="<?= BASE_URL ?>/backend/repertoire_etudiants_backend.php"
                     class="inline-flex items-center gap-2 text-primary text-sm font-semibold hover:underline">
                     Voir tous les étudiants
                     <span class="material-symbols-outlined text-sm">arrow_forward</span>
@@ -288,16 +278,12 @@ include __DIR__ . '/backend/includes/sidebar.php';
 </main>
 
 <script>
-const BASE_URL_JS = <?php echo json_encode(rtrim(BASE_URL, '/')); ?>;
-function exportDashboardCsv() {
-    const link = document.createElement('a');
-    link.href = BASE_URL_JS + '/backend/export_etudiants.php?format=csv';
-    link.download = 'dashboard_' + new Date().toISOString().split('T')[0] + '.csv';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+function exportDashboard() {
+    // Redirige vers le backend d'export avec le paramètre download
+    window.location.href = '<?= BASE_URL ?>/backend/export_etudiants_pdf.php?download=1';
 }
-function exportDashboardPdf() {
-    window.location.href = BASE_URL_JS + '/backend/rapport_pdf_backend.php?download=1';
+
+function exportReport() {
+    window.location.href = '<?= BASE_URL ?>/backend/rapport_pdf_backend.php?download=1';
 }
 </script>
