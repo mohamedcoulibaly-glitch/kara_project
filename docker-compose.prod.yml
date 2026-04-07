@@ -1,0 +1,80 @@
+# Docker Compose pour production - Kara Project
+# À utiliser sur un serveur VPS distant
+
+services:
+  # Service Web (PHP/Apache)
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: kara_web_prod
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./uploads:/var/www/html/uploads
+      - ./config/logs:/var/www/html/config/logs
+    environment:
+      - DB_HOST=db
+      - DB_NAME=${DB_NAME:-kara_db}
+      - DB_USER=${DB_USER:-kara_user}
+      - DB_PASS=${DB_PASS}
+      - DB_CHARSET=utf8mb4
+    depends_on:
+      - db
+    networks:
+      - kara_network
+    # Décommenter pour ajouter HTTPS avec Traefik
+    # labels:
+    #   - "traefik.enable=true"
+    #   - "traefik.http.routers.kara.rule=Host(`votre-domaine.com`)"
+    #   - "traefik.http.routers.kara.entrypoints=websecure"
+    #   - "traefik.http.routers.kara.tls.certresolver=myresolver"
+
+  # Service Base de données (MySQL)
+  db:
+    image: mysql:8.0
+    container_name: kara_db_prod
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME:-kara_db}
+      MYSQL_USER: ${DB_USER:-kara_user}
+      MYSQL_PASSWORD: ${DB_PASS}
+    volumes:
+      - db_data_prod:/var/lib/mysql
+      - ./backups:/backups
+      - ./gestion_notes_complete.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - kara_network
+    # Ne pas exposer le port MySQL en production sauf si nécessaire
+    # ports:
+    #   - "3306:3306"
+
+  # Service phpMyAdmin (optionnel - à désactiver en production)
+  # phpmyadmin:
+  #   image: phpmyadmin/phpmyadmin
+  #   container_name: kara_phpmyadmin_prod
+  #   restart: always
+  #   environment:
+  #     PMA_HOST: db
+  #     PMA_PORT: 3306
+  #     MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+  #   depends_on:
+  #     - db
+  #   networks:
+  #     - kara_network
+  #   # Protéger avec un mot de passe supplémentaire
+  #   environment:
+  #     - PMA_ARBITRARY=0
+  #     - PMA_USER=${DB_USER:-kara_user}
+  #     - PMA_PASSWORD=${DB_PASS}
+
+volumes:
+  db_data_prod:
+    driver: local
+
+networks:
+  kara_network:
+    driver: bridge
