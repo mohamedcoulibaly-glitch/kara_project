@@ -321,9 +321,11 @@ if (basename($_SERVER['PHP_SELF']) === 'repertoire_etudiants_backend.php') {
                             <tr class="hover:bg-surface-container-low/50 transition-colors">
                                 <td class="py-3 px-4">
                                     <div class="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center">
+                                    <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center overflow-hidden border border-outline-variant/20">
                                         <?php if (!empty($etudiant['photo'])): ?>
                                             <img src="<?= htmlspecialchars($etudiant['photo']) ?>" alt="Photo"
                                                 class="w-9 h-9 rounded-lg object-cover">
+                                            <img src="<?= $base_url . htmlspecialchars($etudiant['photo']) ?>" alt="Photo de <?= htmlspecialchars($etudiant['nom']) ?>" class="w-full h-full object-cover">
                                         <?php else: ?>
                                             <span class="material-symbols-outlined text-primary text-lg">person</span>
                                         <?php endif; ?>
