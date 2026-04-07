@@ -90,11 +90,12 @@ function getCurrentUser()
 }
 
 // Configuration de la base de données
-define('DB_HOST', 'localhost');
-define('DB_USER', 'root');
-define('DB_PASS', '');
-define('DB_NAME', 'gestion_notes');
-define('DB_CHARSET', 'utf8mb4');
+// Supporte les variables d'environnement pour Docker
+define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
+define('DB_USER', getenv('DB_USER') ?: 'root');
+define('DB_PASS', getenv('DB_PASS') ?: '');
+define('DB_NAME', getenv('DB_NAME') ?: 'gestion_notes');
+define('DB_CHARSET', getenv('DB_CHARSET') ?: 'utf8mb4');
 
 define('BASE_PATH', dirname(__FILE__));
 define('BASE_URL', '/kara_project'); // Ajusté selon votre dossier XAMPP

@@ -1,0 +1,15 @@
+.git
+.gitignore
+*.md
+BROKEN_UI_ELEMENTS_REPORT.md
+CORRECTIONS_*.md
+GUIDE_RAPIDE.md
+DEPLOYMENT_GUIDE.md
+fichier.md
+out.txt
+coeff_schema.txt
+utilisateur_schema.txt
+.env.example
+deploy.sh
+tools/
+Maquettes_de_gestion_acad_mique_lmd/

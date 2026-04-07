@@ -1,0 +1,68 @@
+# Docker Compose for Kara Project
+# The 'version' field is obsolete and removed
+
+services:
+  # Service Web (PHP/Apache)
+  web:
+    build: .
+    container_name: kara_web
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+      - ./uploads:/var/www/html/uploads
+      - ./config/logs:/var/www/html/config/logs
+    environment:
+      - DB_HOST=db
+      - DB_NAME=kara_db
+      - DB_USER=kara_user
+      - DB_PASS=kara_password_2024
+      - DB_CHARSET=utf8mb4
+    depends_on:
+      - db
+    networks:
+      - kara_network
+
+  # Service Base de données (MySQL)
+  db:
+    image: mysql:8.0
+    container_name: kara_db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password_2024
+      MYSQL_DATABASE: kara_db
+      MYSQL_USER: kara_user
+      MYSQL_PASSWORD: kara_password_2024
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./gestion_notes_complete.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./backups:/backups
+    ports:
+      - "3306:3306"
+    networks:
+      - kara_network
+
+  # Service phpMyAdmin (optionnel, pour gérer la base de données)
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: kara_phpmyadmin
+    restart: unless-stopped
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: root_password_2024
+    ports:
+      - "8081:80"
+    depends_on:
+      - db
+    networks:
+      - kara_network
+
+volumes:
+  db_data:
+    driver: local
+
+networks:
+  kara_network:
+    driver: bridge
