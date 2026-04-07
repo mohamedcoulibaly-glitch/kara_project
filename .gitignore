@@ -1,0 +1,26 @@
+# Kara Project - Git Ignore
+
+# Bases de données
+*.sql
+*.sqlite
+
+# Environnement et configuration
+.env
+.env.local
+.env.*.local
+.vscode/
+
+# Dossiers système et OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs et temporaires
+*.log
+tmp/
+temp/
+logs/
+
+# Dépendances (au cas où)
+vendor/
+node_modules/
