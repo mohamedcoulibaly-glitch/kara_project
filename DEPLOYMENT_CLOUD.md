@@ -354,4 +354,4 @@ docker-compose -f docker-compose.prod.yml restart web
 
 ---
 
-**Support:** Pour toute assistance, consultez la documentation ou contactez l'équipe de développement.
+**Support:** Pour toute assistance, consultez la documentation ou contactez l'équipe de développement...

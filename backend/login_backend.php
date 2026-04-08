@@ -13,8 +13,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     // Vérification de l'utilisateur
     $db = getDB();
-    $stmt = $db->prepare("SELECT id_user, email, password, role, statut FROM utilisateur WHERE email = ?");
-    $stmt->bind_param("s", $email);
+    $stmt = $db->prepare("SELECT id_user, email, password, role, statut FROM utilisateur WHERE email = ? OR id_user = ?");
+    $loginId = ctype_digit($email) ? intval($email) : 0;
+    $stmt->bind_param("si", $email, $loginId);
     $stmt->execute();
     $result = $stmt->get_result();
     $user = $result->fetch_assoc();
