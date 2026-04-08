@@ -135,6 +135,6 @@ extract($stats_data);
 
 // Inclure le fichier frontend
 if (!defined('FRONTEND_LOADED')) {
-    include __DIR__ . '/../Maquettes_de_gestion_acad_mique_lmd/Maquettes_de_gestion_acad_mique_lmd/Maquettes_de_gestion_acad_mique_lmd/statistiques_de_r_ussite_par_d_partement/stats_reussites_departements.php';
+    include __DIR__ . '/../maquettes/statistiques_de_r_ussite_par_d_partement/stats_reussites_departements.php';
 }
 ?>

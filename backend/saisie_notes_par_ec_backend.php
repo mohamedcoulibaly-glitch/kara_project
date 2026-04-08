@@ -198,6 +198,6 @@ extract($notes_data);
 
 // Inclure le fichier frontend
 if (!defined('FRONTEND_LOADED')) {
-    include __DIR__ . '/../Maquettes_de_gestion_acad_mique_lmd/Maquettes_de_gestion_acad_mique_lmd/Maquettes_de_gestion_acad_mique_lmd/saisie_des_notes_par_ec/saisie_des_notes_par_ec.php';
+    include __DIR__ . '/../maquettes/saisie_des_notes_par_ec/saisie_des_notes_par_ec.php';
 }
 ?>

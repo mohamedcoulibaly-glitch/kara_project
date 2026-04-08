@@ -173,6 +173,6 @@ extract($moyennes_data);
 
 // Inclure le fichier frontend
 if (!defined('FRONTEND_LOADED')) {
-    include __DIR__ . '/../Maquettes_de_gestion_acad_mique_lmd/Maquettes_de_gestion_acad_mique_lmd/Maquettes_de_gestion_acad_mique_lmd/saisie_des_notes_moyennes/saisie_notes_moyennes.php';
+    include __DIR__ . '/../maquettes/saisie_des_notes_moyennes/saisie_des_notes_moyennes.php';
 }
 ?>

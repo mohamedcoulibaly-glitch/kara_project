@@ -165,5 +165,5 @@ $view_data = [
 extract($view_data);
 
 // 4. Inclure la vue frontend
-include __DIR__ . '/../Maquettes_de_gestion_acad_mique_lmd/Maquettes_de_gestion_acad_mique_lmd/Maquettes_de_gestion_acad_mique_lmd/saisie_tudiants_inscriptions/saisie_etudiants.php';
+include __DIR__ . '/../maquettes/saisie_tudiants_inscriptions/saisie_etudiants.php';
 ?>

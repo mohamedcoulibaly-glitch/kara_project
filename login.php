@@ -29,11 +29,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Vérifier les identifiants dans la base de données
         $query = "SELECT id_user, email, nom, prenom, role, password, statut 
                   FROM utilisateur 
-                  WHERE email = ?";
+                  WHERE email = ? OR id_user = ?";
 
+        $loginId = ctype_digit($email) ? intval($email) : 0;
         $stmt = getDB()->prepare($query);
         if ($stmt) {
-            $stmt->bind_param("s", $email);
+            $stmt->bind_param("si", $email, $loginId);
             if ($stmt->execute()) {
                 $result = $stmt->get_result();
                 if ($user = $result->fetch_assoc()) {
@@ -205,7 +206,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <!-- Email Field -->
             <div>
                 <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">
-                    Email ou identifiant
+                    Email
                 </label>
                 <div class="relative">
                     <span
